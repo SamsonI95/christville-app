@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //icon(s)
 import { FaCircleChevronRight } from "react-icons/fa6";
 
+//Component(s)
+import LoadingScreen from "../Components/LoadingScreen";
+
 const Landing = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate("/page-2");
+    }, 3000);
+  };
   return (
     <div className="pt-[81px] px-[26px]">
       <div className="">
@@ -21,9 +35,25 @@ const Landing = () => {
         Welcome to Faith, the ultimate Bible token designed to enrich your
         spiritual journey
       </p>
-      <button className="text-[55px] py-[50px] relative left-[40%]">
+      <div className="flex flex-col items-center justify-center">
+        {isLoading && (
+          <LoadingScreen
+            image="/Bible.png" // Replace with the actual image path
+            altText="Loading..."
+          />
+        )}
+        {!isLoading && (
+          <button
+            className="text-[55px] py-[50px] text-customGold"
+            onClick={handleClick}
+          >
+            <FaCircleChevronRight />
+          </button>
+        )}
+      </div>
+      {/* <button className="text-[55px] py-[50px] relative left-[40%]">
         <FaCircleChevronRight className="text-customGold" />
-      </button>
+      </button> */}
       <div className="pt-[0px] flex flex-col items-center justify-center">
         <p className="font-Poppins pb-[17px]">Follow us on social media</p>
         <section className="flex gap-5">

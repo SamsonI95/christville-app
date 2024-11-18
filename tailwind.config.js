@@ -8,10 +8,18 @@ export default {
         Poppins: ['"Poppins"', "sans-serif"],
       },
       colors: {
-        customGold: "#DDBF5F"
-      }
+        customGold: "#DDBF5F",
+      },
+      animation: {
+        bounce: "bounce 5s ease-in-out infinite",
+      },
+      keyframes: {
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "5%": { transform: "translateY(-10px)" },
+        },
+      },
     },
   },
   plugins: [],
-}
-
+};
