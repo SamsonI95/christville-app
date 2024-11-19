@@ -5,7 +5,7 @@ import { ThunderboltIcon } from "../Icons/Icons";
 
 const TopLayer = () => {
   return (
-    <div className="flex flex-col items-center justify-between pt-[10px] gap-7">
+    <div className="flex flex-col items-center justify-between pt-[10px] gap-4">
       <section className="flex items-center justify-between w-full">
         <section>Today</section>
         <section className="flex items-center gap-2">
