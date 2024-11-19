@@ -8,12 +8,14 @@ import { Outlet } from "react-router-dom";
 const AppPage = () => {
   return (
     <>
-      <div className="relative h-screen w-full">
+      <div className="app-container">
         <section className="px-[28px]">
           <TopLayer />
         </section>
-        <Outlet />
-        <section className="absolute bottom-0 w-full border border-t-[#A0A0A0]">
+        <section>
+          <Outlet />
+        </section>
+        <section className="w-full border border-t-[#A0A0A0]">
           <BottomNav />
         </section>
       </div>
