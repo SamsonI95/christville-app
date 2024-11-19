@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 //Icon(s)
 import {
@@ -8,43 +9,28 @@ import {
   LeaderBoardIcon,
   FriendsIcon,
 } from "../Icons/Icons";
-import { NavLink } from "react-router-dom";
+
+const navigation = [
+  { name: "Home", path: "/app/page-1", icon: <HomeIcon /> },
+  { name: "Faith", path: "/app/page-2", icon: <FaithIcon /> },
+  { name: "Task", path: "/app/page-3", icon: <TaskIcon /> },
+  { name: "Leaderboard", path: "/app/page-4", icon: <LeaderBoardIcon /> },
+  { name: "Friends", path: "/app/page-5", icon: <FriendsIcon /> },
+];
 
 const BottomNav = () => {
   return (
     <>
       <div className="pt-[13px] pb-[10px]">
-        <div className="flex items-center justify-between  px-[28px]">
-          <NavLink to="/app/page-1" >
-            <button className="main-icons">
-              <HomeIcon />
-              <p>Home</p>
+        <div className="flex items-center justify-between px-[28px]">
+          {navigation.map((item) => (
+            <button>
+              <NavLink to={item.path} key={item.name} className="main-icons">
+                {item.icon}
+                <p>{item.name}</p>
+              </NavLink>
             </button>
-          </NavLink>
-          <NavLink to="/app/page-2">
-            <button className="main-icons">
-              <FaithIcon />
-              <p>Faith</p>
-            </button>
-          </NavLink>
-          <NavLink to="/app/page-3">
-            <button className="main-icons">
-              <TaskIcon />
-              <p>Task</p>
-            </button>
-          </NavLink>
-          <NavLink to="/app/page-4">
-            <button className="main-icons">
-              <LeaderBoardIcon />
-              <p>Leaderboard</p>
-            </button>
-          </NavLink>
-          <NavLink to="/app/page-5">
-            <button className="main-icons">
-              <FriendsIcon />
-              <p>Friends</p>
-            </button>
-          </NavLink>
+          ))}
         </div>
       </div>
     </>
