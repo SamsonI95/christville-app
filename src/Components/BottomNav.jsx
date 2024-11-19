@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 const BottomNav = () => {
   return (
     <>
-      <div className="pt-[13px] pb-[77px] ">
+      <div className="pt-[13px] pb-[10px]">
         <div className="flex items-center justify-between  px-[28px]">
           <NavLink to="/app/page-1" >
             <button className="main-icons">
