@@ -12,7 +12,7 @@ const AppPage = () => {
         <section className="px-[28px]">
           <TopLayer />
         </section>
-        <section className="translate-y-[-5rem]">
+        <section className="translate-y-[-2.5rem]">
           <Outlet />
         </section>
         <section className="w-full border border-t-[#A0A0A0]">
