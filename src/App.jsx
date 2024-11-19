@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
 //Page(s)
@@ -12,6 +12,8 @@ import FaithPage from "./Pages/AppPages/FaithPage";
 import TaskPage from "./Pages/AppPages/TaskPage";
 import LeaderBoard from "./Pages/AppPages/LeaderBoard";
 import FriendsPage from "./Pages/AppPages/FriendsPage";
+import GamesPage from "./Pages/AppPages/InAppPages/GamesPage";
+import PrayerWallPage from "./Pages/AppPages/InAppPages/PrayerWallPage";
 
 function App() {
   return (
@@ -24,7 +26,14 @@ function App() {
           <Route path="/page-4" element={<PrayerWall />} />
           <Route path="/app" element={<AppPage />}>
             <Route path="/app/page-1" element={<HomePage />} />
-            <Route path="/app/page-2" element={<FaithPage />} />
+            <Route path="/app/page-2" element={<FaithPage />}>
+              <Route index element={<Navigate to="/app/page-2/games" />} />
+              <Route path="/app/page-2/games" element={<GamesPage />} />
+              <Route
+                path="/app/page-2/prayer-wall"
+                element={<PrayerWallPage />}
+              />
+            </Route>
             <Route path="/app/page-3" element={<TaskPage />} />
             <Route path="/app/page-4" element={<LeaderBoard />} />
             <Route path="/app/page-5" element={<FriendsPage />} />

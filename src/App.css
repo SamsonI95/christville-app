@@ -45,3 +45,12 @@
 .main-icons.active {
   color: #ddbf5f;
 }
+
+.faith-page-link {
+  font-family: Poppins, sans-serif;
+  color: #a0a0a0;
+}
+
+.faith-page-link.active {
+  color: #ddbf5f;
+}
