@@ -54,3 +54,33 @@
 .faith-page-link.active {
   color: #ddbf5f;
 }
+
+.line-shape {
+  width: 2px; /* Thickness of the line */
+  height: 40px; /* Length of the line */
+  background-color: gray; /* Color of the line */
+  position: relative;
+  /* margin: 20px auto;  */
+  margin: 5px 0;
+  left: 15px;
+}
+
+.line-shape::before,
+.line-shape::after {
+  content: "";
+  width: 8px; /* Diameter of the circle */
+  height: 8px; /* Diameter of the circle */
+  background-color: gray; /* Same color as the line */
+  border-radius: 50%; /* Makes it a circle */
+  position: absolute;
+  left: 50%; /* Centers the circle horizontally */
+  transform: translateX(-50%);
+}
+
+.line-shape::before {
+  top: -8px; /* Position circle at the top (half of its height) */
+}
+
+.line-shape::after {
+  bottom: -8px; /* Position circle at the bottom (half of its height) */
+}
