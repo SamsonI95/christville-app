@@ -9,9 +9,6 @@ const AppPage = () => {
   return (
     <>
       <div className="app-container">
-        {/* <section className="px-[28px]">
-          <TopLayer />
-        </section> */}
         <section >
           <Outlet />
         </section>
