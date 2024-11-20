@@ -9,8 +9,6 @@ const TopLayer = () => {
 
   const isFaithPage = location.pathname.startsWith("/app/page-2");
 
-  const isGamesPage = location.pathname === "/app/page-2/games";
-
   return (
     <div className="flex flex-col items-center justify-between pt-[50px] gap-4">
       <section className="flex items-center justify-between w-full">

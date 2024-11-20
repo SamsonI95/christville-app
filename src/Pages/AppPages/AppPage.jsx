@@ -1,7 +1,6 @@
 import React from "react";
 
 // Component(s)
-import TopLayer from "../../Components/TopLayer";
 import BottomNav from "../../Components/BottomNav";
 import { Outlet } from "react-router-dom";
 

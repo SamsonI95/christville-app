@@ -48,7 +48,7 @@ const FriendsPage = () => {
           </div>
         ))}
       </section>
-      <section className="flex items-center gap-[10px] mt-8">
+      <section className="flex items-center gap-[10px] my-8">
         <button className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]">
           Invite Friends
         </button>
