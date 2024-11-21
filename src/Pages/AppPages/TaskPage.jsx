@@ -46,7 +46,7 @@ const TaskPage = () => {
       <section className="mt-[43px]">
         <h3 className="font-medium">Complete tasks, collect rewards, and conquer the tasks</h3>
       </section>
-      <section className="mt-5">
+      <section className="mt-5 w-full">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
         <div className="">
           {TaskPageContent.map((item, index) => (
