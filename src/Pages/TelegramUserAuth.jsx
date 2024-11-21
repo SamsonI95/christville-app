@@ -11,10 +11,10 @@ const handleClick = () => {
     navigate("/page-3");
 }
   return (
-    <div className="center-col">
+    <div className="center-col px-[28px]">
         <ProgressBar />
       <button
-        className="absolute top-[50%] left-5 text-[20px] bg-customGold text-white w-[343px] h-[44px] rounded-[12px]"
+        className="mt-[5rem] text-[20px] bg-customGold text-white w-[343px] h-[44px] rounded-[12px]"
         onClick={handleClick}
       >
         Next
