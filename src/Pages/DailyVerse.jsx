@@ -13,10 +13,10 @@ const DailyVerse = () => {
   return (
     <>
       <ProgressBar />
-      <div className="pt-[101px] px-[28px]">
+      <div className="center-col pt-[101px] px-[28px]">
         <div className="">
           <img
-            className=".center-col w-[342px] h-[313px]"
+            className="w-[342px] h-[313px]"
             src="/Bible.png"
             alt="bible-icon"
           />
