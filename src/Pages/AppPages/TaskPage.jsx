@@ -34,7 +34,7 @@ const TaskPage = () => {
   return (
     <div className="font-Poppins px-[28px] pt-[50px]">
       <section className="flex items-center justify-between w-full">
-        <section>Today</section>
+        <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
           <div className="flex">
             <ThunderboltIcon />
