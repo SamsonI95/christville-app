@@ -32,7 +32,7 @@ const TaskPageContent = [
 
 const TaskPage = () => {
   return (
-    <div className="font-Poppins px-[28px] pt-[50px]">
+    <div className="center-col font-Poppins px-[28px] pt-[50px]">
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
@@ -43,8 +43,8 @@ const TaskPage = () => {
           <div className="border border-black bg-black w-5 h-5 rounded-full"></div>
         </section>
       </section>
-      <section>
-        <h3>Complete tasks, collect rewards, and conquer the tasks</h3>
+      <section className="mt-[43px]">
+        <h3 className="font-medium">Complete tasks, collect rewards, and conquer the tasks</h3>
       </section>
       <section className="mt-5">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
