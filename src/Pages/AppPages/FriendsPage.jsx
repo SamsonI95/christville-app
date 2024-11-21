@@ -21,7 +21,7 @@ const FriendPageContent = [
 
 const FriendsPage = () => {
   return (
-    <div className="flex flex-col font-Poppins px-[28px]">
+    <div className="flex flex-col font-Poppins pt-[50px] px-[28px]">
       <section>
         <h3 className="text-center">Friends</h3>
         <h4 className="font-bold mt-[30px] mb-4">
