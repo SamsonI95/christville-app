@@ -14,7 +14,7 @@ const PrayerWall = () => {
     <>
       <ProgressBar />
 
-      <div className="pt-[101px] px-[26px]">
+      <div className="center-col pt-[101px] px-[26px]">
         <div className="">
           <img
             className="w-[342px] h-[313px]"
