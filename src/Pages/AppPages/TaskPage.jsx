@@ -32,7 +32,7 @@ const TaskPageContent = [
 
 const TaskPage = () => {
   return (
-    <div className="font-Poppins px-[28px]">
+    <div className="font-Poppins px-[28px] pt-[50px]">
       <section className="flex items-center justify-between w-full">
         <section>Today</section>
         <section className="flex items-center gap-2">
@@ -53,7 +53,7 @@ const TaskPage = () => {
             <Link to={item.path}>
               <div
                 key={index}
-                className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100 w-[335px] h-[80px] px-3 rounded-[16px]"
+                className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100 w-[350px] h-[80px] px-3 rounded-[16px]"
               >
                 <img src={item.icon} alt="image" />
                 <div className="text-[13px] w-[214px] space-y-2">
