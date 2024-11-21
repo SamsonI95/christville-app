@@ -44,30 +44,30 @@ const TaskPage = () => {
         </section>
       </section>
       <section className="mt-[43px]">
-        <h3 className="font-medium">Complete tasks, collect rewards, and conquer the tasks</h3>
+        <h3 className="font-medium">
+          Complete tasks, collect rewards, and conquer the tasks
+        </h3>
       </section>
-      <section className="mt-5 w-full">
+      <section className="mt-5">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
-        <div className="">
-          {TaskPageContent.map((item, index) => (
-            <Link to={item.path}>
-              <div
-                key={index}
-                className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100 w-[350px] h-[80px] px-3 rounded-[16px]"
-              >
-                <img src={item.icon} alt="image" />
-                <div className="text-[13px] w-[214px] space-y-2">
-                  <p>{item.taskText}</p>
-                  <section className="flex items-center gap-1">
-                    <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
-                    <p>{item.coinText}</p>
-                  </section>
-                </div>
-                <FaChevronRight />
+        {TaskPageContent.map((item, index) => (
+          <Link to={item.path}>
+            <div
+              key={index}
+              className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100 w-[350px] h-[80px] px-3 rounded-[16px]"
+            >
+              <img src={item.icon} alt="image" />
+              <div className="text-[13px] w-[214px] space-y-2">
+                <p>{item.taskText}</p>
+                <section className="flex items-center gap-1">
+                  <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
+                  <p>{item.coinText}</p>
+                </section>
               </div>
-            </Link>
-          ))}
-        </div>
+              <FaChevronRight />
+            </div>
+          </Link>
+        ))}
       </section>
     </div>
   );
