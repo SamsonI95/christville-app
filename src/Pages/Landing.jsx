@@ -21,7 +21,7 @@ const Landing = () => {
   };
   return (
     <div className="pt-[81px] px-[26px]">
-      <div className="">
+      <div className="flex flex-col items-center">
         <img
           className="w-[342px] h-[313px]"
           src="/vecteezy_ai-generated-close-up-of-cute-cartoon-jesus-christ-icon_42353353 1.png"
