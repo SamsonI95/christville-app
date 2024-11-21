@@ -32,7 +32,7 @@ const TaskPageContent = [
 
 const TaskPage = () => {
   return (
-    <div className="center-col font-Poppins px-[28px] pt-[50px]">
+    <div className="center-col font-Poppins pt-[50px]">
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
@@ -48,13 +48,13 @@ const TaskPage = () => {
           Complete tasks, collect rewards, and conquer the tasks
         </h3>
       </section>
-      <section className="mt-5">
+      <section className="mt-5 w-full">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
         {TaskPageContent.map((item, index) => (
           <Link to={item.path}>
             <div
               key={index}
-              className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100 w-[350px] h-[80px] px-3 rounded-[16px]"
+              className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100  h-[80px] px-3 rounded-[16px]"
             >
               <img src={item.icon} alt="image" />
               <div className="text-[13px] w-[214px] space-y-2">
