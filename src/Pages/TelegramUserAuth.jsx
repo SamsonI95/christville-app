@@ -11,7 +11,7 @@ const handleClick = () => {
     navigate("/page-3");
 }
   return (
-    <div>
+    <div className="center-col">
         <ProgressBar />
       <button
         className="absolute top-[50%] left-5 text-[20px] bg-customGold text-white w-[343px] h-[44px] rounded-[12px]"

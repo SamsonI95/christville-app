@@ -84,3 +84,13 @@
 .line-shape::after {
   bottom: -8px; /* Position circle at the bottom (half of its height) */
 }
+
+.center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.center {
+  display: flex;
+  align-items: center;
+}
