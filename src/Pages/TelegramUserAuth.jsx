@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ProgressBar from "../Components/ProgressBar";
 
 const TelegramUserAuth = () => {
-  const [user, setUser] = useState(null); // State to store Telegram user info
+  const [user, setUser] = useState(true); // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
 
@@ -32,11 +32,11 @@ const TelegramUserAuth = () => {
   };
 
   return (
-    <div className="center-col px-[28px]">
+    <div className="font-Poppins center-col px-[28px]">
       <ProgressBar />
       {user ? (
-        <div>
-          <h3>@{user.username || user.first_name}, you are a Legend!</h3>
+        <div className="gap-10">
+          <h3 className="text-[24px] text-justify">@{user.username || user.first_name}, you are a Legend!</h3>
           <p>You've joined Faith near</p>
           <span>{daysSinceJoin || "N/A"}</span>
           <p>days ago</p>
