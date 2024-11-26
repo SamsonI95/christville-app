@@ -35,7 +35,7 @@ const TelegramUserAuth = () => {
     <div className="font-Poppins center-col px-[28px]">
       <ProgressBar />
       {user ? (
-        <div className="gap-10">
+        <div className="space-y-10">
           <h3 className="text-[24px] text-justify">@{user.username || user.first_name}, you are a Legend!</h3>
           <p>You've joined Faith near</p>
           <span>{daysSinceJoin || "N/A"}</span>
