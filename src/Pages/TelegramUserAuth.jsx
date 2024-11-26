@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ProgressBar from "../Components/ProgressBar";
 
 const TelegramUserAuth = () => {
-  const [user, setUser] = useState(true); // State to store Telegram user info
+  const [user, setUser] = useState(null); // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
 
@@ -35,12 +35,12 @@ const TelegramUserAuth = () => {
     <div className="font-Poppins center-col px-[28px]">
       <ProgressBar />
       {user ? (
-        <div className="space-y-10">
-          <h3 className="text-[24px] text-justify">@{user.username || user.first_name}, you are a Legend!</h3>
+        <div className="mt-5 text-center">
+          <h3 className="text-[24px]">@{user.username || user.first_name}, <br/>you are a Legend!</h3>
           <p>You've joined Faith near</p>
-          <span>{daysSinceJoin || "N/A"}</span>
-          <p>days ago</p>
-          <h4>Your account number is {user.id}</h4>
+          <span className="pt-[73px] pb-[34px] text-[96px] text-customGold font-semibold">{daysSinceJoin || "N/A"}</span>
+          <p className="font-semibold">days ago</p>
+          <h4 className="mt-[8rem]">Your account number is {user.id}</h4>
         </div>
       ) : (
         <p>Loading user information...</p>
@@ -52,6 +52,24 @@ const TelegramUserAuth = () => {
         Next
       </button>
     </div>
+    // <div className="conter-col font-Poppins px-[28px]">
+    //   <ProgressBar />
+    //   <div className="mt-5 text-center">
+    //     <h3 className="text-[24px]">
+    //       @it's Jeffery, <br/>you are a Legend!
+    //     </h3>
+    //     <p className="pt-6">You've joined Faith near</p>
+    //     <span className="pt-[73px] pb-[34px] text-[96px] text-customGold font-semibold">2030</span>
+    //     <p className="font-semibold">days ago</p>
+    //     <h4 className="mt-[8rem]">Your account number is #1010234764</h4>
+    //   </div>
+    //   <button
+    //     className="mt-[5rem] text-[20px] bg-customGold text-white w-[343px] h-[44px] rounded-[12px]"
+    //     onClick={handleClick}
+    //   >
+    //     Next
+    //   </button>
+    // </div>
   );
 };
 
