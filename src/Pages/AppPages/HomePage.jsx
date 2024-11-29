@@ -57,13 +57,9 @@ const HomePage = () => {
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl">Tap to read</h3>
         {/* When image is clicked, fetch Bible verse */}
-        <img
-          src={imageSrc}
-          alt="Bible"
-          onClick={fetchBibleVerse}
-          className="cursor-pointer"
-          go
-        />
+        <div onClick={fetchBibleVerse}>
+          <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
+        </div>
         {/* Display the Bible verse */}
         {bibleVerse && (
           <div className="mt-4">
