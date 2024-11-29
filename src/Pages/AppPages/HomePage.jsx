@@ -12,7 +12,7 @@ const HomePage = () => {
 
   const fetchBibleVerse = async () => {
     try {
-      const response = await fetch("http://localhost:8080/daily-verse"); // Backend URL
+      const response = await fetch("https://255b-197-210-8-90.ngrok-free.app/daily-verse"); // Backend URL
       if (!response.ok) {
         throw new Error("Failed to fetch Bible verse");
       }
