@@ -12,7 +12,7 @@ const HomePage = () => {
 
   const fetchBibleVerse = async () => {
     try {
-      const response = await fetch("https://192.168.0.3:8080/daily-verse"); // Backend URL
+      const response = await fetch("http://192.168.0.3:8080/daily-verse"); // Backend URL
       if (!response.ok) {
         throw new Error("Failed to fetch Bible verse");
       }
