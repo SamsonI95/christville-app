@@ -55,9 +55,9 @@ const HomePage = () => {
     <div className="flex flex-col h-[50vh] font-Poppins px-[28px]">
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
-        <h3 className="text-2xl">Tap to read</h3>
+        <h3 onClick={fetchBibleVerse} className="text-2xl">Tap to read</h3>
         {/* When image is clicked, fetch Bible verse */}
-        <div onClick={fetchBibleVerse}>
+        <div >
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
         </div>
         {/* Display the Bible verse */}
