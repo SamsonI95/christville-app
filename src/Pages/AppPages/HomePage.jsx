@@ -57,7 +57,7 @@ const HomePage = () => {
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl">Tap to read</h3>
         {/* When image is clicked, fetch Bible verse */}
-        <button onClick={fetchBibleVerse}>
+        <button onTouchStart={fetchBibleVerse} onClick={fetchBibleVerse}>
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
         </button>
         {/* Display the Bible verse */}
