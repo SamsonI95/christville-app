@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaChevronRight } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+
+// Modal Component
+const Modal = ({ isOpen, onClose, children }) => {
+  const modalRef = useRef(null);
+  if (!isOpen) return null;
+
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      onClick={handleClickOutside}
+    >
+      <div
+        ref={modalRef}
+        className="absolute bottom-0 bg-[#F1F1F1] w-full h-[25rem] max-w-md rounded-t-[100px] shadow-lg p-5"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-[5rem] text-gray-600 text-xl font-bold"
+        >
+          <IoClose />
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const TaskPageContent = [
   {
@@ -31,6 +64,19 @@ const TaskPageContent = [
 ];
 
 const TaskPage = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const handleTaskClick = (task) => {
+    setSelectedTask(task);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedTask(null);
+  };
+
   return (
     <div className="center-col font-Poppins pt-[50px]">
       <section className="flex items-center justify-between w-full">
@@ -54,6 +100,7 @@ const TaskPage = () => {
           <Link to={item.path}>
             <div
               key={index}
+              onClick={() => handleTaskClick(item)}
               className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100  h-[80px] px-3 rounded-[16px]"
             >
               <img src={item.icon} alt="image" />
@@ -69,6 +116,22 @@ const TaskPage = () => {
           </Link>
         ))}
       </section>
+
+      {/* Modal */}
+      <Modal isOpen={modalOpen} onClose={closeModal}>
+        <h2 className="text-center text-xl font-bold">{selectedTask?.taskText}</h2>
+        <p className="center justify-center mt-3 text-customGold">
+          <img src="/coin.png" alt="coin" /> Earn {selectedTask?.coinText} Boss
+          coins
+        </p>
+        <Link
+          to={selectedTask?.path}
+          className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px]"
+          onClick={closeModal}
+        >
+          Go to Task
+        </Link>
+      </Modal>
     </div>
   );
 };
