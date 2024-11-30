@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "../Components/ThemeContect";
+import { useTheme } from "../../Components/ThemeContect";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -22,7 +22,7 @@ const FriendPageContent = [
 
 const FriendsPage = () => {
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+  const textColor = isDarkMode ? "#FFFFFF" : "#000000";
 
   return (
     <div

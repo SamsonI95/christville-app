@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useTheme } from "../Components/ThemeContect";
+import { useTheme } from "../../Components/ThemeContect";
 import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -69,7 +69,7 @@ const TaskPage = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+  const textColor = isDarkMode ? "#FFFFFF" : "#000000";
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
