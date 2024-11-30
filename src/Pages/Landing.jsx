@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -10,23 +10,50 @@ import LoadingScreen from "../Components/LoadingScreen";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    setIsLoading(true);
-    setTimeout(() => {
+  useEffect(() => {
+    // Update the loading text with a dot sequence
+    const dotsInterval = setInterval(() => {
+      setLoadingText((prev) => {
+        const dots = prev.split(".").length - 1;
+        return dots < 3 ? `${prev}.` : "Loading";
+      });
+    }, 500); // Adjust interval for dot update speed
+
+    // Simulate a loading period
+    const loadingTimer = setTimeout(() => {
+      clearInterval(dotsInterval);
       setIsLoading(false);
-      navigate("/page-2");
-    }, 3000);
+    }, 3000); // Adjust total loading time
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearInterval(dotsInterval);
+    };
+  }, []);
+
+  const handleClick = () => {
+    navigate("/page-2");
   };
+
+  if (isLoading) {
+    // Show the loading screen
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <LoadingScreen
+          image="/Bible.png" // Replace with the actual image path
+          altText="Loading..."
+        />
+        <p className="mt-4 text-lg font-bold text-customGold">{loadingText}</p>
+      </div>
+    );
+  }
   return (
     <div className="pt-[81px] px-[26px]">
       <div className="flex flex-col items-center">
-        <img
-          className=""
-          src="/Jesus.svg"
-          alt="jesus-icon"
-        />
+        <img className="" src="/Jesus.svg" alt="jesus-icon" />
         <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">
           Christville
         </p>
@@ -36,20 +63,12 @@ const Landing = () => {
         spiritual journey
       </p>
       <div className="flex flex-col items-center justify-center">
-        {isLoading && (
-          <LoadingScreen
-            image="/Bible.png" // Replace with the actual image path
-            altText="Loading..."
-          />
-        )}
-        {!isLoading && (
-          <button
-            className="text-[55px] py-[50px] text-customGold"
-            onClick={handleClick}
-          >
-            <FaCircleChevronRight />
-          </button>
-        )}
+        <button
+          className="text-[55px] py-[50px] text-customGold"
+          onClick={handleClick}
+        >
+          <FaCircleChevronRight />
+        </button>
       </div>
       {/* <button className="text-[55px] py-[50px] relative left-[40%]">
         <FaCircleChevronRight className="text-customGold" />
