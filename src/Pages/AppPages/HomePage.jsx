@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TopLayer from "../../Components/TopLayer";
+import { useTheme } from "../../Components/ThemeContect";
 import { FaHeart } from "react-icons/fa6";
 import { MdBookmarks } from "react-icons/md";
 import { SendIcon } from "../../Icons/Icons";
@@ -9,6 +10,10 @@ const HomePage = () => {
   const [imageSrc, setImageSrc] = useState("/Bible2.png");
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
+
+  const { isDarkMode } = useTheme();
+
+  const textColor = isDarkMode ? "#DDBF5F" : "#333";
 
   const fetchBibleVerse = async () => {
     try {
@@ -52,7 +57,10 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col h-[50vh] font-Poppins px-[28px]">
+    <div
+      className="flex flex-col h-[50vh] font-Poppins px-[28px]"
+      style={{ color: textColor }}
+    >
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>

@@ -5,7 +5,7 @@ const LoadingScreen = ({ image, altText = "Loading...", className = "" }) => {
     <div
       className={`fixed inset-0 flex items-center justify-center bg-white ${className}`}
     >
-      <img src={image} alt={altText} className="" />
+      <img src={image} alt={altText} />
     </div>
   );
 };
