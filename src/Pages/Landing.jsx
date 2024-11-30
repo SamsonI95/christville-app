@@ -14,7 +14,9 @@ const Landing = () => {
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#ffffff" : "#333";
+  const textColor = isDarkMode ? "#FFFFFF" : "#000000";
+
+  // TESTING PURPOSES
 
   useEffect(() => {
     // Update the loading text with a dot sequence
