@@ -22,19 +22,18 @@ const FriendPageContent = [
 
 const FriendsPage = () => {
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+  const textColor = isDarkMode ? "text-customGold" : "#000000";
 
   return (
     <div
-      className="flex flex-col font-Poppins pt-[50px] px-[28px]"
-      style={{ color: textColor }}
+      className={`flex flex-col font-Poppins pt-[50px] px-[28px] ${textColor}`}
     >
       <section>
         <h3 className="text-center">Friends</h3>
         <h4 className="font-bold mt-[30px] mb-4">
           Invite your friends, stack up the rewards!
         </h4>
-        <p className="text-[#000000] opacity-50">
+        <p className=" opacity-50">
           The more friends you bring, the more the prizes.
         </p>
       </section>
