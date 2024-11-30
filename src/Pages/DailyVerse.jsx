@@ -1,11 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Components/ThemeContect";
 
 //Component(s)
 import ProgressBar from "../Components/ProgressBar";
 
 const DailyVerse = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   const handleClick = () => {
     navigate("/page-4");
@@ -13,7 +16,10 @@ const DailyVerse = () => {
   return (
     <>
       <ProgressBar />
-      <div className="center-col pt-[101px] px-[28px]">
+      <div
+        className="center-col pt-[101px] px-[28px]"
+        style={{ color: textColor }}
+      >
         <div className="">
           <img
             className="w-[342px] h-[313px]"

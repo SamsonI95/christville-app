@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Components/ThemeContect";
 
 // Component(s)
 import ProgressBar from "../Components/ProgressBar";
@@ -8,6 +9,8 @@ const TelegramUserAuth = () => {
   const [user, setUser] = useState(null); // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   useEffect(() => {
     // Fetch Telegram user info from Web Apps API
@@ -32,13 +35,21 @@ const TelegramUserAuth = () => {
   };
 
   return (
-    <div className="font-Poppins center-col px-[28px]">
+    <div
+      className="font-Poppins center-col px-[28px]"
+      style={{ color: textColor }}
+    >
       <ProgressBar />
       {user ? (
         <div className="mt-5 text-center space-y-[8rem]">
-          <h3 className="text-[24px] font-semibold">@{user.username || user.first_name}, <br/>you are a Legend!</h3>
+          <h3 className="text-[24px] font-semibold">
+            @{user.username || user.first_name}, <br />
+            you are a Legend!
+          </h3>
           <p>You've joined Faith near</p>
-          <span className="pt-[73px] pb-[34px] text-[96px] text-customGold font-semibold">{daysSinceJoin || "N/A"}</span>
+          <span className="pt-[73px] pb-[34px] text-[96px] text-customGold font-semibold">
+            {daysSinceJoin || "N/A"}
+          </span>
           <p className="font-semibold">days ago</p>
           <h4 className="mt-[8rem]">Your account number is #{user.id}</h4>
         </div>
