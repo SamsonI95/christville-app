@@ -69,7 +69,7 @@ const TaskPage = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#000000";
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);

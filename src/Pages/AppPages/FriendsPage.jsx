@@ -22,7 +22,7 @@ const FriendPageContent = [
 
 const FriendsPage = () => {
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#000000";
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   return (
     <div
