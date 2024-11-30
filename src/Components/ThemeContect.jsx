@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [textColor, setTextColor] = useState("#333"); // Default text color
+  const textColor = "#DDBF5F";
 
   return (
     <ThemeContext.Provider value={{ textColor, setTextColor }}>
