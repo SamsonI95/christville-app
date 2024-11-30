@@ -135,7 +135,7 @@ const TaskPage = () => {
           {selectedTask?.taskText}
         </h2>
         <p className="center justify-center py-3 mt-3 text-customGold">
-          <img src="/coin.png" alt="coin" /> Earn {selectedTask?.coinText} Boss
+          <img src="/coin.png" alt="coin" className="mr-3"/> Earn {selectedTask?.coinText} Boss
           coins
         </p>
         <div className="space-y-7">
