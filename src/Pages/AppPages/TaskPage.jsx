@@ -148,7 +148,7 @@ const TaskPage = () => {
           </Link>
           <button
             onClick={handleCheckTask}
-            className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-[350px]"
+            className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-full"
           >
             Check
           </button>
