@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useTheme } from "../Components/ThemeContect";
 import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -67,6 +68,8 @@ const TaskPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const { isDarkMode } = useTheme();
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
@@ -86,7 +89,10 @@ const TaskPage = () => {
   };
 
   return (
-    <div className="center-col font-Poppins pt-[50px]">
+    <div
+      className="center-col font-Poppins pt-[50px]"
+      style={{ color: textColor }}
+    >
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
@@ -135,8 +141,8 @@ const TaskPage = () => {
           {selectedTask?.taskText}
         </h2>
         <p className="center justify-center py-3 mt-3 text-customGold">
-          <img src="/coin.png" alt="coin" className="mr-3"/> Earn {selectedTask?.coinText} Boss
-          coins
+          <img src="/coin.png" alt="coin" className="mr-3" /> Earn{" "}
+          {selectedTask?.coinText} Boss coins
         </p>
         <div className="space-y-7">
           <Link

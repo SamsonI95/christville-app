@@ -13,7 +13,7 @@ const HomePage = () => {
 
   const { isDarkMode } = useTheme();
 
-  const textColor = isDarkMode ? "#ffffff" : "#333";
+  const textColor = isDarkMode ? "#ffffff" : "#FFFFFF";
 
   const fetchBibleVerse = async () => {
     try {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "../Components/ThemeContect";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -20,8 +21,14 @@ const FriendPageContent = [
 ];
 
 const FriendsPage = () => {
+  const { isDarkMode } = useTheme();
+  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+
   return (
-    <div className="flex flex-col font-Poppins pt-[50px] px-[28px]">
+    <div
+      className="flex flex-col font-Poppins pt-[50px] px-[28px]"
+      style={{ color: textColor }}
+    >
       <section>
         <h3 className="text-center">Friends</h3>
         <h4 className="font-bold mt-[30px] mb-4">
