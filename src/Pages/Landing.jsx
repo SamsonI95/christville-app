@@ -9,7 +9,7 @@ import { FaCircleChevronRight } from "react-icons/fa6";
 import LoadingScreen from "../Components/LoadingScreen";
 
 const Landing = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
 
@@ -43,10 +43,10 @@ const Landing = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <LoadingScreen
-          image="/Bible.png" // Replace with the actual image path
+          image="/Bible.png" 
           altText="Loading..."
         />
-        <p className="mt-4 text-lg font-bold text-customGold">{loadingText}</p>
+        <p className="relative top-[10rem] text-customGold z-10 mt-4 text-lg font-bold">{loadingText}</p>
       </div>
     );
   }
