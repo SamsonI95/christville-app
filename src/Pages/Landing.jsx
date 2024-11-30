@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Components/ThemeContect";
 
 //icon(s)
 import { FaCircleChevronRight } from "react-icons/fa6";
@@ -12,6 +13,8 @@ const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
+  const textColor = isDarkMode ? "#DDBF5F" : "#333";
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -51,7 +54,7 @@ const Landing = () => {
     );
   }
   return (
-    <div className="pt-[81px] px-[26px]">
+    <div className="pt-[81px] px-[26px]" style={{ color: textColor }}>
       <div className="flex flex-col items-center">
         <img className="" src="/Jesus.svg" alt="jesus-icon" loading="lazy"/>
         <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">
