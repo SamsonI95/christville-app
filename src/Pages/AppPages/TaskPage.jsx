@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, children }) => {
     >
       <div
         ref={modalRef}
-        className="absolute bottom-0 bg-[#F1F1F1] w-full h-[25rem] max-w-md rounded-t-[100px] shadow-lg p-5"
+        className="absolute bottom-0 bg-[#F1F1F1] w-full h-[20rem] max-w-md rounded-t-[100px] shadow-lg p-5 space-y-3"
       >
         <button
           onClick={onClose}
@@ -66,6 +66,7 @@ const TaskPageContent = [
 const TaskPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [completedTasks, setCompletedTasks] = useState([]);
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
@@ -75,6 +76,13 @@ const TaskPage = () => {
   const closeModal = () => {
     setModalOpen(false);
     setSelectedTask(null);
+  };
+
+  const handleCheckTask = () => {
+    if (selectedTask && !completedTasks.includes(selectedTask.id)) {
+      setCompletedTasks((prev) => [...prev, selectedTask.id]);
+    }
+    closeModal();
   };
 
   return (
@@ -111,7 +119,11 @@ const TaskPage = () => {
                   <p>{item.coinText}</p>
                 </section>
               </div>
-              <FaChevronRight />
+              {completedTasks.includes(item.id) ? (
+                <FaCheck className="text-green-500" />
+              ) : (
+                <FaChevronRight />
+              )}
             </div>
           </Link>
         ))}
@@ -119,18 +131,28 @@ const TaskPage = () => {
 
       {/* Modal */}
       <Modal isOpen={modalOpen} onClose={closeModal}>
-        <h2 className="text-center text-xl font-bold">{selectedTask?.taskText}</h2>
-        <p className="center justify-center mt-3 text-customGold">
+        <h2 className="pt-5 text-center text-xl font-bold">
+          {selectedTask?.taskText}
+        </h2>
+        <p className="center justify-center py-3 mt-3 text-customGold">
           <img src="/coin.png" alt="coin" /> Earn {selectedTask?.coinText} Boss
           coins
         </p>
-        <Link
-          to={selectedTask?.path}
-          className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px]"
-          onClick={closeModal}
-        >
-          Go to Task
-        </Link>
+        <div className="space-y-7">
+          <Link
+            to={selectedTask?.path}
+            className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px]"
+            onClick={closeModal}
+          >
+            Join
+          </Link>
+          <button
+            onClick={handleCheckTask}
+            className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-[350px]"
+          >
+            Check
+          </button>
+        </div>
       </Modal>
     </div>
   );

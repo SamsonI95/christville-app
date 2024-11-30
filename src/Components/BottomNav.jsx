@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 //Icon(s)
@@ -19,19 +19,46 @@ const navigation = [
 ];
 
 const BottomNav = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleFaithClick = (e) => {
+    e.preventDefault();
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 2000); // Hide the popup after 2 seconds
+  };
   return (
     <>
       <div className="pt-[13px] pb-[10px]">
         <div className="flex items-center justify-between px-[28px]">
-          {navigation.map((item) => (
-            <button>
-              <NavLink to={item.path} key={item.name} className="main-icons">
-                {item.icon}
-                <p>{item.name}</p>
-              </NavLink>
-            </button>
-          ))}
+          {navigation.map((item) => {
+            if (item.name === "Faith") {
+              return (
+                <button
+                  key={item.name}
+                  onClick={handleFaithClick}
+                  className="main-icons"
+                >
+                  {item.icon}
+                  <p>{item.name}</p>
+                </button>
+              );
+            }
+            return (
+              <button key={item.name}>
+                <NavLink to={item.path} className="main-icons">
+                  {item.icon}
+                  <p>{item.name}</p>
+                </NavLink>
+              </button>
+            );
+          })}
         </div>
+
+        {showPopup && (
+          <div className="message-bubble">
+            Coming Soon
+          </div>
+        )}
       </div>
     </>
   );

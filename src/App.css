@@ -95,3 +95,25 @@
   display: flex;
   align-items: center;
 }
+
+.message-bubble {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  position: absolute;
+  bottom: 60px;
+  left: 5rem;
+}
+
+/* .message-bubble:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #f0f0f0;
+  border-right: 10px solid transparent;
+  border-bottom: 0;
+  border-left: 10px solid transparent;
+  bottom: -60px;
+  left: 20px;
+} */
