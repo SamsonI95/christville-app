@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
+import axios from "axios";
 
 // Component(s)
 import ProgressBar from "../Components/ProgressBar";
@@ -25,6 +26,19 @@ const TelegramUserAuth = () => {
       setDaysSinceJoin(
         Math.ceil((new Date() - accountCreationDate) / (1000 * 60 * 60 * 24))
       );
+
+      // Send user info to the backend
+      axios
+        .post("http://localhost:8080/user", {
+          telegramId: telegramUser.id,
+          username: telegramUser.username || telegramUser.first_name,
+        })
+        .then((response) => {
+          console.log("User data sent to the backend:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error sending user data to the backend:", error);
+        });
     } else {
       console.error("Telegram user info is not available.");
     }
@@ -35,10 +49,7 @@ const TelegramUserAuth = () => {
   };
 
   return (
-    <div
-      className="font-Poppins center-col px-[28px]"
-      
-    >
+    <div className="font-Poppins center-col px-[28px]">
       <ProgressBar />
       {user ? (
         <div className="mt-5 text-center space-y-[8rem]">
