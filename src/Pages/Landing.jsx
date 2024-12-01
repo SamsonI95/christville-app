@@ -56,7 +56,7 @@ const Landing = () => {
     );
   }
   return (
-    <div className="pt-[81px] px-[26px]" style={{ color: textColor }}>
+    <div className="pt-[81px] px-[26px]">
       <div className="flex flex-col items-center">
         <img className="" src="/Jesus.svg" alt="jesus-icon" loading="lazy"/>
         <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">

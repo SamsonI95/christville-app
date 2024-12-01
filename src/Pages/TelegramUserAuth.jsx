@@ -37,7 +37,7 @@ const TelegramUserAuth = () => {
   return (
     <div
       className="font-Poppins center-col px-[28px]"
-      style={{ color: textColor }}
+      
     >
       <ProgressBar />
       {user ? (

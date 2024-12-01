@@ -91,7 +91,7 @@ const TaskPage = () => {
   return (
     <div
       className="center-col font-Poppins pt-[50px]"
-      style={{ color: textColor }}
+      
     >
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>

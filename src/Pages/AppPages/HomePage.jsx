@@ -59,7 +59,7 @@ const HomePage = () => {
   return (
     <div
       className="flex flex-col h-[50vh] font-Poppins px-[28px]"
-      style={{ color: textColor }}
+      
     >
       <TopLayer />
       <section className="flex flex-col items-center gap-4">

@@ -26,7 +26,7 @@ const FriendsPage = () => {
 
   return (
     <div
-      className={`flex flex-col font-Poppins pt-[50px] px-[28px] ${textColor}`}
+      className={`flex flex-col font-Poppins pt-[50px] px-[28px]`}
     >
       <section>
         <h3 className="text-center">Friends</h3>

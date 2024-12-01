@@ -19,7 +19,7 @@ const PrayerWall = () => {
 
       <div
         className="center-col pt-[101px] px-[26px]"
-        style={{ color: textColor }}
+        
       >
         <div className="">
           <img

@@ -18,7 +18,7 @@ const DailyVerse = () => {
       <ProgressBar />
       <div
         className="center-col pt-[101px] px-[28px]"
-        style={{ color: textColor }}
+        
       >
         <div className="">
           <img
