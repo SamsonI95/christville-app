@@ -28,8 +28,9 @@ const TelegramUserAuth = () => {
       );
 
       // Send user info to the backend
+      const apiBaseUrl = process.env.BASE_URL;
       axios
-        .post("http://localhost:8080/user", {
+        .post(`${apiBaseUrl}/user`, {
           telegramId: telegramUser.id,
           username: telegramUser.username || telegramUser.first_name,
         })

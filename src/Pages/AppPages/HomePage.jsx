@@ -15,9 +15,11 @@ const HomePage = () => {
 
   const textColor = isDarkMode ? "#ffffff" : "#FFFFFF";
 
+  const apiBaseUrl = process.env.BASE_URL;
+
   const fetchBibleVerse = async () => {
     try {
-      const response = await fetch("http://localhost:8080/daily-verse"); // Backend URL
+      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL
       if (!response.ok) {
         throw new Error("Failed to fetch Bible verse");
       }

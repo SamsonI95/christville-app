@@ -33,13 +33,11 @@ const FriendsPage = () => {
       setLoading(true);
 
       // Replace with your API endpoint and adjust request body as needed
-      const response = await axios.post(
-        "http://localhost:8080/user",
-        {
-          telegramId: "12345", // Replace with actual Telegram ID
-          username: "testuser", // Replace with actual username
-        }
-      );
+      const apiBaseUrl = process.env.BASE_URL;
+      const response = await axios.post(`${apiBaseUrl}/user`, {
+        telegramId: "12345", // Replace with actual Telegram ID
+        username: "testuser", // Replace with actual username
+      });
 
       const { user } = response.data;
       setReferralKey(user.referralKey); // Store the referral key
