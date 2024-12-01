@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
+import axios from "axios";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -23,11 +24,57 @@ const FriendPageContent = [
 const FriendsPage = () => {
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "text-customGold" : "#000000";
+  const [referralKey, setReferralKey] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Fetch or Create User API Call
+  const fetchReferralKey = async () => {
+    try {
+      setLoading(true);
+
+      // Replace with your API endpoint and adjust request body as needed
+      const response = await axios.post(
+        "http://localhost:8080/user",
+        {
+          telegramId: "12345", // Replace with actual Telegram ID
+          username: "testuser", // Replace with actual username
+        }
+      );
+
+      const { user } = response.data;
+      setReferralKey(user.referralKey); // Store the referral key
+    } catch (error) {
+      console.error("Failed to fetch referral key:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle Invite Friend Button
+  const handleInviteClick = async () => {
+    if (!referralKey) await fetchReferralKey();
+    const referralLink = `https://your-app-link.com?ref=${referralKey}`;
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      // Share via Telegram
+      window.Telegram.WebApp.showPopup({
+        message: `Invite your friends using this link: ${referralLink}`,
+      });
+    } else {
+      // Fallback: Show the referral link in an alert
+      alert(`Invite link: ${referralLink}`);
+    }
+  };
+
+  // Handle Copy Button
+  const handleCopyClick = () => {
+    const referralLink = `https://your-app-link.com?ref=${referralKey}`;
+    navigator.clipboard.writeText(referralLink);
+    alert("Referral link copied to clipboard!");
+  };
 
   return (
-    <div
-      className={`flex flex-col font-Poppins pt-[50px] px-[28px]`}
-    >
+    <div className={`flex flex-col font-Poppins pt-[50px] px-[28px]`}>
       <section>
         <h3 className="text-center">Friends</h3>
         <h4 className="font-bold mt-[30px] mb-4">
@@ -55,10 +102,18 @@ const FriendsPage = () => {
         ))}
       </section>
       <section className="flex items-center gap-[10px] my-8">
-        <button className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]">
-          Invite Friends
+        <button
+          onClick={handleInviteClick}
+          className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]"
+          disabled={loading}
+        >
+          {loading ? "Generating Link..." : "Invite Friends"}
         </button>
-        <button className="flex items-center justify-center text-[20px] bg-customGold text-white w-[48px] h-[48px] rounded-[14px]">
+        <button
+          onClick={handleCopyClick}
+          className="flex items-center justify-center text-[20px] bg-customGold text-white w-[48px] h-[48px] rounded-[14px]"
+          disabled={!referralKey}
+        >
           <MdContentCopy />
         </button>
       </section>
