@@ -3,10 +3,6 @@
         {
             "source": "/(.*)",
             "destination": "/"
-        },
-        {
-            "source": "/daily-verse",
-            "destination": "http://3.83.246.115:8080/daily-verse"
         }
     ]
 }
