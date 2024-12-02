@@ -20,7 +20,7 @@ const HomePage = () => {
   const fetchBibleVerse = async () => {
     try {
       const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL
-      console.log("API Base URL:", import.meta.env.VITE_BASE_URL);
+      console.log('Response:', response);
       if (!response.ok) {
         throw new Error("Failed to fetch Bible verse");
       }
