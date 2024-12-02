@@ -20,9 +20,10 @@ const HomePage = () => {
   const fetchBibleVerse = async () => {
     try {
       const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL
-      console.log('Response:', response);
+      console.log("Response:", response);
       if (!response.ok) {
-        throw new Error("Failed to fetch Bible verse");
+        const errorText = await response.text(); // Capture any server error message
+        throw new Error(`Error: ${response.status} - ${errorText}`);
       }
       const data = await response.json();
       setBibleVerse(data); // Store the fetched Bible verse
@@ -60,10 +61,7 @@ const HomePage = () => {
   };
 
   return (
-    <div
-      className="flex flex-col h-[50vh] font-Poppins px-[28px]"
-      
-    >
+    <div className="flex flex-col h-[50vh] font-Poppins px-[28px]">
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>
