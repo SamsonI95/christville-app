@@ -15,7 +15,8 @@ const HomePage = () => {
 
   const textColor = isDarkMode ? "#ffffff" : "#FFFFFF";
 
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "http://vivablockchainconsulting.xyz";
 
   const fetchBibleVerse = async () => {
     try {
