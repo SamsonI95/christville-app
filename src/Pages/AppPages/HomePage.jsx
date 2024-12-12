@@ -19,7 +19,7 @@ const HomePage = () => {
 
   const fetchBibleVerse = async () => {
     try {
-      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL
+      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
       console.log("Response:", response);
       if (!response.ok) {
         const errorText = await response.text(); // Capture any server error message
