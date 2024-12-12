@@ -15,7 +15,7 @@ const HomePage = () => {
 
   const textColor = isDarkMode ? "#ffffff" : "#FFFFFF";
 
-  const apiBaseUrl = import.meta.env.VITE_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_NEW_BASE_URL;
 
   const fetchBibleVerse = async () => {
     try {
