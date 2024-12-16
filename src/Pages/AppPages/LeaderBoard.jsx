@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import axios from "axios";
 
 const LeaderBoard = () => {
   const [user, setUser] = useState(null);
