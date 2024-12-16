@@ -35,12 +35,13 @@ const TelegramUserAuth = () => {
         .post(`${apiBaseUrl}/user`, {
           telegramId: telegramUser.id,
           username: telegramUser.username || telegramUser.first_name,
+          referralKey: optionalReferralKey,
         })
         .then((response) => {
           console.log("User data sent to the backend:", response.data);
         })
         .catch((error) => {
-          console.error("Error sending user data to the backend:", error);
+          console.error("Axios error:", error.response?.data || error.message);
         });
     } else {
       console.error("Telegram user info is not available.");
