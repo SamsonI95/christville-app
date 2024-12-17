@@ -28,9 +28,7 @@ const TelegramUserAuth = () => {
       );
 
       // Send user info to the backend
-      const apiBaseUrl =
-        import.meta.env.VITE_API_BASE_URL ||
-        "https://vivablockchainconsulting.xyz";
+      const apiBaseUrl = "https://vivablockchainconsulting.xyz";
       axios
         .post(`${apiBaseUrl}/user`, {
           telegramId: String(telegramUser.id),
