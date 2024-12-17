@@ -18,7 +18,7 @@ const LeaderBoard = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          (`${apiBaseUrl}/user`), // Replace with your backend URL
+          `${apiBaseUrl}/user`, // Replace with your backend URL
           { params: { telegram_id: "sample_telegram_id" } } // Replace with actual Telegram ID
         );
         setUser(response.data);
@@ -37,7 +37,7 @@ const LeaderBoard = () => {
       try {
         // Fetch weekly and monthly scores from the backend
         const weeklyResponse = await axios.get(
-          ("http://localhost:8080/api/ leaderboard/weekly"),
+          "http://localhost:8080/api/ leaderboard/weekly",
           { params: { telegram_id: "sample_telegram_id" } } // Replace with actual Telegram ID
         );
         const monthlyResponse = await axios.get(
