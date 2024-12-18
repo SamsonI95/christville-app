@@ -11,17 +11,16 @@ const LeaderBoard = () => {
   const [weeklyScore, setWeeklyScore] = useState(null);
   const [monthlyScore, setMonthlyScore] = useState(null);
 
-  const apiBaseUrl =
-    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+  const apiBaseUrl = "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `${apiBaseUrl}/user`, // Replace with your backend URL
-          { params: { telegram_id: "sample_telegram_id" } } // Replace with actual Telegram ID
-        );
-        setUser(response.data);
+        const response = await axios.get(`${apiBaseUrl}/user`);
+        const fetchedUser = response.data;
+
+        // Set the fetched user data
+        setUser(fetchedUser);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -37,12 +36,12 @@ const LeaderBoard = () => {
       try {
         // Fetch weekly and monthly scores from the backend
         const weeklyResponse = await axios.get(
-          "http://localhost:8080/api/ leaderboard/weekly",
-          { params: { telegram_id: "sample_telegram_id" } } // Replace with actual Telegram ID
+          `${apiBaseUrl}/leaderboard/weekly`,
+          { params: { telegram_id: fetchedUser.telegramId } }
         );
         const monthlyResponse = await axios.get(
-          "http://localhost:8080/api/leaderboard/monthly",
-          { params: { telegram_id: "sample_telegram_id" } }
+          `${apiBaseUrl}/leaderboard/monthly`,
+          { params: { telegram_id: fetchedUser.telegramId } }
         );
 
         setWeeklyScore(weeklyResponse.data.score || null);
