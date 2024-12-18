@@ -21,39 +21,27 @@ const LeaderBoard = () => {
 
         // Set the fetched user data
         setUser(fetchedUser);
+
+        // Fetch weekly and monthly scores using the Telegram ID
+        const [weeklyResponse, monthlyResponse] = await Promise.all([
+          axios.get(`${apiBaseUrl}/leaderboard/weekly`, {
+            params: { telegram_id: fetchedUser.telegramId },
+          }),
+          axios.get(`${apiBaseUrl}/leaderboard/monthly`, {
+            params: { telegram_id: fetchedUser.telegramId },
+          }),
+        ]);
+
+        setWeeklyScore(weeklyResponse.data.score || null);
+        setMonthlyScore(monthlyResponse.data.score || null);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    const fetchScores = async () => {
-      try {
-        // Fetch weekly and monthly scores from the backend
-        const weeklyResponse = await axios.get(
-          `${apiBaseUrl}/leaderboard/weekly`,
-          { params: { telegram_id: fetchedUser.telegramId } }
-        );
-        const monthlyResponse = await axios.get(
-          `${apiBaseUrl}/leaderboard/monthly`,
-          { params: { telegram_id: fetchedUser.telegramId } }
-        );
-
-        setWeeklyScore(weeklyResponse.data.score || null);
-        setMonthlyScore(monthlyResponse.data.score || null);
-      } catch (error) {
-        console.error("Error fetching scores:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchScores();
   }, []);
 
   if (loading) return <div>Loading...</div>;
