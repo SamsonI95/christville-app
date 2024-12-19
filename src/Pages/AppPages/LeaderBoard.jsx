@@ -31,6 +31,7 @@ const LeaderBoard = () => {
   if (loading) return <div>Loading leaderboard...</div>;
   if (leaderboard.length === 0)
     return <div>No leaderboard data available.</div>;
+  
   return (
     <div className="mt-7 flex flex-col items-center h-[50vh] font-Poppins px-[28px]">
       <h3>Leader board</h3>
@@ -48,7 +49,7 @@ const LeaderBoard = () => {
           <div className="border border-black bg-black w-8 h-8 rounded-full"></div>
           {/* <img src="" alt="" /> */}
         </div>
-        <div>
+        {/* <div>
           <p>{user.username || "Unknown User"}</p>
           <p className="text-[11px]">
             Total game score: {user.tokenCount || 0}
@@ -56,7 +57,7 @@ const LeaderBoard = () => {
         </div>
         <div>
           <p>Rank: {user.rank || "N/A"}</p>
-        </div>
+        </div> */}
       </section>
       {leaderboard.map((user, index) => (
         <section
