@@ -16,7 +16,7 @@ const LeaderBoard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/user`);
+        const response = await axios.get(`${apiBaseUrl}/user/:userId`);
         const fetchedUser = response.data;
 
         // Set the fetched user data
