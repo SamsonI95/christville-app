@@ -9,6 +9,7 @@ import axios from "axios";
 const LeaderBoard = () => {
   const [leaderboard, setLeaderboard] = useState([]); // State to hold leaderboard data
   const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null);
 
   const apiBaseUrl = "https://vivablockchainconsulting.xyz";
 
@@ -17,9 +18,19 @@ const LeaderBoard = () => {
     const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(`${apiBaseUrl}/leaderboard`);
-        setLeaderboard(response.data); // Store the leaderboard data in the state
+
+        // Debug: log the response to check the structure
+        console.log(response.data);
+
+        // Ensure response.data is an array before setting state
+        if (Array.isArray(response.data)) {
+          setLeaderboard(response.data); // Store the leaderboard data in the state
+        } else {
+          setError("Leaderboard data is not in the expected array format.");
+        }
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
+        setError("An error occurred while fetching the leaderboard data.");
       } finally {
         setLoading(false); // Set loading to false after data fetch
       }
@@ -29,9 +40,10 @@ const LeaderBoard = () => {
   }, []);
 
   if (loading) return <div>Loading leaderboard...</div>;
+  if (error) return <div>{error}</div>;
   if (leaderboard.length === 0)
     return <div>No leaderboard data available.</div>;
-  
+
   return (
     <div className="mt-7 flex flex-col items-center h-[50vh] font-Poppins px-[28px]">
       <h3>Leader board</h3>
