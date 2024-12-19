@@ -18,19 +18,9 @@ const LeaderBoard = () => {
     const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(`${apiBaseUrl}/leaderboard`);
-
-        // Debug: log the response to check the structure
-        console.log(response.data);
-
-        // Ensure response.data is an array before setting state
-        if (Array.isArray(response.data)) {
-          setLeaderboard(response.data); // Store the leaderboard data in the state
-        } else {
-          setError("Leaderboard data is not in the expected array format.");
-        }
+        setLeaderboard(response.data); // Store the leaderboard data in the state
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
-        setError("An error occurred while fetching the leaderboard data.");
       } finally {
         setLoading(false); // Set loading to false after data fetch
       }
@@ -39,6 +29,7 @@ const LeaderBoard = () => {
     fetchLeaderboard();
   }, []);
 
+  // Display loading state or error message if applicable
   if (loading) return <div>Loading leaderboard...</div>;
   if (error) return <div>{error}</div>;
   if (leaderboard.length === 0)
