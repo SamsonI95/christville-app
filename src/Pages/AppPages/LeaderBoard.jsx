@@ -34,17 +34,17 @@ const LeaderBoard = () => {
         setUser(fetchedUser);
 
         // Fetch weekly and monthly scores using the user ID
-        const [weeklyResponse, monthlyResponse] = await Promise.all([
-          axios.get(`${apiBaseUrl}/leaderboard/weekly`, {
-            params: { user_id: fetchedUser.id }, // Using dynamic ID
-          }),
-          axios.get(`${apiBaseUrl}/leaderboard/monthly`, {
-            params: { user_id: fetchedUser.id },
-          }),
-        ]);
+        // const [weeklyResponse, monthlyResponse] = await Promise.all([
+        //   axios.get(`${apiBaseUrl}/leaderboard`, {
+        //     params: { user_id: fetchedUser.id }, // Using dynamic ID
+        //   }),
+        //   axios.get(`${apiBaseUrl}/leaderboard`, {
+        //     params: { user_id: fetchedUser.id },
+        //   }),
+        // ]);
 
-        setWeeklyScore(weeklyResponse.data.score || null);
-        setMonthlyScore(monthlyResponse.data.score || null);
+        // setWeeklyScore(weeklyResponse.data.score || null);
+        // setMonthlyScore(monthlyResponse.data.score || null);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
