@@ -27,13 +27,19 @@ const TelegramUserAuth = () => {
         Math.ceil((new Date() - accountCreationDate) / (1000 * 60 * 60 * 24))
       );
 
+      console.log("Payload sent to backend:", {
+        telegramId: String(telegramUser.id),
+        username: telegramUser.username || telegramUser.first_name,
+      });
+
       // Send user info to the backend
       const apiBaseUrl = "https://vivablockchainconsulting.xyz";
       axios
         .post(`${apiBaseUrl}/user`, {
-          id: telegramUser.id,
+          telegramId: String(telegramUser.id),
           username: telegramUser.username || telegramUser.first_name,
         })
+
         .then((response) => {
           console.log("User data sent to the backend:", response.data);
         })
