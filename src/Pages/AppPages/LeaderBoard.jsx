@@ -13,22 +13,33 @@ const LeaderBoard = () => {
 
   const apiBaseUrl = "https://vivablockchainconsulting.xyz";
 
+  // Extract the `id` parameter from the URL
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const userId = searchParams.get("id");
+
   useEffect(() => {
+    if (!userId) {
+      console.error("User ID is missing in the URL.");
+      setLoading(false);
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/user/userId`);
+        const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
         const fetchedUser = response.data;
 
         // Set the fetched user data
         setUser(fetchedUser);
 
-        // Fetch weekly and monthly scores using the Telegram ID
+        // Fetch weekly and monthly scores using the user ID
         const [weeklyResponse, monthlyResponse] = await Promise.all([
           axios.get(`${apiBaseUrl}/leaderboard/weekly`, {
-            params: { telegram_id: fetchedUser.telegramId },
+            params: { user_id: fetchedUser.id }, // Using dynamic ID
           }),
           axios.get(`${apiBaseUrl}/leaderboard/monthly`, {
-            params: { telegram_id: fetchedUser.telegramId },
+            params: { user_id: fetchedUser.id },
           }),
         ]);
 
@@ -42,7 +53,7 @@ const LeaderBoard = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   if (loading) return <div>Loading...</div>;
   if (!user) return <div>No user data available.</div>;
