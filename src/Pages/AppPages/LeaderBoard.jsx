@@ -82,6 +82,8 @@ const LeaderBoard = () => {
   );
 };
 
+export default LeaderBoard;
+
 // import React, { useEffect, useState } from "react";
 // import { NavLink, useLocation } from "react-router-dom";
 
