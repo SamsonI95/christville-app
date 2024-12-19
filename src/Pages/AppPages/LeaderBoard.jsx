@@ -56,41 +56,33 @@ const LeaderBoard = () => {
           <IoMdInformationCircleOutline />
         </div>
       </section>
-      <section className="w-[371px] h-[75px] border bg-[#F1F1F1] px-[10px] rounded-[15px] center justify-between mt-4">
-        <div>
-          <div className="border border-black bg-black w-8 h-8 rounded-full"></div>
-          {/* <img src="" alt="" /> */}
-        </div>
-        {/* <div>
-          <p>{user.username || "Unknown User"}</p>
-          <p className="text-[11px]">
-            Total game score: {user.tokenCount || 0}
-          </p>
-        </div>
-        <div>
-          <p>Rank: {user.rank || "N/A"}</p>
-        </div> */}
+      <section className="w-full mt-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border">Player Number</th>
+              <th className="px-4 py-2 border">Username</th>
+              <th className="px-4 py-2 border">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaderboard.map((player, index) => (
+              <tr key={player.id} className="text-center">
+                <td className="px-4 py-2 border">{index + 1}</td>{" "}
+                {/* Player Number */}
+                <td className="px-4 py-2 border">
+                  {player.username || "Unknown"}
+                </td>{" "}
+                {/* Player Username */}
+                <td className="px-4 py-2 border">
+                  {player.tokenCount || 0}
+                </td>{" "}
+                {/* Player Score */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
-      {leaderboard.map((user, index) => (
-        <section
-          key={user.id}
-          className="w-[371px] h-[75px] border bg-[#F1F1F1] px-[10px] rounded-[15px] center justify-between mt-4"
-        >
-          <div>
-            <div className="border border-black bg-black w-8 h-8 rounded-full"></div>
-            {/* <img src="" alt="" /> */}
-          </div>
-          <div>
-            <p>{user.username || "Unknown User"}</p>
-            <p className="text-[11px]">
-              Total game score: {user.tokenCount || 0}
-            </p>
-          </div>
-          <div>
-            <p>Rank: {index + 1}</p> {/* Display rank based on the index */}
-          </div>
-        </section>
-      ))}
     </div>
   );
 };
