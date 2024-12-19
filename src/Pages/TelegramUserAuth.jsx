@@ -31,6 +31,7 @@ const TelegramUserAuth = () => {
       const apiBaseUrl = "https://vivablockchainconsulting.xyz";
       axios
         .post(`${apiBaseUrl}/user`, {
+          id: telegramUser.id,
           telegramId: String(telegramUser.id),
           username: telegramUser.username || telegramUser.first_name,
         })
