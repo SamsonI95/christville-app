@@ -27,7 +27,7 @@ const LeaderBoard = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+        const response = await axios.get(`${apiBaseUrl}/leaderboard`);
         const fetchedUser = response.data;
 
         // Set the fetched user data
