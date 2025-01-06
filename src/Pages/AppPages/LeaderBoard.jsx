@@ -78,8 +78,8 @@ const LeaderBoard = () => {
       </section>
       <section>
         {user && (
-          <div className="flex items-center gap-4 mt-6 mb-5 px-4 bg-gray-100 rounded-lg w-[341px] h-[75px]">
-            <div>
+          <div className="flex items-center justify-between gap-4 mt-6 mb-5 px-4 bg-gray-100 rounded-lg w-[380px] h-[75px]">
+            <div className="center">
               <img
                 src={user.photo_url || "/default-avatar.png"}
                 alt="Profile"
@@ -93,7 +93,7 @@ const LeaderBoard = () => {
               </div>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Rank: #{userRank}</p>
+              <p className="text-sm text-gray-600">#{userRank}</p>
             </div>
           </div>
         )}
