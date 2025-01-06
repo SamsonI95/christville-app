@@ -48,7 +48,8 @@ const TelegramUserAuth = () => {
       const accountAgeInYears = accountAgeInSeconds / (60 * 60 * 24 * 365);
 
       // Set the days since join (approximation)
-      setDaysSinceJoin(Math.ceil(accountAgeInYears * 365)); // Convert years to days
+      const daysSinceJoin = Math.ceil(accountAgeInYears * 365); // Convert years to days
+      setDaysSinceJoin(daysSinceJoin); // Convert years to days
 
       // Allocate coins based on the account age
       const allocatedCoins = allocateCoins(accountAgeInYears);
@@ -78,7 +79,7 @@ const TelegramUserAuth = () => {
     } else {
       console.error("Telegram user info is not available.");
     }
-  }, [setUser]);
+  }, [setUser, setDaysSinceJoin]);
 
   const handleClick = () => {
     navigate("/page-3");

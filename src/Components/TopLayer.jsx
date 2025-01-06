@@ -8,6 +8,7 @@ const TopLayer = ({ userId }) => {
   const location = useLocation();
   const [profilePic, setProfilePic] = useState(null);
   const isFaithPage = location.pathname.startsWith("/app/page-2");
+  const { daysSinceJoin } = useUserContext();
 
   useEffect(() => {
     // Fetch user data from the backend
@@ -79,7 +80,8 @@ const TopLayer = ({ userId }) => {
         {/* coin value which is gotten from how long the user has been on telegram */}
         <div className="flex items-center gap-2">
           <img src="/coin.png" alt="currency" />
-          <p className="font-bold text-[27px] text-customGold">2030</p>
+          <p className="font-bold text-[27px] text-customGold">{daysSinceJoin}</p>
+          {/* replace with daysSinceJoin */}
         </div>
       </section>
     </div>
