@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
 import axios from "axios";
+import { UserContext } from "../Usercontext";
 
 // Component(s)
 import ProgressBar from "../Components/ProgressBar";
 
 const TelegramUserAuth = () => {
-  const [user, setUser] = useState(null); // State to store Telegram user info
+  const [user, setUser] = useContext(UserContext); // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
@@ -49,7 +50,7 @@ const TelegramUserAuth = () => {
     } else {
       console.error("Telegram user info is not available.");
     }
-  }, []);
+  }, [setUser]);
 
   const handleClick = () => {
     navigate("/page-3");

@@ -9,6 +9,7 @@ export default {
       },
       colors: {
         customGold: "#DDBF5F",
+        customGray: "#a0a0a0"
       },
       animation: {
         bounce: "bounce 5s ease-in-out infinite",
