@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { UserContext } from "../Usercontext";
 import ProgressBar from "../Components/ProgressBar";
 
 const TelegramUserAuth = () => {
-  const [user, setUser] = useContext(UserContext); // State to store Telegram user info
+  const [user, setUser] = useContext(UserContext) // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
