@@ -23,7 +23,7 @@ const DailyVerse = () => {
         <div className="">
           <img
             className="w-[342px] h-[313px]"
-            src="/Bible.png"
+            src="../../public/Bible.png"
             alt="bible-icon"
           />
           <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">

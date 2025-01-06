@@ -51,18 +51,17 @@ const Landing = () => {
     // Show the loading screen
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <LoadingScreen
-          image="../../public/Bible.png"
-          altText="Loading..."
-        />
-        <p className="relative top-[10rem] text-customGold z-10 mt-4 text-lg font-bold">{loadingText}</p>
+        <LoadingScreen image="../../public/Bible.png" altText="Loading..." />
+        <p className="relative top-[10rem] text-customGold z-10 mt-4 text-lg font-bold">
+          {loadingText}
+        </p>
       </div>
     );
   }
   return (
     <div className="pt-[81px] px-[26px]">
       <div className="flex flex-col items-center">
-        <img src={Jesus} alt="jesus-icon" loading="lazy"/>
+        <img src="../../public/Jesus.svg" alt="jesus-icon" loading="lazy" />
         <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">
           Christville
         </p>
