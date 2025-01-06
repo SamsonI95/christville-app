@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useTheme } from "../Components/ThemeContect";
 import axios from "axios";
 import { UserContext } from "../Usercontext";
+import { useNavigate } from "react-router-dom";
 
 // Component(s)
 import ProgressBar from "../Components/ProgressBar";
@@ -25,6 +26,7 @@ const TelegramUserAuth = () => {
   const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch Telegram user info from Web Apps API
