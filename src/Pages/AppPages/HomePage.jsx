@@ -7,7 +7,7 @@ import { SendIcon } from "../../Icons/Icons";
 
 const HomePage = () => {
   const [bibleVerse, setBibleVerse] = useState(null); // State to store the verse
-  const [imageSrc, setImageSrc] = useState("/Bible2.png");
+  const [imageSrc, setImageSrc] = useState("./Bible2.png");
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
 
