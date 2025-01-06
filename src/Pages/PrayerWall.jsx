@@ -24,7 +24,7 @@ const PrayerWall = () => {
         <div className="">
           <img
             className="w-[342px] h-[313px]"
-            src="../../public/PrayerHands.png"
+            src="./PrayerHands.png"
             alt="praying"
           />
           <p className="font-Inria font-bold text-[36px] text-customGold text-center py-8">
