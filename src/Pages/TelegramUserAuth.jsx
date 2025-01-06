@@ -34,15 +34,19 @@ const TelegramUserAuth = () => {
     if (telegramUser) {
       setUser(telegramUser);
 
-      // Calculate "days since join" (mocked for example purposes)
-      const accountCreationDate = new Date(); // Replace with actual user `createdAt` if available
-      const accountAgeInSeconds = Math.ceil(
-        (new Date() - accountCreationDate) / 1000
-      ); // Age in seconds
+      // Calculate "days since join" using account creation timestamp from user.id
+      const userId = telegramUser.id;
 
-      // Calculate account age in years
+      // Extract the timestamp from the user ID (lower 32 bits)
+      const accountCreationTimestamp = userId & 0xffffffff;
+      const accountCreationDate = new Date(accountCreationTimestamp * 1000); // Convert to milliseconds
+
+      // Calculate account age in seconds and then convert to years
+      const accountAgeInSeconds = (new Date() - accountCreationDate) / 1000;
       const accountAgeInYears = accountAgeInSeconds / (60 * 60 * 24 * 365);
-      setDaysSinceJoin(Math.ceil(accountAgeInYears * 365)); // Convert to days
+
+      // Set the days since join (approximation)
+      setDaysSinceJoin(Math.ceil(accountAgeInYears * 365)); // Convert years to days
 
       // Allocate coins based on the account age
       const allocatedCoins = allocateCoins(accountAgeInYears);
@@ -51,6 +55,7 @@ const TelegramUserAuth = () => {
       console.log("Payload sent to backend:", {
         telegramId: String(telegramUser.id),
         username: telegramUser.username || telegramUser.first_name,
+        coins: allocatedCoins,
       });
 
       // Send user info to the backend
@@ -59,6 +64,7 @@ const TelegramUserAuth = () => {
         .post(`${apiBaseUrl}/user`, {
           telegramId: String(telegramUser.id),
           username: telegramUser.username || telegramUser.first_name,
+          coins: allocatedCoins,
         })
 
         .then((response) => {
