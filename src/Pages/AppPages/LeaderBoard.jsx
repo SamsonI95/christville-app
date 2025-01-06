@@ -78,7 +78,7 @@ const LeaderBoard = () => {
       </section>
       <section>
         {user && (
-          <div className="flex items-center gap-4 mt-6 mb-5 px-4 bg-gray-100 rounded-lg w-full">
+          <div className="flex items-center gap-4 mt-6 mb-5 px-4 bg-gray-100 rounded-lg w-[341px] h-[75px]">
             <div>
               <img
                 src={user.photo_url || "/default-avatar.png"}
@@ -87,9 +87,9 @@ const LeaderBoard = () => {
               />
               <div>
                 <h4 className="text-lg font-semibold">
-                  {user.username || "Unknown"}
+                  @{user.username || "Unknown"}
                 </h4>
-                <p className="text-sm text-gray-600">Score: {userScore}</p>
+                <p className="text-sm text-gray-600">Total game score: {userScore}</p>
               </div>
             </div>
             <div>
