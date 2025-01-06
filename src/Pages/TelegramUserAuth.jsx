@@ -8,7 +8,7 @@ import { UserContext } from "../Usercontext";
 import ProgressBar from "../Components/ProgressBar";
 
 const TelegramUserAuth = () => {
-  const { user } = useContext(UserContext) // State to store Telegram user info
+  const { user, setUser } = useContext(UserContext) // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
