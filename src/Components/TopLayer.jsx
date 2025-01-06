@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { UserContext } from "../Usercontext";
+import { UserContext, useUserContext } from "../Usercontext";
 
 //Icon(s)
 import { ThunderboltIcon } from "../Icons/Icons";
@@ -9,7 +9,7 @@ const TopLayer = ({ userId }) => {
   const location = useLocation();
   const [profilePic, setProfilePic] = useState(null);
   const isFaithPage = location.pathname.startsWith("/app/page-2");
-  const { daysSinceJoin } = UserContext();
+  const { daysSinceJoin } = useUserContext();
 
   useEffect(() => {
     // Fetch user data from the backend
