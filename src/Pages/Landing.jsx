@@ -52,7 +52,7 @@ const Landing = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <LoadingScreen
-          image={Bible}
+          image="../../public/Bible.png"
           altText="Loading..."
         />
         <p className="relative top-[10rem] text-customGold z-10 mt-4 text-lg font-bold">{loadingText}</p>
