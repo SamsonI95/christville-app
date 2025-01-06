@@ -21,7 +21,7 @@ const allocateCoins = (accountAgeYears) => {
 };
 
 const TelegramUserAuth = () => {
-  const { user, setUser, setDaysSinceJoin } = useContext(UserContext); // State to store Telegram user info
+  const { user, setUser, daysSinceJoin, setDaysSinceJoin } = useContext(UserContext); // State to store Telegram user info
   const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
