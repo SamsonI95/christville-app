@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
 import axios from "axios";
 import { UserContext } from "../Usercontext";
@@ -7,10 +6,23 @@ import { UserContext } from "../Usercontext";
 // Component(s)
 import ProgressBar from "../Components/ProgressBar";
 
+// Function to calculate coin allocation based on account age
+const allocateCoins = (accountAgeYears) => {
+  if (accountAgeYears < 1) {
+    return 100; // 0-1 years
+  } else if (accountAgeYears < 2) {
+    return 200; // 1-2 years
+  } else if (accountAgeYears < 3) {
+    return 300; // 2-3 years
+  } else {
+    return 500; // 3+ years
+  }
+};
+
 const TelegramUserAuth = () => {
-  const { user, setUser } = useContext(UserContext) // State to store Telegram user info
+  const { user, setUser } = useContext(UserContext); // State to store Telegram user info
   const [daysSinceJoin, setDaysSinceJoin] = useState(null); // State for days since account creation
-  const navigate = useNavigate();
+  const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
@@ -24,9 +36,17 @@ const TelegramUserAuth = () => {
 
       // Calculate "days since join" (mocked for example purposes)
       const accountCreationDate = new Date(); // Replace with actual user `createdAt` if available
-      setDaysSinceJoin(
-        Math.ceil((new Date() - accountCreationDate) / (1000 * 60 * 60 * 24))
-      );
+      const accountAgeInSeconds = Math.ceil(
+        (new Date() - accountCreationDate) / 1000
+      ); // Age in seconds
+
+      // Calculate account age in years
+      const accountAgeInYears = accountAgeInSeconds / (60 * 60 * 24 * 365);
+      setDaysSinceJoin(Math.ceil(accountAgeInYears * 365)); // Convert to days
+
+      // Allocate coins based on the account age
+      const allocatedCoins = allocateCoins(accountAgeInYears);
+      setCoins(allocatedCoins);
 
       console.log("Payload sent to backend:", {
         telegramId: String(telegramUser.id),
