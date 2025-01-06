@@ -7,8 +7,7 @@ import { SendIcon } from "../../Icons/Icons";
 
 const HomePage = () => {
   const [bibleVerse, setBibleVerse] = useState(null); // State to store the verse
-  const isAppleDevice = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
-  const [imageSrc, setImageSrc] = useState(isAppleDevice ? "https://github.com/SamsonI95/christville-app/blob/7e20e985426387192a48003eb9a12f05c02edd4b/public/Bible2.png" : "/Bible2.png");
+  const [imageSrc, setImageSrc] = useState("/Bible2.png");
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
 
@@ -29,7 +28,7 @@ const HomePage = () => {
       }
       const data = await response.json();
       setBibleVerse(data); // Store the fetched Bible verse
-      setImageSrc(isAppleDevice ? "https://github.com/SamsonI95/christville-app/blob/54ffb2b7f89eca1d774e5f41adc584f6df3d4f7b/public/open%20bible.png" : "/open bible.png"); // Change image after click
+      setImageSrc("/open bible.png"); // Change image after click
     } catch (error) {
       console.error("Error fetching Bible verse:", error);
     }
