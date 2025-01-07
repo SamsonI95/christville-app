@@ -89,7 +89,9 @@ const LeaderBoard = () => {
                 <h4 className="text-lg font-semibold">
                   @{user.username || "Unknown"}
                 </h4>
-                <p className="text-sm text-gray-600">Total game score: {userScore}</p>
+                <p className="text-sm text-gray-600">
+                  Total game score: {userScore}
+                </p>
               </div>
             </div>
             <div>
@@ -112,20 +114,40 @@ const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {leaderboard.map((player, index) => (
-              <tr key={player.id} className="text-center text-customGray">
-                <td className="px-4 py-4 border-b">{index + 1}</td>{" "}
-                {/* Player Number */}
-                <td className="px-4 py-4 border-b text-left">
-                  @{player.username || "Unknown"}
-                </td>{" "}
-                {/* Player Username */}
-                <td className="px-4 py-4 border-b">
-                  {player.tokenCount || 0}
-                </td>{" "}
-                {/* Player Score */}
-              </tr>
-            ))}
+            {leaderboard.map((player, index) => {
+              let medalIcon = null;
+
+              // Assign medals for top 3 players
+              if (index === 0) {
+                medalIcon = "/goldMedal.svg";
+              } else if (index === 1) {
+                medalIcon = "/silverMedal.svg";
+              } else if (index === 2) {
+                medalIcon = "/bronzeMedal.svg";
+              }
+
+              return (
+                <tr key={player.id} className="text-center text-customGray">
+                  <td className="px-4 py-4 border-b">
+                    {medalIcon ? (
+                      <img
+                        src={medalIcon}
+                        alt={`Rank ${index + 1}`}
+                        className="w-8 h-8 inline-block"
+                      />
+                    ) : (
+                      index + 1
+                    )}
+                  </td>
+                  <td className="px-4 py-4 border-b text-left">
+                    @{player.username || "Unknown"}
+                  </td>
+                  <td className="px-4 py-4 border-b">
+                    {player.tokenCount || 0}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </section>
