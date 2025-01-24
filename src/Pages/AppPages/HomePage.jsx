@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa6";
 import { MdBookmarks } from "react-icons/md";
 import { SendIcon } from "../../Icons/Icons";
 import { UserContext } from "../../Usercontext";
+import axios from "axios";
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
