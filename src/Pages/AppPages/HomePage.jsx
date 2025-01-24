@@ -24,78 +24,78 @@ const HomePage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-  // const fetchBibleVerse = async () => {
-  //   if (!user || !user._id) {
-  //     console.error("User is not available.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Fetch Bible verse from backend API.
-  //     const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
-
-  //     // Claim the daily bonus
-  //     const bonusResponse = await axios.post(
-  //       `${apiBaseUrl}/claim-daily-bonus/${user._id}`
-  //     );
-  //     setBonusMessage(bonusResponse.data.message);
-
-  //     // Update user's token count in context
-  //     setUser((prevUser) => ({
-  //       ...prevUser,
-  //       tokenCount: prevUser.tokenCount + (bonusResponse.data.bonusTokens || 0),
-  //     }));
-
-  //     console.log("Response:", response);
-  //     if (!response.ok) {
-  //       const errorText = await response.text(); // Capture any server error message
-  //       throw new Error(`Error: ${response.status} - ${errorText}`);
-  //     }
-  //     const data = await response.json();
-  //     setBibleVerse(data); // Store the fetched Bible verse
-  //     setImageSrc("/open bible.png"); // Change image after click
-  //   } catch (error) {
-  //     console.error("Error fetching Bible verse:", error);
-  //   }
-  // };
-
   const fetchBibleVerse = async () => {
+    if (!user || !user._id) {
+      console.error("User is not available.");
+      return;
+    }
+
     try {
-      // Fetch the Bible verse from the backend API
-      const response = await fetch(`${apiBaseUrl}/daily-verse`);
+      // Fetch Bible verse from backend API.
+      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
+
+      // Claim the daily bonus
+      const bonusResponse = await axios.post(
+        `${apiBaseUrl}/claim-daily-bonus/${user._id}`
+      );
+      setBonusMessage(bonusResponse.data.message);
+
+      // Update user's token count in context
+      setUser((prevUser) => ({
+        ...prevUser,
+        tokenCount: prevUser.tokenCount + (bonusResponse.data.bonusTokens || 0),
+      }));
+
+      console.log("Response:", response);
       if (!response.ok) {
-        const errorText = await response.text(); // Capture server error message
+        const errorText = await response.text(); // Capture any server error message
         throw new Error(`Error: ${response.status} - ${errorText}`);
       }
       const data = await response.json();
       setBibleVerse(data); // Store the fetched Bible verse
       setImageSrc("/open bible.png"); // Change image after click
-
-      // If a user is logged in, claim the daily token bonus
-      if (user && user._id) {
-        try {
-          const bonusResponse = await axios.post(
-            `${apiBaseUrl}/claim-daily-bonus/${user._id}`
-          );
-          setBonusMessage(bonusResponse.data.message);
-
-          // Update user's token count in context
-          setUser((prevUser) => ({
-            ...prevUser,
-            tokenCount:
-              (prevUser?.tokenCount || 0) +
-              (bonusResponse.data.bonusTokens || 0),
-          }));
-        } catch (bonusError) {
-          console.error("Error claiming daily bonus:", bonusError);
-        }
-      } else {
-        console.log("User is not logged in. Skipping daily bonus claim.");
-      }
     } catch (error) {
       console.error("Error fetching Bible verse:", error);
     }
   };
+
+  // const fetchBibleVerse = async () => {
+  //   try {
+  //     // Fetch the Bible verse from the backend API
+  //     const response = await fetch(`${apiBaseUrl}/daily-verse`);
+  //     if (!response.ok) {
+  //       const errorText = await response.text(); // Capture server error message
+  //       throw new Error(`Error: ${response.status} - ${errorText}`);
+  //     }
+  //     const data = await response.json();
+  //     setBibleVerse(data); // Store the fetched Bible verse
+  //     setImageSrc("/open bible.png"); // Change image after click
+
+  //     // If a user is logged in, claim the daily token bonus
+  //     if (user && user._id) {
+  //       try {
+  //         const bonusResponse = await axios.post(
+  //           `${apiBaseUrl}/claim-daily-bonus/${user._id}`
+  //         );
+  //         setBonusMessage(bonusResponse.data.message);
+
+  //         // Update user's token count in context
+  //         setUser((prevUser) => ({
+  //           ...prevUser,
+  //           tokenCount:
+  //             (prevUser?.tokenCount || 0) +
+  //             (bonusResponse.data.bonusTokens || 0),
+  //         }));
+  //       } catch (bonusError) {
+  //         console.error("Error claiming daily bonus:", bonusError);
+  //       }
+  //     } else {
+  //       console.log("User is not logged in. Skipping daily bonus claim.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching Bible verse:", error);
+  //   }
+  // };
 
   const toggleLike = () => {
     setLikes((prevLikes) => prevLikes + 1); // Increment likes
