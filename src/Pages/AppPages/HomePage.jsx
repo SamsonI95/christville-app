@@ -25,6 +25,10 @@ const HomePage = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   const fetchBibleVerse = async () => {
+    if (!user || !user._id) {
+      console.error("User is not available.");
+      return;
+    }
 
     try {
       // Fetch Bible verse from backend API.
@@ -32,7 +36,7 @@ const HomePage = () => {
 
       // Claim the daily bonus
       const bonusResponse = await axios.post(
-        `${apiBaseUrl}/claim-daily-bonus/${user.id}`
+        `${apiBaseUrl}/claim-daily-bonus/${user._id}`
       );
       setBonusMessage(bonusResponse.data.message);
 
