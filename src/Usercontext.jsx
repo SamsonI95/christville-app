@@ -7,7 +7,6 @@ export const useUserContext = () => useContext(UserContext);
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
-  const [tokenCount, setTokenCount] = useState(0);
 
   useEffect(() => {
     // Simulate fetching user data (e.g., from an API or localStorage)
@@ -25,7 +24,7 @@ const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, daysSinceJoin, setDaysSinceJoin, tokenCount, setTokenCount }}
+      value={{ user, setUser, daysSinceJoin, setDaysSinceJoin }}
     >
       {children}
     </UserContext.Provider>

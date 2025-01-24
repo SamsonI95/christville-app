@@ -24,12 +24,6 @@ const HomePage = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   const fetchBibleVerse = async () => {
-    if (!user) {
-      setBonusMessage("User not logged in.");
-      return;
-    }
-
-    setLoading(true); // Start loading
 
     try {
       // Fetch Bible verse from backend API.

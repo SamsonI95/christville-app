@@ -11,6 +11,7 @@ const TopLayer = ({ userId }) => {
   const isFaithPage = location.pathname.startsWith("/app/page-2");
   // const { daysSinceJoin } = useUserContext();
   const [tokenCount, setTokenCount] = useState(0);
+  const [successiveLoginDays, setSuccessiveLoginDays] = useState(0);
 
   useEffect(() => {
     // Fetch user data from the backend
@@ -25,6 +26,7 @@ const TopLayer = ({ userId }) => {
         const userData = await response.json();
         setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
         setTokenCount(userData.token_count || 0);
+        setSuccessiveLoginDays(userData.successive_login_days || 0);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -43,7 +45,7 @@ const TopLayer = ({ userId }) => {
           {/* counter showing number of days a user logs in */}
           <div className="flex">
             <ThunderboltIcon />
-            <p>1</p>
+            <p>{successiveLoginDays}</p>
           </div>
           {/* replace div below with user image */}
           {user ? (
@@ -83,9 +85,7 @@ const TopLayer = ({ userId }) => {
         {/* coin value which is gotten from how long the user has been on telegram */}
         <div className="flex items-center gap-2">
           <img src="/coin.png" alt="currency" />
-          <p className="font-bold text-[27px] text-customGold">
-            {tokenCount}
-          </p>
+          <p className="font-bold text-[27px] text-customGold">{tokenCount}</p>
           {/* replace with token generated */}
         </div>
       </section>
