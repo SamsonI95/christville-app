@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { UserContext, useUserContext } from "../Usercontext";
 
@@ -7,9 +7,10 @@ import { ThunderboltIcon } from "../Icons/Icons";
 
 const TopLayer = ({ userId }) => {
   const location = useLocation();
-  const [profilePic, setProfilePic] = useState(null);
+  const { user } = useContext(UserContext);
   const isFaithPage = location.pathname.startsWith("/app/page-2");
-  const { daysSinceJoin } = useUserContext();
+  // const { daysSinceJoin } = useUserContext();
+  const [tokenCount, setTokenCount] = useState(0);
 
   useEffect(() => {
     // Fetch user data from the backend
@@ -23,6 +24,7 @@ const TopLayer = ({ userId }) => {
         }
         const userData = await response.json();
         setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
+        setTokenCount(userData.token_count || 0);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -44,9 +46,9 @@ const TopLayer = ({ userId }) => {
             <p>1</p>
           </div>
           {/* replace div below with user image */}
-          {profilePic ? (
+          {user ? (
             <img
-              src={profilePic}
+              src={user.photo_url || "/default-avatar.png"}
               alt="User Profile"
               className="w-8 h-8 rounded-full border border-black"
             />
@@ -81,8 +83,10 @@ const TopLayer = ({ userId }) => {
         {/* coin value which is gotten from how long the user has been on telegram */}
         <div className="flex items-center gap-2">
           <img src="/coin.png" alt="currency" />
-          <p className="font-bold text-[27px] text-customGold">{daysSinceJoin}</p>
-          {/* replace with daysSinceJoin */}
+          <p className="font-bold text-[27px] text-customGold">
+            {tokenCount}
+          </p>
+          {/* replace with token generated */}
         </div>
       </section>
     </div>

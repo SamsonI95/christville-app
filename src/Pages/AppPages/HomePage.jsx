@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TopLayer from "../../Components/TopLayer";
 import { useTheme } from "../../Components/ThemeContect";
 import { FaHeart } from "react-icons/fa6";
 import { MdBookmarks } from "react-icons/md";
 import { SendIcon } from "../../Icons/Icons";
+import { UserContext } from "../../Usercontext";
 
 const HomePage = () => {
+  const { user } = useContext(UserContext);
+  const [bonusMessage, setBonusMessage] = useState(null); // Store success/error messages
+  const [loading, setLoading] = useState(false);
+
   const [bibleVerse, setBibleVerse] = useState(null); // State to store the verse
   const [imageSrc, setImageSrc] = useState("/Bible2.png");
   const [likes, setLikes] = useState(0);
@@ -19,8 +24,29 @@ const HomePage = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   const fetchBibleVerse = async () => {
+    if (!user) {
+      setBonusMessage("User not logged in.");
+      return;
+    }
+
+    setLoading(true); // Start loading
+
     try {
+      // Fetch Bible verse from backend API.
       const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
+
+      // Claim the daily bonus
+      const bonusResponse = await axios.post(
+        `${apiBaseUrl}/claim-daily-bonus/${user.id}`
+      );
+      setBonusMessage(bonusResponse.data.message);
+
+      // Update user's token count in context
+      setUser((prevUser) => ({
+        ...prevUser,
+        tokenCount: prevUser.tokenCount + (bonusResponse.data.bonusTokens || 0),
+      }));
+
       console.log("Response:", response);
       if (!response.ok) {
         const errorText = await response.text(); // Capture any server error message
@@ -76,11 +102,17 @@ const HomePage = () => {
             <h3>Verse of the day</h3>
             <h4 className="font-semibold pt-3">{bibleVerse.reference}</h4>
             <p className="pt-[21px] pb-[24px]">- "{bibleVerse.text}"</p>
+
+            {/* Bonus Message */}
+            {bonusMessage && (
+              <p className="text-green-600 mt-2">{bonusMessage}</p>
+            )}
+
             {/* Action Buttons */}
             <div className="flex items-center justify-between">
               <section className="space-x-4">
                 {/* Like Button */}
-                <button onClick={toggleLike}>
+                <button onClick={toggleLike} aria-label="Like">
                   <FaHeart
                     style={{
                       color: likes ? "red" : "black", // Change color when liked
@@ -90,13 +122,13 @@ const HomePage = () => {
                 </button>
 
                 {/* Share Button */}
-                <button onClick={shareMessage}>
+                <button onClick={shareMessage} aria-label="Share">
                   <SendIcon />
                 </button>
               </section>
 
               {/* Bookmark Button */}
-              <button onClick={toggleBookmark}>
+              <button onClick={toggleBookmark} aria-label="Bookmark">
                 <MdBookmarks
                   style={{
                     color: bookmarked ? "#FFD700" : "black", // Custom color for bookmarked
