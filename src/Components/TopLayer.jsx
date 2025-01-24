@@ -13,13 +13,14 @@ const TopLayer = ({ userId }) => {
   const [tokenCount, setTokenCount] = useState(0);
   const [successiveLoginDays, setSuccessiveLoginDays] = useState(0);
 
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
   useEffect(() => {
     // Fetch user data from the backend
     const fetchUserData = async () => {
       try {
-        const response = await fetch(
-          `https://your-backend-url.com/users/${userId}`
-        );
+        const response = await fetch(`${apiBaseUrl}/users/${userId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
