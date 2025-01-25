@@ -20,7 +20,8 @@ const UserProvider = ({ children }) => {
         setLoading(true);
 
         // Fetch the userId (e.g., from session storage or an auth state)
-        const userId = sessionStorage.getItem("userId");
+        const userId = sessionStorage.getItem("id");
+        console.log("User ID:", userId);
         if (!userId) {
           throw new Error("User ID not found in session storage.");
         }
