@@ -8,18 +8,29 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
 
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
   useEffect(() => {
-    // Simulate fetching user data (e.g., from an API or localStorage)
     const fetchUser = async () => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) {
-        setUser(storedUser);
-      } else {
-        console.warn("No user data found in storage");
+      try {
+        // Fetch user data from the backend
+        const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+
+        if (response.status === 200 && response.data.user) {
+          setUser(response.data.user); // Set the user data in state
+        } else {
+          console.warn("User not found or invalid response from backend");
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+        setError(err.message || "Failed to fetch user");
+      } finally {
+        setLoading(false); // Set loading to false after attempt
       }
     };
 
-    fetchUser();
+    fetchUser(); // Call the fetch function on component mount
   }, []);
 
   return (
