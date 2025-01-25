@@ -26,7 +26,7 @@ const UserProvider = ({ children }) => {
         }
 
         // Fetch user data from the backend
-        const response = await axios.get(`${apiBaseUrl}/user/${user.id}`);
+        const response = await axios.get(`${apiBaseUrl}/user/${user.userId}`);
 
         if (response.data && response.data.user) {
           setUser(response.data.user);
