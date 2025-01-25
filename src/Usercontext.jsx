@@ -14,36 +14,36 @@ const UserProvider = ({ children }) => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       setLoading(true);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
 
-  //       // Fetch the userId (e.g., from session storage or an auth state)
-  //       const userId = sessionStorage.getItem("id");
-  //       console.log("User ID:", userId);
-  //       if (!userId) {
-  //         throw new Error("User ID not found in session storage.");
-  //       }
+        // Fetch the userId (e.g., from session storage or an auth state)
+        const userId = sessionStorage.getItem("id");
+        console.log("User ID:", userId);
+        if (!userId) {
+          throw new Error("User ID not found in session storage.");
+        }
 
-  //       // Fetch user data from the backend
-  //       const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+        // Fetch user data from the backend
+        const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
 
-  //       if (response.data && response.data.user) {
-  //         setUser(response.data.user);
-  //       } else {
-  //         throw new Error("Failed to fetch user data from the server.");
-  //       }
-  //     } catch (err) {
-  //       setError(err.message || "An error occurred while fetching user data.");
-  //       console.error("Error fetching user:", err);
-  //     } finally {
-  //       setLoading(false); // Stop loading
-  //     }
-  //   };
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+        } else {
+          throw new Error("Failed to fetch user data from the server.");
+        }
+      } catch (err) {
+        setError(err.message || "An error occurred while fetching user data.");
+        console.error("Error fetching user:", err);
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
 
-  //   fetchUser(); // Call the fetch function on component mount
-  // }, []);
+    fetchUser(); // Call the fetch function on component mount
+  }, []);
 
   return (
     <UserContext.Provider
