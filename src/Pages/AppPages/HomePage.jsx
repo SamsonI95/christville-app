@@ -46,6 +46,7 @@ const HomePage = () => {
           const bonusResponse = await axios.post(
             `${apiBaseUrl}/claim-daily-bonus/${user.id}`
           );
+          console.log("Claiming bonus for user ID:", user.id);
 
           // Set the bonus success message
           setBonusMessage(bonusResponse.data.message);
