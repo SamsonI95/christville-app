@@ -7,6 +7,7 @@ export const useUserContext = () => useContext(UserContext);
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
+  const [error, setError] = useState(null);
 
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
@@ -25,8 +26,6 @@ const UserProvider = ({ children }) => {
       } catch (err) {
         console.error("Error fetching user:", err);
         setError(err.message || "Failed to fetch user");
-      } finally {
-        setLoading(false); // Set loading to false after attempt
       }
     };
 
