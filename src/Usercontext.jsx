@@ -16,17 +16,27 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setLoading(true);
+
+        // Fetch the userId (e.g., from session storage or an auth state)
+        const userId = sessionStorage.getItem("userId");
+        if (!userId) {
+          throw new Error("User ID not found in session storage.");
+        }
+
         // Fetch user data from the backend
         const response = await axios.get(`${apiBaseUrl}/user/${user.id}`);
 
-        if (response.status === 200 && response.data.user) {
-          setUser(response.data.user); // Set the user data in state
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
         } else {
-          console.warn("User not found or invalid response from backend");
+          throw new Error("Failed to fetch user data from the server.");
         }
       } catch (err) {
+        setError(err.message || "An error occurred while fetching user data.");
         console.error("Error fetching user:", err);
-        setError(err.message || "Failed to fetch user");
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
