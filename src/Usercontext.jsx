@@ -17,7 +17,7 @@ const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         // Fetch user data from the backend
-        const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+        const response = await axios.get(`${apiBaseUrl}/user/${user.id}`);
 
         if (response.status === 200 && response.data.user) {
           setUser(response.data.user); // Set the user data in state
