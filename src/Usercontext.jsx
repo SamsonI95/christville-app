@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
