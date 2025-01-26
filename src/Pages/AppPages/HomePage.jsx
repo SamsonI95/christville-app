@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TopLayer from "../../Components/TopLayer";
 import { useTheme } from "../../Components/ThemeContect";
 import { FaHeart } from "react-icons/fa6";
@@ -24,38 +24,27 @@ const HomePage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-    const fetchBibleVerseAndClaimBonus = async () => {
-      if (!user || !user.userId) {
-        setBonusMessage("Please log in to claim your bonus.");
-        return;
+  const fetchBibleVerse = async () => {
+    try {
+      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
+      console.log("Response:", response);
+      if (!response.ok) {
+        const errorText = await response.text(); // Capture any server error message
+        throw new Error(`Error: ${response.status} - ${errorText}`);
       }
-  
-      setLoading(true); // Start loading
-      try {
-        // Fetch the daily verse
-        const verseResponse = await axios.get(`${apiBaseUrl}/daily-verse`);
-        setBibleVerse(verseResponse.data);
-        setImageSrc("/open bible.png"); // Update Bible image
-  
-        // Claim the daily bonus
-        const bonusResponse = await axios.post(
-          `${apiBaseUrl}/claim-daily-bonus/${user.userId}`
-        );
-        setBonusMessage(bonusResponse.data.message);
-  
-        // Update the user's token count in context
-        setUser((prevUser) => ({
-          ...prevUser,
-          tokenCount:
-            (prevUser?.tokenCount || 0) + (bonusResponse.data.bonusTokens || 0),
-        }));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setBonusMessage("Failed to claim daily bonus. Please try again.");
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
+      const data = await response.json();
+      setBibleVerse(data); // Store the fetched Bible verse
+      setImageSrc("/open bible.png"); // Change image after click
+    } catch (error) {
+      console.error("Error fetching Bible verse:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      console.log("User ID:", user.id); // Log the user ID
+    }
+  }, [user]);
 
   // const fetchBibleVerse = async () => {
   //   if (!user || !user.id) {
@@ -162,8 +151,13 @@ const HomePage = () => {
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>
+        {user ? (
+          <p>User ID: {user.id}</p>
+        ) : (
+          <p>No user data available.</p> // Fallback message
+        )}
         {/* When image is clicked, fetch Bible verse */}
-        <button onTouchStart={fetchBibleVerseAndClaimBonus} onClick={fetchBibleVerseAndClaimBonus}>
+        <button onTouchStart={fetchBibleVerse} onClick={fetchBibleVerse}>
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
         </button>
         {/* Display the Bible verse */}
