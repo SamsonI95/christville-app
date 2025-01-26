@@ -21,7 +21,7 @@ const UserProvider = ({ children }) => {
 
         // Dynamically fetch userId from query parameters
         const params = new URLSearchParams(window.location.search);
-        const userId = params.get("_id");
+        const userId = params.get("id");
 
         if (!userId) {
           throw new Error("No userId provided in the query parameters.");
