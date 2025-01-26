@@ -58,7 +58,7 @@ const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, daysSinceJoin, loading, error }}>
+    <UserContext.Provider value={{ user, setUser, daysSinceJoin, setDaysSinceJoin, loading, error }}>
       {children}
     </UserContext.Provider>
   );
