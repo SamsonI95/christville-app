@@ -4,11 +4,11 @@ import { useTheme } from "../../Components/ThemeContect";
 import { FaHeart } from "react-icons/fa6";
 import { MdBookmarks } from "react-icons/md";
 import { SendIcon } from "../../Icons/Icons";
-import { useUserContext } from "../../Usercontext";
+import { UserContext } from "../../Usercontext";
 import axios from "axios";
 
 const HomePage = () => {
-  const { user } = useUserContext();
+  const { user } = useContext(UserContext);
   const [bonusMessage, setBonusMessage] = useState(null); // Store success/error messages
   const [loading, setLoading] = useState(false);
 
@@ -24,49 +24,22 @@ const HomePage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-  const handleBibleIconClick = async () => {
-    if (!user || !user._id) {
-      console.error("User data is not available. Cannot allocate daily bonus.");
-      return;
-    }
-
+  const fetchBibleVerse = async () => {
     try {
-      // Claim daily bonus
-      const dailyBonusResponse = await axios.post(
-        `https://vivablockchainconsulting.xyz/claim-daily-bonus/${user._id}`
-      );
-
-      // Fetch Bible verse
-      const bibleVerseResponse = await axios.get(
-        "https://vivablockchainconsulting.xyz/bible-verse"
-      );
-
-      console.log("Daily bonus response:", dailyBonusResponse.data);
-      console.log("Bible verse response:", bibleVerseResponse.data);
-
-      alert(`Your daily bonus has been claimed: ${dailyBonusResponse.data.coins} coins.
-  Bible Verse: "${bibleVerseResponse.data.verse}"`);
+      const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
+      console.log("Response:", response);
+      if (!response.ok) {
+        const errorText = await response.text(); // Capture any server error message
+        throw new Error(`Error: ${response.status} - ${errorText}`);
+      }
+      const data = await response.json();
+      setBibleVerse(data); // Store the fetched Bible verse
+      setImageSrc("/open bible.png"); // Change image after click
     } catch (error) {
-      console.error("Error occurred:", error.response?.data || error.message);
-      alert("Something went wrong. Please try again later.");
+      console.error("Error fetching Bible verse:", error);
     }
   };
 
-  // const fetchBibleVerse = async () => {
-  //   try {
-  //     const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
-  //     console.log("Response:", response);
-  //     if (!response.ok) {
-  //       const errorText = await response.text(); // Capture any server error message
-  //       throw new Error(`Error: ${response.status} - ${errorText}`);
-  //     }
-  //     const data = await response.json();
-  //     setBibleVerse(data); // Store the fetched Bible verse
-  //     setImageSrc("/open bible.png"); // Change image after click
-  //   } catch (error) {
-  //     console.error("Error fetching Bible verse:", error);
-  //   }
-  // };
 
   const toggleLike = () => {
     setLikes((prevLikes) => prevLikes + 1); // Increment likes
@@ -101,10 +74,7 @@ const HomePage = () => {
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>
         {/* When image is clicked, fetch Bible verse */}
-        <button
-          onTouchStart={handleBibleIconClick}
-          onClick={handleBibleIconClick}
-        >
+        <button onTouchStart={fetchBibleVerse} onClick={fetchBibleVerse}>
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
         </button>
         {/* Display the Bible verse */}
