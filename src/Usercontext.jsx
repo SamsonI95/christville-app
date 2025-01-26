@@ -15,6 +15,8 @@ const UserProvider = ({ children }) => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
+    console.log("Query parameters:", window.location.search);
+
     const fetchUser = async () => {
       try {
         setLoading(true);
@@ -58,7 +60,9 @@ const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, daysSinceJoin, setDaysSinceJoin, loading, error }}>
+    <UserContext.Provider
+      value={{ user, setUser, daysSinceJoin, setDaysSinceJoin, loading, error }}
+    >
       {children}
     </UserContext.Provider>
   );
