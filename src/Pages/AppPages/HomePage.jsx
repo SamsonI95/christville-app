@@ -25,7 +25,7 @@ const HomePage = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
     const fetchBibleVerseAndClaimBonus = async () => {
-      if (!user || !user._id) {
+      if (!user || !user.userId) {
         setBonusMessage("Please log in to claim your bonus.");
         return;
       }
@@ -39,7 +39,7 @@ const HomePage = () => {
   
         // Claim the daily bonus
         const bonusResponse = await axios.post(
-          `${apiBaseUrl}/claim-daily-bonus/${user._id}`
+          `${apiBaseUrl}/claim-daily-bonus/${user.userId}`
         );
         setBonusMessage(bonusResponse.data.message);
   
