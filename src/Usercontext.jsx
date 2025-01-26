@@ -82,6 +82,7 @@ const apiBaseUrl =
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const fetchUserById = async (userId) => {
@@ -102,7 +103,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchUserById, loading }}>
+    <UserContext.Provider value={{ user, setUser, daysSinceJoin, fetchUserById, loading }}>
       {children}
     </UserContext.Provider>
   );
