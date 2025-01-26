@@ -64,52 +64,11 @@ const HomePage = () => {
     };
     
 
-  // const fetchBibleVerse = async () => {
-  //   if (!user || !user._id) {
-  //     console.error("User is not available.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Fetch Bible verse from backend API.
-  //     const response = await fetch(`${apiBaseUrl}/daily-verse`);
-  //     if (!response.ok) {
-  //       const errorText = await response.text(); // Capture any server error message
-  //       throw new Error(`Error: ${response.status} - ${errorText}`);
-  //     }
-  //     const data = await response.json();
-  //     setBibleVerse(data); // Store the fetched Bible verse
-  //     setImageSrc("/open bible.png"); // Change image after click
-
-  //     // Claim the daily bonus by making an API request to your backend.
-  //     const bonusResponse = await axios.post(
-  //       `${apiBaseUrl}/claim-daily-bonus/${user._id}`
-  //     );
-
-  //     // Set the bonus message (success or error).
-  //     setBonusMessage(bonusResponse.data.message);
-
-  //     // Update user's token count in the UserContext.
-  //     setUser((prevUser) => ({
-  //       ...prevUser,
-  //       tokenCount:
-  //         (prevUser?.tokenCount || 0) + (bonusResponse.data.bonusTokens || 0),
-  //     }));
-
-  //     console.log("Daily bonus claimed:", bonusResponse.data);
-  //   } catch (error) {
-  //     console.error(
-  //       "Error fetching Bible verse and claiming daily bonus:",
-  //       error
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log("User ID:", user.id); // Log the user ID
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      console.log("User ID:", user.id); // Log the user ID
+    }
+  }, [user]);
 
   // const fetchBibleVerse = async () => {
   //   if (!user || !user.id) {
