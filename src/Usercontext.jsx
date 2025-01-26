@@ -89,7 +89,7 @@ const UserProvider = ({ children }) => {
     console.log("Fetching user with ID:", userId)
     setLoading(true);
     try {
-      const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+      const response = await axios.get(`${apiBaseUrl}/user/${id}`);
       console.log("Fetched user data:", response.data.user);
       setUser(response.data.user); // Assuming backend returns user in `response.data.user`
     } catch (error) {
