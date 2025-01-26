@@ -86,10 +86,10 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const fetchUserById = async (userId) => {
-    console.log("Fetching user with ID:", userId)
+    console.log("Fetching user with ID:", userId);
     setLoading(true);
     try {
-      const response = await axios.get(`${apiBaseUrl}/user/${_id}`);
+      const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
       console.log("Fetched user data:", response.data.user);
       setUser(response.data.user); // Assuming backend returns user in `response.data.user`
     } catch (error) {
@@ -103,7 +103,16 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, daysSinceJoin, setDaysSinceJoin, fetchUserById, loading }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        daysSinceJoin,
+        setDaysSinceJoin,
+        fetchUserById,
+        loading,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
