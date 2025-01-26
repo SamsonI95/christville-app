@@ -21,7 +21,8 @@ const allocateCoins = (accountAgeYears) => {
 };
 
 const TelegramUserAuth = () => {
-  const { user, setUser, daysSinceJoin, setDaysSinceJoin } = useContext(UserContext); // State to store Telegram user info
+  const { user, setUser, daysSinceJoin, setDaysSinceJoin } =
+    useContext(UserContext); // State to store Telegram user info
   const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -36,10 +37,10 @@ const TelegramUserAuth = () => {
       setUser(telegramUser);
 
       // Calculate "days since join" using account creation timestamp from user.id
-      const tuserId = telegramUser.id;
+      const userId = telegramUser.id;
 
       // Extract the timestamp from the user ID (lower 32 bits)
-      const accountCreationTimestamp = tuserId & 0xffffffff;
+      const accountCreationTimestamp = userId & 0xffffffff;
       const accountCreationDate = new Date(accountCreationTimestamp * 1000); // Convert to milliseconds
 
       // Calculate account age in seconds and then convert to years
@@ -71,6 +72,7 @@ const TelegramUserAuth = () => {
 
         .then((response) => {
           console.log("User data sent to the backend:", response.data);
+          setUser(response.data.user);
         })
         .catch((error) => {
           console.error("Axios error:", error.response?.data || error.message);
