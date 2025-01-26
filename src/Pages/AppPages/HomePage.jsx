@@ -151,11 +151,6 @@ const HomePage = () => {
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>
-        {user ? (
-          <p>User ID: {user.id}</p>
-        ) : (
-          <p>No user data available.</p> // Fallback message
-        )}
         {/* When image is clicked, fetch Bible verse */}
         <button onTouchStart={fetchBibleVerse} onClick={fetchBibleVerse}>
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
