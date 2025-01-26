@@ -36,10 +36,10 @@ const TelegramUserAuth = () => {
       setUser(telegramUser);
 
       // Calculate "days since join" using account creation timestamp from user.id
-      const userId = telegramUser.id;
+      const tuserId = telegramUser.id;
 
       // Extract the timestamp from the user ID (lower 32 bits)
-      const accountCreationTimestamp = userId & 0xffffffff;
+      const accountCreationTimestamp = tuserId & 0xffffffff;
       const accountCreationDate = new Date(accountCreationTimestamp * 1000); // Convert to milliseconds
 
       // Calculate account age in seconds and then convert to years
