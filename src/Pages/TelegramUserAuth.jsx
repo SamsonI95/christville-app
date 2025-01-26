@@ -100,7 +100,7 @@ const TelegramUserAuth = () => {
             {daysSinceJoin || "N/A"}
           </span>
           <p className="font-semibold">days ago</p>
-          <h4 className="mt-[8rem]">Your account number is #{user.id}</h4>
+          <h4 className="mt-[8rem]">Your account number is #{user.telegramId}</h4>
         </div>
       ) : (
         <p>Loading user information...</p>
