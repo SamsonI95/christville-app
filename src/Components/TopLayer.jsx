@@ -20,15 +20,20 @@ const TopLayer = ({ userId }) => {
   useEffect(() => {
     // Fetch user data from the backend
     const fetchUserData = async () => {
+      if (!user || !user.id) {
+        console.error("User not available in context.");
+        return;
+      }
+
       try {
-        const response = await fetch(`${apiBaseUrl}/users/${userId}`);
+        const response = await fetch(`${apiBaseUrl}/users/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
         const userData = await response.json();
         setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
         setSuccessiveLoginDays(userData.successive_login_days || 0);
-        setDailyBonusValue(userData.tokenCount || 0);
+        setDailyBonusValue(userData.user.tokenCount || 0);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
