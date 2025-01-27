@@ -30,6 +30,10 @@
   }
 }
 
+.app-container section:last-child {
+  margin-top: auto;
+}
+
 .main-icons {
   display: flex;
   flex-direction: column;
