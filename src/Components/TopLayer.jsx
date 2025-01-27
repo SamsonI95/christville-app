@@ -39,10 +39,8 @@ const TopLayer = ({ userId }) => {
       }
     };
 
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId]);
+    fetchUserData();
+  }, [user, apiBaseUrl]);
 
   return (
     <div className="flex flex-col items-center justify-between pt-[50px] gap-4">
