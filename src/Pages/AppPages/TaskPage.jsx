@@ -46,7 +46,7 @@ const TaskPageContent = [
     icon: "/TELEGRAM 3D ICON.png",
     taskText: "Join Our telegram channel",
     coinText: "50",
-    apiPath: "/task/tg",
+    apiPath: "task/tg",
   },
   {
     id: 2,
@@ -54,7 +54,7 @@ const TaskPageContent = [
     icon: "/twitter X 3D ICON.png",
     taskText: "Follow Christville’s on X (Twitter)",
     coinText: "50",
-    apiPath: "/task/twitter",
+    apiPath: "task/twitter",
   },
   {
     id: 3,
@@ -80,6 +80,9 @@ const TaskPage = () => {
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
   const handleJoinTask = async () => {
     if (!user || !user.id) {
       console.error(
@@ -90,7 +93,7 @@ const TaskPage = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}${selectedTask.apiPath}/${user.id}`
+        `${apiBaseUrl}/${selectedTask.apiPath}/${user.id}`
       );
       console.log(response.data); // Handle response from API
 
