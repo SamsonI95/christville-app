@@ -26,7 +26,7 @@ const TopLayer = ({ userId }) => {
       }
 
       try {
-        const response = await fetch(`${apiBaseUrl}/users/${userId}`);
+        const response = await fetch(`${apiBaseUrl}/users/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -40,7 +40,7 @@ const TopLayer = ({ userId }) => {
     };
 
     fetchUserData();
-  }, [user, apiBaseUrl]);
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center justify-between pt-[50px] gap-4">
