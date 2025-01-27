@@ -229,7 +229,7 @@ const TaskPage = () => {
             onClick={closeModal}
             className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-full"
           >
-            Cancel
+            Check
           </button>
         </div>
       </Modal>
