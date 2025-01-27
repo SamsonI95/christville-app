@@ -36,7 +36,7 @@ const HomePage = () => {
 
     try {
       // Fetch the daily verse
-      const verseResponse = await axios.get(`${apiBaseUrl}/daily-verse`);
+      const verseResponse = await fetch(`${apiBaseUrl}/daily-verse`);
       const dailyVerse = verseResponse.data?.verse;
       console.log("Fetched daily verse:", dailyVerse);
 
