@@ -76,6 +76,7 @@ const TaskPage = () => {
   const { user } = useUserContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [clickedTasks, setClickedTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -109,51 +110,32 @@ const TaskPage = () => {
   //   }
   // };
 
+  // Handle the Join Button
   const handleJoinTask = async () => {
-    if (!user || !user.id) {
-      console.error(
-        "User ID is not available in the context for claiming the bonus."
-      );
+    if (!selectedTask || !user || !user.id) {
+      alert("Task or user not found.");
       return;
     }
 
     try {
-      // Mark the task as 'in progress'
-      setSelectedTask((prevTask) => ({ ...prevTask, status: "in-progress" }));
-
-      // Open the task URL
-      window.open(selectedTask.path, "_blank");
-
-      // After user completes the task externally, call the API to verify the task completion
-      await verifyTaskCompletion(selectedTask);
+      await axios.post(`${apiBaseUrl}/${selectedTask.apiPath}/${user.id}`);
+      setClickedTasks((prev) => [...prev, selectedTask.id]);
+      alert("Task marked as clicked.");
     } catch (error) {
-      console.error("Error claiming task:", error);
-      alert("Failed to claim task. Please try again.");
+      console.error("Error tracking join click:", error);
+      alert("Failed to track task click. Please try again.");
     }
   };
 
-  const verifyTaskCompletion = async (task) => {
-    if (!user || !user.id) {
-      alert("User not logged in.");
+  // Handle the Check Button
+  const handleCheckTask = () => {
+    if (!clickedTasks.includes(selectedTask.id)) {
+      alert("Please click the Join button first.");
       return;
     }
 
-    try {
-      const response = await axios.get(
-        `${apiBaseUrl}/${task.apiPath}/verify/${user.id}`
-      );
-
-      if (response.data.completed) {
-        // If the task is completed, reward the user
-        setCompletedTasks((prev) => [...prev, task.id]);
-        alert(`Task Completed! You've earned ${task.coinText} tokens.`);
-      } else {
-        alert("Task not completed yet. Please complete the task externally.");
-      }
-    } catch (error) {
-      console.error("Error verifying task completion:", error);
-      alert("Failed to verify task completion. Please try again.");
-    }
+    setCompletedTasks((prev) => [...prev, selectedTask.id]);
+    alert("Task marked as completed!");
   };
 
   const handleTaskClick = (task) => {
@@ -196,7 +178,11 @@ const TaskPage = () => {
               <p>{item.taskText}</p>
               <section className="flex items-center gap-1">
                 <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
-                <p>{item.coinText}</p>
+                <p>
+                  {completedTasks.includes(item.id)
+                    ? "Complete"
+                    : item.coinText}
+                </p>
               </section>
             </div>
             {completedTasks.includes(item.id) ? (
@@ -218,18 +204,23 @@ const TaskPage = () => {
           {selectedTask?.coinText} Boss coins
         </p>
         <div className="space-y-7">
-          <Link
-            onClick={handleJoinTask}
-            // to={selectedTask?.path}
-            className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px]"
-          >
-            Join
-          </Link>
+          {!clickedTasks.includes(selectedTask?.id) && (
+            <button
+              onClick={handleJoinTask}
+              className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px] w-full"
+            >
+              Join
+            </button>
+          )}
           <button
-            onClick={closeModal}
-            className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-full"
+            onClick={handleCheckTask}
+            className={`mt-4 block text-center ${
+              clickedTasks.includes(selectedTask?.id)
+                ? "bg-green-500"
+                : "bg-gray-400"
+            } text-white px-4 py-2 rounded-[16px] w-full`}
           >
-            Check
+            {completedTasks.includes(selectedTask?.id) ? "Done" : "Check"}
           </button>
         </div>
       </Modal>
