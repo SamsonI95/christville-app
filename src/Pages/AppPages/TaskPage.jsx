@@ -3,7 +3,7 @@ import { useTheme } from "../../Components/ThemeContect";
 import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../Usercontext";
 
 // Modal Component
@@ -23,7 +23,7 @@ const Modal = ({ isOpen, onClose, children }) => {
       onClick={handleClickOutside}
     >
       <div
-        ref={modalRef}
+        // ref={modalRef}
         className="absolute bottom-0 bg-[#F1F1F1] w-full h-[20rem] max-w-md rounded-t-[100px] shadow-lg p-5 space-y-3"
       >
         <button
@@ -40,6 +40,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 const TaskPageContent = [
   {
+    id: 1,
     path: "https://t.me/christvilleminiapp",
     icon: "/TELEGRAM 3D ICON.png",
     taskText: "Join Our telegram channel",
@@ -47,6 +48,7 @@ const TaskPageContent = [
     apiPath: "/task/tg",
   },
   {
+    id: 2,
     path: "https://x.com/christville_app",
     icon: "/twitter X 3D ICON.png",
     taskText: "Follow Christville’s on X (Twitter)",
@@ -54,12 +56,14 @@ const TaskPageContent = [
     apiPath: "/task/twitter",
   },
   {
+    id: 3,
     path: "#",
     icon: "/LINKEDIN ICON.png",
     taskText: "Follow Christville’s LinkedIn page",
     coinText: "50",
   },
   {
+    id: 4,
     path: "#",
     icon: "/INSTAGRAM ICON.png",
     taskText: "Follow Christville’s IG page",
@@ -68,16 +72,38 @@ const TaskPageContent = [
 ];
 
 const TaskPage = () => {
-  const { user, loading } = useUserContext();
+  const { user } = useUserContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
-  if (loading || !user) {
-    return <div>Loading...</div>;
-  }
+  const handleJoinTask = async () => {
+    if (!user) {
+      // Handle case if user is not available
+      alert("User not logged in");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}${selectedTask.apiPath}/${user.id}`
+      );
+      console.log(response.data); // Handle response from API
+
+      // On success, mark task as completed and show confirmation
+      setCompletedTasks((prev) => [...prev, selectedTask.id]);
+
+      // Optionally redirect user to the task's page (e.g., Telegram)
+      window.open(selectedTask.path, "_blank");
+      setModalOpen(false); // Close the modal after task is claimed
+    } catch (error) {
+      console.error("Error claiming task:", error);
+      alert("Failed to claim task. Please try again.");
+    }
+  };
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
@@ -89,26 +115,40 @@ const TaskPage = () => {
     setSelectedTask(null);
   };
 
-  const handleCheckTask = async () => {
-    if (selectedTask && user && user.userId) {
-      try {
-        const response = await fetch(`${selectedTask.apiPath}/${user.userId}`, {
-          method: "POST", // Send a POST request to the task's endpoint with the user ID
-        });
+  // if (loading || !user) {
+  //   return <div>Loading...</div>;
+  // }
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Bonus claimed successfully", data);
-          setCompletedTasks((prev) => [...prev, selectedTask.id]); // Add task to completed tasks
-        } else {
-          console.log("Error claiming bonus");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-    closeModal();
-  };
+  // const handleTaskClick = (task) => {
+  //   setSelectedTask(task);
+  //   setModalOpen(true);
+  // };
+
+  // const closeModal = () => {
+  //   setModalOpen(false);
+  //   setSelectedTask(null);
+  // };
+
+  // const handleCheckTask = async () => {
+  //   if (selectedTask && user && user.userId) {
+  //     try {
+  //       const response = await fetch(`${selectedTask.apiPath}/${user.userId}`, {
+  //         method: "POST", // Send a POST request to the task's endpoint with the user ID
+  //       });
+
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("Bonus claimed successfully", data);
+  //         setCompletedTasks((prev) => [...prev, selectedTask.id]); // Add task to completed tasks
+  //       } else {
+  //         console.log("Error claiming bonus");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   }
+  //   closeModal();
+  // };
 
   return (
     <div className="center-col font-Poppins pt-[50px]">
@@ -130,7 +170,6 @@ const TaskPage = () => {
       <section className="mt-5 w-full">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
         {TaskPageContent.map((item, index) => (
-          <Link to={item.path}>
             <div
               key={index}
               onClick={() => handleTaskClick(item)}
@@ -150,7 +189,6 @@ const TaskPage = () => {
                 <FaChevronRight />
               )}
             </div>
-          </Link>
         ))}
       </section>
 
@@ -165,17 +203,17 @@ const TaskPage = () => {
         </p>
         <div className="space-y-7">
           <Link
-            to={selectedTask?.path}
+            onClick={handleJoinTask}
+            // to={selectedTask?.path}
             className="mt-5 block text-center bg-customGold text-white px-4 py-2 rounded-[16px]"
-            onClick={closeModal}
           >
             Join
           </Link>
           <button
-            onClick={handleCheckTask}
+            onClick={closeModal}
             className="mt-4 block text-center bg-transparent px-4 border border-[#000000] py-2 rounded-[16px] w-full"
           >
-            Check
+            Cancel
           </button>
         </div>
       </Modal>
