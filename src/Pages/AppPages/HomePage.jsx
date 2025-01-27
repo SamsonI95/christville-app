@@ -26,19 +26,21 @@ const HomePage = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   const fetchDailyVerseAndBonus = async () => {
-    if (!user || !user.id) {
-      console.error("User ID is not available in the context.");
-      return;
-    }
-
-    const userId = user.id; // Get the userId from the context
-    console.log("Using userId for daily bonus and verse:", userId);
-
     try {
       // Fetch the daily verse
-      const verseResponse = await fetch(`${apiBaseUrl}/daily-verse`);
+      const verseResponse = await axios.get(`${apiBaseUrl}/daily-verse`);
       const dailyVerse = verseResponse.data?.verse;
       console.log("Fetched daily verse:", dailyVerse);
+
+      if (!user || !user.id) {
+        console.error(
+          "User ID is not available in the context for claiming the bonus."
+        );
+        return;
+      }
+
+      const userId = user.id; // Get the userId from the context
+      console.log("Using userId for daily bonus:", userId);
 
       // Allocate the daily bonus
       const bonusResponse = await axios.post(
@@ -102,7 +104,10 @@ const HomePage = () => {
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>
         {/* When image is clicked, fetch Bible verse */}
-        <button onTouchStart={fetchDailyVerseAndBonus} onClick={fetchDailyVerseAndBonus}>
+        <button
+          onTouchStart={fetchDailyVerseAndBonus}
+          onClick={fetchDailyVerseAndBonus}
+        >
           <img src={imageSrc} alt="Bible" className="cursor-pointer" go />
         </button>
         {/* Display the Bible verse */}
