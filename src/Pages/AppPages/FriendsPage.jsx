@@ -48,7 +48,6 @@ const FriendsPage = () => {
     } finally {
       setLoading(false);
     }
-    a;
   };
 
   // Handle Invite Friend Button
