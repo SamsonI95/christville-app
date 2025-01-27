@@ -26,7 +26,7 @@ const TopLayer = ({ userId }) => {
       }
 
       try {
-        const response = await fetch(`${apiBaseUrl}/users/${user.id}`);
+        const response = await fetch(`${apiBaseUrl}/users/${userId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
