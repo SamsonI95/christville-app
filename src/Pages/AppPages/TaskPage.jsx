@@ -4,6 +4,7 @@ import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../../Usercontext";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
@@ -65,11 +66,16 @@ const TaskPageContent = [
 ];
 
 const TaskPage = () => {
+  const { user, loading } = useUserContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+
+  if (loading || !user) {
+    return <div>Loading...</div>;
+  }
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
@@ -81,18 +87,29 @@ const TaskPage = () => {
     setSelectedTask(null);
   };
 
-  const handleCheckTask = () => {
-    if (selectedTask && !completedTasks.includes(selectedTask.id)) {
-      setCompletedTasks((prev) => [...prev, selectedTask.id]);
+  const handleCheckTask = async () => {
+    if (selectedTask && user && user.userId) {
+      try {
+        const response = await fetch(`${selectedTask.apiPath}/${user.userId}`, {
+          method: "POST", // Send a POST request to the task's endpoint with the user ID
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Bonus claimed successfully", data);
+          setCompletedTasks((prev) => [...prev, selectedTask.id]); // Add task to completed tasks
+        } else {
+          console.log("Error claiming bonus");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
     closeModal();
   };
 
   return (
-    <div
-      className="center-col font-Poppins pt-[50px]"
-      
-    >
+    <div className="center-col font-Poppins pt-[50px]">
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
