@@ -9,8 +9,11 @@ const TopLayer = ({ userId }) => {
   const location = useLocation();
   const { user } = useContext(UserContext);
   const isFaithPage = location.pathname.startsWith("/app/page-2");
+
   // const { daysSinceJoin } = useUserContext();
   // const [tokenCount, setTokenCount] = useState(0);
+
+  const [profilePic, setProfilePic] = useState(null);
   const [dailyBonusValue, setDailyBonusValue] = useState(null);
   const [successiveLoginDays, setSuccessiveLoginDays] = useState(0);
 
@@ -18,7 +21,21 @@ const TopLayer = ({ userId }) => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
-    // Fetch user data from the backend
+    // Fetch Telegram user data from Web Apps API
+    const telegram = window.Telegram.WebApp;
+    const telegramUser = telegram.initDataUnsafe?.user;
+
+    if (telegramUser) {
+      // Set the profile picture if available
+      setProfilePic(telegramUser.photo_url);
+
+      // Optionally: Fetch and display other details like Telegram username
+      console.log("Telegram User Data:", telegramUser);
+    } else {
+      console.error("Telegram user data not available.");
+    }
+
+    // Fetch user data from your backend
     const fetchUserData = async () => {
       if (!user || !user.id) {
         console.error("User not available in context.");
@@ -31,10 +48,9 @@ const TopLayer = ({ userId }) => {
           throw new Error("Failed to fetch user data");
         }
         const userData = await response.json();
-        // setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
         setSuccessiveLoginDays(userData.successive_login_days || 0);
         setDailyBonusValue(userData.user.tokenCount || 0);
-        console.log("Bonus Value:", userData.user.tokenCount )
+        console.log("Bonus Value:", userData.user.tokenCount);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -42,6 +58,32 @@ const TopLayer = ({ userId }) => {
 
     fetchUserData();
   }, [user]);
+
+  // useEffect(() => {
+  //   // Fetch user data from the backend
+  //   const fetchUserData = async () => {
+  //     if (!user || !user.id) {
+  //       console.error("User not available in context.");
+  //       return;
+  //     }
+
+  //     try {
+  //       const response = await fetch(`${apiBaseUrl}/user/${user.id}`);
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch user data");
+  //       }
+  //       const userData = await response.json();
+  //       // setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
+  //       setSuccessiveLoginDays(userData.successive_login_days || 0);
+  //       setDailyBonusValue(userData.user.tokenCount || 0);
+  //       console.log("Bonus Value:", userData.user.tokenCount )
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, [user]);
 
   return (
     <div className="flex flex-col items-center justify-between pt-[50px] gap-4">
@@ -56,7 +98,7 @@ const TopLayer = ({ userId }) => {
           {/* replace div below with user image */}
           {user ? (
             <img
-              src={user.photo_url || "/default-avatar.png"}
+              src={profilePic || "/default-avatar.png"}
               alt="User Profile"
               className="w-8 h-8 rounded-full border border-black"
             />
