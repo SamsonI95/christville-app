@@ -1,22 +1,29 @@
+body,
+html {
+  height: 100%; /* Ensures body/html take full height */
+  min-height: 100vh; /* Always fills the viewport */
+  width: 100%; /* Full width */
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  box-sizing: border-box; /* Ensures consistent sizing */
+}
+
+/* App Container */
+.app-container {
+  min-height: 100vh; /* Ensures full-screen height */
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Keeps nav at bottom */
+  padding: 0 28px;
+  overflow: auto; /* Allows scrolling for content overflow */
+}
+
+
 @media screen and (max-width: 768px) and (max-height: 1024px) {
-  body,
-  html {
-    height: 100%;
-    width: 100%;
-  }
-
   .app-container {
-    /* height: 100vh; */
+    min-height: 100vh;
     width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 28px;
-    overflow: auto;
-  }
-
-  .app-container section:first-child {
-    flex: 1 1 auto; /* Allows the content section to expand and fill space */
   }
 }
 
