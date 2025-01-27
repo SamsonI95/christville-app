@@ -28,8 +28,17 @@ const HomePage = () => {
   const fetchDailyVerseAndBonus = async () => {
     try {
       // Fetch the daily verse
-      const dailyVerseResponse = await axios.get(`${apiBaseUrl}/daily-verse`);
-      console.log("Fetched daily verse:", dailyVerseResponse);
+      const response = await axios.get(`${apiBaseUrl}/daily-verse`);
+      console.log("Fetched daily verse response:", response);
+
+      if (response.data) {
+        setBibleVerse(response.data); // Store the fetched Bible verse
+        setImageSrc("/open bible.png"); // Change image after a successful fetch
+      } else {
+        console.error("No verse data found in the response.");
+      }
+
+      // Check User ID for daily bonus allocation
 
       if (!user || !user.id) {
         console.error(
