@@ -48,6 +48,7 @@ const FriendsPage = () => {
     } finally {
       setLoading(false);
     }
+    a;
   };
 
   // Handle Invite Friend Button
@@ -57,10 +58,7 @@ const FriendsPage = () => {
 
     if (window.Telegram && window.Telegram.WebApp) {
       // Share via Telegram
-      window.Telegram.WebApp.share({
-        text: `Invite your friends to join the Christville app! Use my referral link: ${referralLink}`,
-        url: referralLink,
-      });
+      window.Telegram.WebApp.openTelegramLink(referralLink);
     } else {
       // Fallback: Show the referral link in an alert
       alert(`Invite link: ${referralLink}`);
