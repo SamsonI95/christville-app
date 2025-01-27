@@ -27,13 +27,15 @@ const FriendsPage = () => {
   const [referralKey, setReferralKey] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
   // Fetch or Create User API Call
   const fetchReferralKey = async () => {
     try {
       setLoading(true);
 
       // Replace with your API endpoint and adjust request body as needed
-      const apiBaseUrl = process.env.BASE_URL;
       const response = await axios.post(`${apiBaseUrl}/user`, {
         telegramId: "12345", // Replace with actual Telegram ID
         username: "testuser", // Replace with actual username
@@ -51,12 +53,13 @@ const FriendsPage = () => {
   // Handle Invite Friend Button
   const handleInviteClick = async () => {
     if (!referralKey) await fetchReferralKey();
-    const referralLink = `https://your-app-link.com?ref=${referralKey}`;
+    const referralLink = `${apiBaseUrl}/user?ref=${referralKey}`;
 
     if (window.Telegram && window.Telegram.WebApp) {
       // Share via Telegram
-      window.Telegram.WebApp.showPopup({
-        message: `Invite your friends using this link: ${referralLink}`,
+      window.Telegram.WebApp.share({
+        text: `Invite your friends to join the Christville app! Use my referral link: ${referralLink}`,
+        url: referralLink,
       });
     } else {
       // Fallback: Show the referral link in an alert
