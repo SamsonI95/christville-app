@@ -77,14 +77,14 @@ const TaskPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTasks, setCompletedTasks] = useState([]);
-  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
   const handleJoinTask = async () => {
-    if (!user) {
-      // Handle case if user is not available
-      alert("User not logged in");
+    if (!user || !user.id) {
+      console.error(
+        "User ID is not available in the context for claiming the bonus."
+      );
       return;
     }
 
@@ -171,25 +171,25 @@ const TaskPage = () => {
       <section className="mt-5 w-full">
         <p className="text-[#000000] opacity-50">Daily Tasks</p>
         {TaskPageContent.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => handleTaskClick(item)}
-              className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100  h-[80px] px-3 rounded-[16px]"
-            >
-              <img src={item.icon} alt="image" />
-              <div className="text-[13px] w-[214px] space-y-2">
-                <p>{item.taskText}</p>
-                <section className="flex items-center gap-1">
-                  <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
-                  <p>{item.coinText}</p>
-                </section>
-              </div>
-              {completedTasks.includes(item.id) ? (
-                <FaCheck className="text-green-500" />
-              ) : (
-                <FaChevronRight />
-              )}
+          <div
+            key={index}
+            onClick={() => handleTaskClick(item)}
+            className="flex items-center justify-between mt-4 border bg-[#F1F1F1] opacity-100  h-[80px] px-3 rounded-[16px]"
+          >
+            <img src={item.icon} alt="image" />
+            <div className="text-[13px] w-[214px] space-y-2">
+              <p>{item.taskText}</p>
+              <section className="flex items-center gap-1">
+                <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
+                <p>{item.coinText}</p>
+              </section>
             </div>
+            {completedTasks.includes(item.id) ? (
+              <FaCheck className="text-green-500" />
+            ) : (
+              <FaChevronRight />
+            )}
+          </div>
         ))}
       </section>
 
