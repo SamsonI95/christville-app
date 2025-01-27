@@ -31,9 +31,10 @@ const TopLayer = ({ userId }) => {
           throw new Error("Failed to fetch user data");
         }
         const userData = await response.json();
-        setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
+        // setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
         setSuccessiveLoginDays(userData.successive_login_days || 0);
         setDailyBonusValue(userData.user.tokenCount || 0);
+        console.log("Bonus Value:", userData.user.tokenCount )
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
