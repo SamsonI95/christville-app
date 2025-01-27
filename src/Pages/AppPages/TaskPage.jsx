@@ -40,16 +40,18 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 const TaskPageContent = [
   {
-    path: "#",
+    path: "https://t.me/christvilleminiapp",
     icon: "/TELEGRAM 3D ICON.png",
     taskText: "Join Our telegram channel",
     coinText: "50",
+    apiPath: "/task/tg",
   },
   {
-    path: "#",
+    path: "https://x.com/christville_app",
     icon: "/twitter X 3D ICON.png",
     taskText: "Follow Christville’s on X (Twitter)",
     coinText: "50",
+    apiPath: "/task/twitter",
   },
   {
     path: "#",
