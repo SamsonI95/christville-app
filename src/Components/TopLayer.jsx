@@ -28,7 +28,7 @@ const TopLayer = ({ userId }) => {
         const userData = await response.json();
         setProfilePic(userData.photo_url); // Assuming your backend includes `photo_url`
         setSuccessiveLoginDays(userData.successive_login_days || 0);
-        setDailyBonusValue(userData.daily_bonus_value || 0);
+        setDailyBonusValue(userData.tokenCount || 0);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
