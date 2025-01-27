@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import { ThunderboltIcon } from "../../Icons/Icons";
-import { FaChevronRight } from "react-icons/fa6";
+import { FaCheck, FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../Usercontext";
@@ -45,7 +45,7 @@ const TaskPageContent = [
     path: "https://t.me/christvilleminiapp",
     icon: "/TELEGRAM 3D ICON.png",
     taskText: "Join Our telegram channel",
-    coinText: "50",
+    coinText: "150",
     apiPath: "task/tg",
   },
   {
@@ -53,7 +53,7 @@ const TaskPageContent = [
     path: "https://x.com/christville_app",
     icon: "/twitter X 3D ICON.png",
     taskText: "Follow Christville’s on X (Twitter)",
-    coinText: "50",
+    coinText: "150",
     apiPath: "task/twitter",
   },
   {
@@ -83,6 +83,32 @@ const TaskPage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
+  // const handleJoinTask = async () => {
+  //   if (!user || !user.id) {
+  //     console.error(
+  //       "User ID is not available in the context for claiming the bonus."
+  //     );
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiBaseUrl}/${selectedTask.apiPath}/${user.id}`
+  //     );
+  //     console.log(response.data); // Handle response from API
+
+  //     // On success, mark task as completed and show confirmation
+  //     setCompletedTasks((prev) => [...prev, selectedTask.id]);
+
+  //     // Optionally redirect user to the task's page (e.g., Telegram)
+  //     window.open(selectedTask.path, "_blank");
+  //     setModalOpen(false); // Close the modal after task is claimed
+  //   } catch (error) {
+  //     console.error("Error claiming task:", error);
+  //     alert("Failed to claim task. Please try again.");
+  //   }
+  // };
+
   const handleJoinTask = async () => {
     if (!user || !user.id) {
       console.error(
@@ -92,20 +118,41 @@ const TaskPage = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${apiBaseUrl}/${selectedTask.apiPath}/${user.id}`
-      );
-      console.log(response.data); // Handle response from API
+      // Mark the task as 'in progress'
+      setSelectedTask((prevTask) => ({ ...prevTask, status: "in-progress" }));
 
-      // On success, mark task as completed and show confirmation
-      setCompletedTasks((prev) => [...prev, selectedTask.id]);
-
-      // Optionally redirect user to the task's page (e.g., Telegram)
+      // Open the task URL
       window.open(selectedTask.path, "_blank");
-      setModalOpen(false); // Close the modal after task is claimed
+
+      // After user completes the task externally, call the API to verify the task completion
+      await verifyTaskCompletion(selectedTask);
     } catch (error) {
       console.error("Error claiming task:", error);
       alert("Failed to claim task. Please try again.");
+    }
+  };
+
+  const verifyTaskCompletion = async (task) => {
+    if (!user || !user.id) {
+      alert("User not logged in.");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `${apiBaseUrl}/${task.apiPath}/verify/${user.id}`
+      );
+
+      if (response.data.completed) {
+        // If the task is completed, reward the user
+        setCompletedTasks((prev) => [...prev, task.id]);
+        alert(`Task Completed! You've earned ${task.coinText} tokens.`);
+      } else {
+        alert("Task not completed yet. Please complete the task externally.");
+      }
+    } catch (error) {
+      console.error("Error verifying task completion:", error);
+      alert("Failed to verify task completion. Please try again.");
     }
   };
 
@@ -118,41 +165,6 @@ const TaskPage = () => {
     setModalOpen(false);
     setSelectedTask(null);
   };
-
-  // if (loading || !user) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // const handleTaskClick = (task) => {
-  //   setSelectedTask(task);
-  //   setModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setModalOpen(false);
-  //   setSelectedTask(null);
-  // };
-
-  // const handleCheckTask = async () => {
-  //   if (selectedTask && user && user.userId) {
-  //     try {
-  //       const response = await fetch(`${selectedTask.apiPath}/${user.userId}`, {
-  //         method: "POST", // Send a POST request to the task's endpoint with the user ID
-  //       });
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log("Bonus claimed successfully", data);
-  //         setCompletedTasks((prev) => [...prev, selectedTask.id]); // Add task to completed tasks
-  //       } else {
-  //         console.log("Error claiming bonus");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   }
-  //   closeModal();
-  // };
 
   return (
     <div className="center-col font-Poppins pt-[50px]">
