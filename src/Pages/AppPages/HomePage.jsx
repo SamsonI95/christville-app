@@ -107,7 +107,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col h-[50vh] font-Poppins px-[28px]">
+    <div className="flex flex-col font-Poppins px-[28px]">
       <TopLayer />
       <section className="flex flex-col items-center gap-4">
         <h3 className="text-2xl mt-8 mb-5">Tap to read</h3>

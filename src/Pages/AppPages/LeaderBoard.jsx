@@ -53,7 +53,7 @@ const LeaderBoard = () => {
     return <div>No leaderboard data available.</div>;
 
   return (
-    <div className="mt-7 flex flex-col items-center h-[50vh] font-Poppins">
+    <div className="mt-7 flex flex-col items-center font-Poppins">
       <h3 className="mb-6">Leader board</h3>
       <section className="center justify-between w-full">
         <div className="space-x-4">

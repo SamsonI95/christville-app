@@ -3,22 +3,26 @@
   html {
     height: 100%;
     width: 100%;
-    /* overflow: hidden; */
   }
 
   .app-container {
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 0 28px;
+    overflow: auto;
+  }
+
+  .app-container section:first-child {
+    flex: 1 1 auto; /* Allows the content section to expand and fill space */
   }
 }
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
   .app-container {
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
   }
 }
@@ -28,10 +32,6 @@
     height: 100vh;
     width: 100vw;
   }
-}
-
-.app-container section:last-child {
-  margin-top: auto;
 }
 
 .main-icons {
