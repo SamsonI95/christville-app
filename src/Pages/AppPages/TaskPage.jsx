@@ -5,6 +5,7 @@ import { FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../Usercontext";
+import axios from "axios";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
