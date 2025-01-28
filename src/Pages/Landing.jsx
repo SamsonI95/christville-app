@@ -25,34 +25,25 @@ const Landing = () => {
   // TESTING PURPOSES
 
   useEffect(() => {
-    // If there's no user object yet, do not proceed with other actions
-    if (!user) {
-      setIsLoading(true);
-      return;
-    }
-
-    // User is available, proceed with checking user data (e.g., redirecting)
-    const userId = user.id;
-
-    // Simulate loading state
+    // Update the loading text with a dot sequence
     const dotsInterval = setInterval(() => {
       setLoadingText((prev) => {
         const dots = prev.split(".").length - 1;
         return dots < 3 ? `${prev}.` : "Loading";
       });
-    }, 500);
+    }, 500); // Adjust interval for dot update speed
 
+    // Simulate a loading period
     const loadingTimer = setTimeout(() => {
       clearInterval(dotsInterval);
       setIsLoading(false);
-    }, 3000); // Simulate 3 seconds loading
+    }, 3000); // Adjust total loading time
 
-    // Cleanup on component unmount
     return () => {
       clearTimeout(loadingTimer);
       clearInterval(dotsInterval);
     };
-  }, [user]);
+  }, []);
 
   const handleClick = async () => {
     if (!user || !user.id) {
@@ -77,7 +68,7 @@ const Landing = () => {
       // Optionally show an error message
     }
   };
-  if (isLoading || loading) {
+  if (isLoading) {
     // Show the loading screen
     return (
       <div className="flex flex-col items-center justify-center h-screen">
