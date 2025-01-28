@@ -55,18 +55,18 @@ const FriendsPage = () => {
     if (!referralKey) await fetchReferralKey();
     const referralLink = `${apiBaseUrl}/user?ref=${referralKey}`;
 
-    if (window.Telegram && window.Telegram.WebApp) {
-      // Share via Telegram
-      window.Telegram.WebApp.openTelegramLink(referralLink);
-    } else {
-      // Fallback: Show the referral link in an alert
-      alert(`Invite link: ${referralLink}`);
+    try {
+      await shareURL(referralLink);
+    } catch (error) {
+      console.error("Error sharing URL:", error);
+      // Handle the error, e.g., display an error message to the user
+      alert("Failed to share URL. Please try again.");
     }
   };
 
   // Handle Copy Button
   const handleCopyClick = () => {
-    const referralLink = `https://your-app-link.com?ref=${referralKey}`;
+    const referralLink = `${apiBaseUrl}?ref=${referralKey}`;
     navigator.clipboard.writeText(referralLink);
     alert("Referral link copied to clipboard!");
   };
