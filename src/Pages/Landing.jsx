@@ -15,10 +15,10 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
+  const { user } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
-  const { fetchUserById } = useUserContext();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
@@ -49,7 +49,7 @@ const Landing = () => {
     if (!user || !user.id) {
       console.error(
         "User ID is not available in the context for claiming the bonus."
-      );
+      );a
       return;
     }
 
