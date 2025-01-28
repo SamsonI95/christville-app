@@ -15,7 +15,7 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
-  const { user } = useUserContext();
+  const { user, fetchUserById } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
@@ -47,19 +47,20 @@ const Landing = () => {
 
   const handleClick = async () => {
     if (!user || !user.id) {
-      console.error(
-        "User ID is not available in the context for claiming the bonus."
-      );
+      console.error("User ID is not available in the context.");
       return;
     }
 
     const userId = user.id;
+    console.log("User ID fetched from context:", userId);
 
     try {
-      const user = await fetchUserById(userId); // Fetch user details
-      if (user) {
+      const fetchedUser = await fetchUserById(userId); // Fetch user details
+      if (fetchedUser) {
+        console.log("User exists:", fetchedUser);
         navigate("/app/page-1"); // Redirect if user exists
       } else {
+        console.log("User not found, navigating to page-2");
         navigate("/page-2"); // Continue to the next page if no user is found
       }
     } catch (error) {
