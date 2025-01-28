@@ -105,12 +105,12 @@ const FriendsPage = () => {
             if (!referralKey) await fetchReferralKey();
           }}
         >
-          <button
-            className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]"
+          <div
+            className="flex items-center justify-center text-[20px] bg-customGold text-white h-[48px] rounded-[14px]"
             disabled={loading}
           >
-            {loading ? "Generating Link..." : "Invite Friends"}
-          </button>
+            <h3>{loading ? "Generating Link..." : "Invite Friends"}</h3>
+          </div>
         </TelegramShareButton>
         <button
           onClick={() => {
