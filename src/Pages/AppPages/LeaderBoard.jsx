@@ -25,6 +25,12 @@ const LeaderBoard = () => {
         const response = await axios.get(`${apiBaseUrl}/leaderboard`);
         console.log("Leaderboard Data:", response.data);
         const leaderboardData = response.data.leaderboard || [];
+
+        // Sort the leaderboard data in descending order by tokenCount
+        const sortedLeaderboard = leaderboardData.sort(
+          (a, b) => b.tokenCount - a.tokenCount
+        );
+
         setLeaderboard(leaderboardData); // Store the leaderboard data in the state
         setTotalPlayers(response.data.pagination.totalItems || 0);
 
