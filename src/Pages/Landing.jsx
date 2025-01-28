@@ -49,7 +49,7 @@ const Landing = () => {
     if (!user || !user.id) {
       console.error(
         "User ID is not available in the context for claiming the bonus."
-      );a
+      );
       return;
     }
 
