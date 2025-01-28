@@ -12,6 +12,7 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
+import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
