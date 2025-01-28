@@ -12,11 +12,13 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
+import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
+  const { fetchUserById } = useUserContext();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
@@ -43,10 +45,28 @@ const Landing = () => {
     };
   }, []);
 
-  const handleClick = () => {
-    navigate("/page-2");
-  };
+  const handleClick = async () => {
+    if (!user || !user.id) {
+      console.error(
+        "User ID is not available in the context for claiming the bonus."
+      );
+      return;
+    }
 
+    const userId = user.id;
+
+    try {
+      const user = await fetchUserById(userId); // Fetch user details
+      if (user) {
+        navigate("/app/page-1"); // Redirect if user exists
+      } else {
+        navigate("/page-2"); // Continue to the next page if no user is found
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      // Optionally show an error message
+    }
+  };
   if (isLoading) {
     // Show the loading screen
     return (
