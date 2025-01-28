@@ -16,11 +16,13 @@ import LoadingScreen from "../Components/LoadingScreen";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
+  const { user, fetchUserById } = useUserContext(); // Access user context
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
 
-  // TESTING PURPOSES
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -43,9 +45,35 @@ const Landing = () => {
     };
   }, []);
 
-  const handleClick = () => {
-    navigate("/page-2");
-  };
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        // Extract userId from query parameters
+        const userId = new URLSearchParams(window.location.search).get(
+          "userId"
+        );
+
+        if (userId) {
+          await fetchUserById(userId); // Fetch and set user in context
+        }
+
+        // Navigate based on user existence
+        if (user) {
+          navigate("/app/page-1"); // User exists, navigate to page 1
+        } else {
+          navigate("/page-2"); // User does not exist, navigate to page 2
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+        navigate("/error"); // Optional error handling
+      }
+    };
+
+    if (!isLoading) {
+      // Trigger the user check only after the loading screen finishes
+      checkUser();
+    }
+  }, [isLoading, user, fetchUserById, navigate]);
 
   if (isLoading) {
     // Show the loading screen
