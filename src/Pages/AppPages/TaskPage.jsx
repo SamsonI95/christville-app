@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import { ThunderboltIcon } from "../../Icons/Icons";
 import { FaCheck, FaChevronRight } from "react-icons/fa6";
@@ -84,31 +84,18 @@ const TaskPage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-  // const handleJoinTask = async () => {
-  //   if (!user || !user.id) {
-  //     console.error(
-  //       "User ID is not available in the context for claiming the bonus."
-  //     );
-  //     return;
-  //   }
+  // Load completed tasks from local storage
+  useEffect(() => {
+    const savedCompletedTasks = JSON.parse(
+      localStorage.getItem("completedTasks") || "[]"
+    );
+    setCompletedTasks(savedCompletedTasks);
+  }, []);
 
-  //   try {
-  //     const response = await axios.post(
-  //       `${apiBaseUrl}/${selectedTask.apiPath}/${user.id}`
-  //     );
-  //     console.log(response.data); // Handle response from API
-
-  //     // On success, mark task as completed and show confirmation
-  //     setCompletedTasks((prev) => [...prev, selectedTask.id]);
-
-  //     // Optionally redirect user to the task's page (e.g., Telegram)
-  //     window.open(selectedTask.path, "_blank");
-  //     setModalOpen(false); // Close the modal after task is claimed
-  //   } catch (error) {
-  //     console.error("Error claiming task:", error);
-  //     alert("Failed to claim task. Please try again.");
-  //   }
-  // };
+  // Save completed tasks to local storage whenever it updates
+  useEffect(() => {
+    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+  }, [completedTasks]);
 
   // Handle the Join Button
   const handleJoinTask = async () => {
