@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import axios from "axios";
-import {shareURL} from "@telegram-apps/sdk";
+import { TelegramShareButton } from "react-share";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -51,26 +51,21 @@ const FriendsPage = () => {
     }
   };
 
-  // Handle Invite Friend Button
-  const handleInviteClick = async () => {
-    if (!referralKey) await fetchReferralKey();
-    const referralLink = `${apiBaseUrl}/user?ref=${referralKey}`;
+  // // Handle Invite Friend Button
+  // const handleInviteClick = async () => {
+  //   if (!referralKey) await fetchReferralKey();
+  // };
 
-    try {
-      await shareURL(referralLink);
-    } catch (error) {
-      console.error("Error sharing URL:", error);
-      // Handle the error, e.g., display an error message to the user
-      alert("Failed to share URL. Please try again.");
-    }
-  };
+  // // Handle Copy Button
+  // const handleCopyClick = () => {
+  //   const referralLink = `${apiBaseUrl}/user/${referralKey}`;
+  //   navigator.clipboard.writeText(referralLink);
+  //   alert("Referral link copied to clipboard!");
+  // };
 
-  // Handle Copy Button
-  const handleCopyClick = () => {
-    const referralLink = `${apiBaseUrl}?ref=${referralKey}`;
-    navigator.clipboard.writeText(referralLink);
-    alert("Referral link copied to clipboard!");
-  };
+  const referralLink = `${apiBaseUrl}/user/${referralKey}`;
+  const shareText =
+    "Join Christville with my referral link and start playing games or taking part in exciting activities!";
 
   return (
     <div className={`flex flex-col font-Poppins pt-[50px] px-[28px]`}>
@@ -101,15 +96,27 @@ const FriendsPage = () => {
         ))}
       </section>
       <section className="flex items-center gap-[10px] my-8">
-        <button
-          onClick={handleInviteClick}
-          className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]"
-          disabled={loading}
+        <TelegramShareButton
+          url={referralLink}
+          title={shareText}
+          className="w-full"
+          disabled={loading || !referralKey}
+          onClick={async () => {
+            if (!referralKey) await fetchReferralKey();
+          }}
         >
-          {loading ? "Generating Link..." : "Invite Friends"}
-        </button>
+          <button
+            className="text-[20px] bg-customGold text-white w-[280px] h-[48px] rounded-[14px]"
+            disabled={loading}
+          >
+            {loading ? "Generating Link..." : "Invite Friends"}
+          </button>
+        </TelegramShareButton>
         <button
-          onClick={handleCopyClick}
+          onClick={() => {
+            navigator.clipboard.writeText(referralLink);
+            alert("Referral link copied to clipboard!");
+          }}
           className="flex items-center justify-center text-[20px] bg-customGold text-white w-[48px] h-[48px] rounded-[14px]"
           disabled={!referralKey}
         >
