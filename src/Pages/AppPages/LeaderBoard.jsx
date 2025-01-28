@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../Usercontext";
+import { getTelegramUser } from "./telegramUtils";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -52,6 +53,17 @@ const LeaderBoard = () => {
     fetchLeaderboard();
   }, [user]);
 
+  const renderPlayerPicture = (player) => {
+    const telegramUser = getTelegramUser();
+    return (
+      <img
+        src={telegramUser?.photo_url || "/default-avatar.png"}
+        alt="Player Profile"
+        className="w-8 h-8 rounded-full object-cover"
+      />
+    );
+  };
+
   // Display loading state or error message if applicable
   if (loading) return <div>Loading leaderboard...</div>;
   if (error) return <div>{error}</div>;
@@ -86,11 +98,7 @@ const LeaderBoard = () => {
         {user && (
           <div className="flex items-center justify-between gap-4 mt-6 mb-5 px-4 bg-gray-100 rounded-lg w-[380px] h-[75px]">
             <div className="center">
-              <img
-                src={user.photo_url || "/default-avatar.png"}
-                alt="Profile"
-                className="w-16 h-16 rounded-full object-cover"
-              />
+              {renderPlayerPicture(user)}
               <div>
                 <h4 className="text-lg font-semibold">
                   @{user.username || "Unknown"}

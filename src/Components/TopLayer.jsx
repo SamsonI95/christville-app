@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { UserContext, useUserContext } from "../Usercontext";
+import { getTelegramUser } from "./telegramUtils";
 
 //Icon(s)
 import { ThunderboltIcon } from "../Icons/Icons";
@@ -22,17 +23,10 @@ const TopLayer = ({ userId }) => {
 
   useEffect(() => {
     // Fetch Telegram user data from Web Apps API
-    const telegram = window.Telegram.WebApp;
-    const telegramUser = telegram.initDataUnsafe?.user;
-
+    // Use the utility to get Telegram user data
+    const telegramUser = getTelegramUser();
     if (telegramUser) {
-      // Set the profile picture if available
       setProfilePic(telegramUser.photo_url);
-
-      // Optionally: Fetch and display other details like Telegram username
-      console.log("Telegram User Data:", telegramUser);
-    } else {
-      console.error("Telegram user data not available.");
     }
 
     // Fetch user data from your backend
