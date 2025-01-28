@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../Usercontext";
-import { getTelegramUser } from "./telegramUtils";
+import { getTelegramUser } from "../../Components/telegramUtils";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
