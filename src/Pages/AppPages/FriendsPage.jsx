@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import axios from "axios";
+import {shareURL} from "@telegram-apps/sdk";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
