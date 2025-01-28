@@ -56,12 +56,12 @@ const FriendsPage = () => {
   //   if (!referralKey) await fetchReferralKey();
   // };
 
-  // // Handle Copy Button
-  // const handleCopyClick = () => {
-  //   const referralLink = `${apiBaseUrl}/user/${referralKey}`;
-  //   navigator.clipboard.writeText(referralLink);
-  //   alert("Referral link copied to clipboard!");
-  // };
+  // Handle Copy Button
+  const handleCopyClick = () => {
+    const referralLink = `${apiBaseUrl}/user/${referralKey}`;
+    navigator.clipboard.writeText(referralLink);
+    alert("Referral link copied to clipboard!");
+  };
 
   const referralLink = `${apiBaseUrl}/user/${referralKey}`;
   const shareText =
@@ -100,25 +100,21 @@ const FriendsPage = () => {
           url={referralLink}
           title={shareText}
           className="w-full"
-          disabled={loading || !referralKey}
           onClick={async () => {
             if (!referralKey) await fetchReferralKey();
           }}
         >
           <div
             className="flex items-center justify-center text-[20px] bg-customGold text-white h-[48px] rounded-[14px]"
-            disabled={loading}
+            
           >
             <h3>{loading ? "Generating Link..." : "Invite Friends"}</h3>
           </div>
         </TelegramShareButton>
         <button
-          onClick={() => {
-            navigator.clipboard.writeText(referralLink);
-            alert("Referral link copied to clipboard!");
-          }}
+          onClick={handleCopyClick}
           className="flex items-center justify-center text-[20px] bg-customGold text-white w-[48px] h-[48px] rounded-[14px]"
-          disabled={!referralKey}
+          
         >
           <MdContentCopy />
         </button>
