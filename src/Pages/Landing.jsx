@@ -18,6 +18,7 @@ const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const { user, userId, fetchUserById } = useUserContext(); // Access user context
+  const [isCheckingUser, setIsCheckingUser] = useState(true);
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -26,12 +27,25 @@ const Landing = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
-    // Log the userId when the component mounts or userId updates
-    console.log("User ID in Landing page:", userId);
+    const checkUser = async () => {
+      try {
+        if (!userId) {
+          console.error("No userId found in context.");
+          setIsCheckingUser(false);
+          return;
+        }
 
-    if (userId) {
-      fetchUserById(userId); // Fetch user details using stored userId
-    }
+        console.log("Fetching user with ID:", userId);
+        await fetchUserById(userId); // Fetch and update user in context
+
+        setIsCheckingUser(false);
+      } catch (error) {
+        console.error("Error checking user:", error);
+        setIsCheckingUser(false);
+      }
+    };
+
+    checkUser();
   }, [userId, fetchUserById]);
 
   useEffect(() => {
