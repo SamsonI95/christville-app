@@ -47,8 +47,11 @@ const Landing = () => {
   }, []);
 
   useEffect(() => {
+    // Log the userId when the component mounts or userId updates
+    console.log("User ID in Landing page:", userId);
+
     if (userId) {
-      fetchUserById();
+      fetchUserById(userId); // Fetch user details using stored userId
     }
   }, [userId, fetchUserById]);
 
