@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
 
@@ -17,13 +17,25 @@ import { useUserContext } from "../Usercontext";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const { user } = useUserContext(); // Access user context
+  const { user, fetchUserById } = useUserContext();
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-  const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
+  const [searchParams] = useSearchParams();
 
-  const apiBaseUrl =
-    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+  useEffect(() => {
+    const initializeUser = async () => {
+      const userIdFromUrl = searchParams.get("userId");
+      if (userIdFromUrl) {
+        console.log("Found userId in URL:", userIdFromUrl);
+        await fetchUserById(userIdFromUrl);
+      } else {
+        console.log("No userId found in URL parameters");
+        setIsLoading(false); // If no userId, stop loading immediately
+      }
+    };
+
+    initializeUser();
+  }, [fetchUserById, searchParams]);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -47,7 +59,11 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    navigate("/page-2");
+    if (user) {
+      navigate("/app/page-1");
+    } else {
+      navigate("/page-2");
+    }
   };
 
   if (isLoading) {
