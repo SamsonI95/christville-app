@@ -26,28 +26,60 @@ const Landing = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     if (!userId) {
+  //       console.error("No userId found in context.");
+  //       setIsCheckingUser(false);
+  //       return;
+  //     }
+
+  //     console.log("Fetched userId from context:", userId);
+
+  //     try {
+  //       await fetchUserById(userId); // Fetch user by the userId
+
+  //       setIsCheckingUser(false);
+  //     } catch (error) {
+  //       console.error("Error checking user:", error);
+  //       setIsCheckingUser(false);
+  //     }
+  //   };
+
+  //   checkUser();
+  // }, [userId, fetchUserById]);
+
   useEffect(() => {
-    const checkUser = async () => {
-      if (!userId) {
-        console.error("No userId found in context.");
-        setIsCheckingUser(false);
+    // Fetch Telegram user data from Web Apps API
+    // Use the utility to get Telegram user data
+    const telegramUser = getTelegramUser();
+    if (telegramUser) {
+      setProfilePic(telegramUser.photo_url);
+    }
+
+    // Fetch user data from your backend
+    const fetchUserData = async () => {
+      if (!user || !user.id) {
+        console.error("User not available in context.");
         return;
       }
 
-      console.log("Fetched userId from context:", userId);
-
       try {
-        await fetchUserById(userId); // Fetch user by the userId
-
-        setIsCheckingUser(false);
+        const response = await fetch(`${apiBaseUrl}/user/${user.id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        // const userData = await response.json();
+        // setSuccessiveLoginDays(userData.successive_login_days || 0);
+        // setDailyBonusValue(userData.user.tokenCount || 0);
+        // console.log("Bonus Value:", userData.user.tokenCount);
       } catch (error) {
-        console.error("Error checking user:", error);
-        setIsCheckingUser(false);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    checkUser();
-  }, [userId, fetchUserById]);
+    fetchUserData();
+  }, [user]);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -71,8 +103,8 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    console.log("Navigating, user:", userId);
-    if (userId) {
+    console.log("Navigating, user:", user);
+    if (user) {
       navigate("/app/page-1"); // If user exists, go to Page 1
     } else {
       navigate("/page-2"); // If user does not exist, go to Page 2

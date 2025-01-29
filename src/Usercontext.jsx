@@ -96,6 +96,7 @@ const UserProvider = ({ children }) => {
       if (response.data.user) {
         setUser(response.data.user);
         setUserId(response.data.user.userId); // Store the unique user ID
+        console.log("UserId set in context:", response.data.user.id)
       }
     } catch (error) {
       console.error(
