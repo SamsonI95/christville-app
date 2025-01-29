@@ -57,6 +57,8 @@ const Landing = () => {
           if (!response.ok) {
             throw new Error("Failed to fetch user data");
           }
+          const data = await response.json(); // Assuming the response contains user data
+          console.log("Fetched user data:", data);
           setIsLoading(false);
           // Process data here
         } catch (error) {
@@ -64,10 +66,10 @@ const Landing = () => {
           setIsLoading(false);
         }
       };
-  
+
       fetchUserData();
     }
-  }, [user]);// Only run this effect when 'user' context is available
+  }, [user]); // Only run this effect when 'user' context is available
 
   useEffect(() => {
     // Update the loading text with a dot sequence
