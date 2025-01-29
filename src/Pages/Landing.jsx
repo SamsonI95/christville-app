@@ -25,52 +25,6 @@ const Landing = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-  // useEffect(() => {
-  //   const checkUser = async () => {
-  //     if (!userId) {
-  //       console.error("No userId found in context.");
-  //       setIsCheckingUser(false);
-  //       return;
-  //     }
-
-  //     console.log("Fetched userId from context:", userId);
-
-  //     try {
-  //       await fetchUserById(userId); // Fetch user by the userId
-
-  //       setIsCheckingUser(false);
-  //     } catch (error) {
-  //       console.error("Error checking user:", error);
-  //       setIsCheckingUser(false);
-  //     }
-  //   };
-
-  //   checkUser();
-  // }, [userId, fetchUserById]);
-
-  useEffect(() => {
-    if (user) {
-      // Only fetch data if user is available
-      const fetchUserData = async () => {
-        try {
-          const response = await fetch(`${apiBaseUrl}/user/${user.id}`);
-          if (!response.ok) {
-            throw new Error("Failed to fetch user data");
-          }
-          const data = await response.json(); // Assuming the response contains user data
-          console.log("Fetched user data:", data);
-          setIsLoading(false);
-          // Process data here
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setIsLoading(false);
-        }
-      };
-
-      fetchUserData();
-    }
-  }, [user]); // Only run this effect when 'user' context is available
-
   useEffect(() => {
     // Update the loading text with a dot sequence
     const dotsInterval = setInterval(() => {
@@ -93,39 +47,8 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    console.log("Navigating, user:", user);
-    if (user) {
-      navigate("/app/page-1"); // If user exists, go to Page 1
-    } else {
-      navigate("/page-2"); // If user does not exist, go to Page 2
-    }
+    navigate("/page-2");
   };
-
-  // const handleClick = async () => {
-  //   try {
-  //     // Extract userId from the query parameters
-  //     const userId = new URLSearchParams(window.location.search).get("userId");
-
-  //     if (!userId) {
-  //       console.error("No userId found in query parameters.");
-  //       navigate("/page-2"); // Navigate to the fallback page if no userId is provided
-  //       return;
-  //     }
-
-  //     // Fetch the user from the context function
-  //     await fetchUserById(userId);
-
-  //     // Navigate based on whether the user exists
-  //     if (user) {
-  //       navigate("/app/page-1"); // Navigate to page 1 if the user exists
-  //     } else {
-  //       navigate("/page-2"); // Navigate to page 2 if the user does not exist
-  //     }
-  //   } catch (error) {
-  //     console.error("Error checking user:", error);
-  //     navigate("/error"); // Navigate to an error page if needed
-  //   }
-  // };
 
   if (isLoading) {
     // Show the loading screen
