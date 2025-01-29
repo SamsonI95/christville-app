@@ -95,7 +95,7 @@ const UserProvider = ({ children }) => {
       
       if (response.data.user) {
         setUser(response.data.user);
-        setUserId(response.data.user.id); // Store the unique user ID
+        setUserId(response.data.user.userId); // Store the unique user ID
       }
     } catch (error) {
       console.error(

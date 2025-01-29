@@ -28,15 +28,16 @@ const Landing = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      try {
-        if (!userId) {
-          console.error("No userId found in context.");
-          setIsCheckingUser(false);
-          return;
-        }
+      if (!userId) {
+        console.error("No userId found in context.");
+        setIsCheckingUser(false);
+        return;
+      }
 
-        console.log("Fetching user with ID:", userId);
-        await fetchUserById(userId); // Fetch and update user in context
+      console.log("Fetched userId from context:", userId);
+
+      try {
+        await fetchUserById(userId); // Fetch user by the userId
 
         setIsCheckingUser(false);
       } catch (error) {
@@ -70,8 +71,8 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    console.log("Navigating, user:", user);
-    if (user) {
+    console.log("Navigating, user:", userId);
+    if (userId) {
       navigate("/app/page-1"); // If user exists, go to Page 1
     } else {
       navigate("/page-2"); // If user does not exist, go to Page 2
