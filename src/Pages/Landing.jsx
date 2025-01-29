@@ -52,10 +52,10 @@ const Landing = () => {
   useEffect(() => {
     // Fetch Telegram user data from Web Apps API
     // Use the utility to get Telegram user data
-    const telegramUser = getTelegramUser();
-    if (telegramUser) {
-      setProfilePic(telegramUser.photo_url);
-    }
+    // const telegramUser = getTelegramUser();
+    // if (telegramUser) {
+    //   setProfilePic(telegramUser.photo_url);
+    // }
 
     // Fetch user data from your backend
     const fetchUserData = async () => {
