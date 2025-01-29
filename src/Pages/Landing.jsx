@@ -46,35 +46,31 @@ const Landing = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        // Extract userId from query parameters
-        const userId = new URLSearchParams(window.location.search).get(
-          "userId"
-        );
+  const handleClick = async () => {
+    try {
+      // Extract userId from the query parameters
+      const userId = new URLSearchParams(window.location.search).get("userId");
 
-        if (userId) {
-          await fetchUserById(userId); // Fetch and set user in context
-        }
-
-        // Navigate based on user existence
-        if (user) {
-          navigate("/app/page-1"); // User exists, navigate to page 1
-        } else {
-          navigate("/page-2"); // User does not exist, navigate to page 2
-        }
-      } catch (error) {
-        console.error("Error checking user:", error);
-        navigate("/error"); // Optional error handling
+      if (!userId) {
+        console.error("No userId found in query parameters.");
+        navigate("/page-2"); // Navigate to the fallback page if no userId is provided
+        return;
       }
-    };
 
-    if (!isLoading) {
-      // Trigger the user check only after the loading screen finishes
-      checkUser();
+      // Fetch the user from the context function
+      await fetchUserById(userId);
+
+      // Navigate based on whether the user exists
+      if (user) {
+        navigate("/app/page-1"); // Navigate to page 1 if the user exists
+      } else {
+        navigate("/page-2"); // Navigate to page 2 if the user does not exist
+      }
+    } catch (error) {
+      console.error("Error checking user:", error);
+      navigate("/error"); // Navigate to an error page if needed
     }
-  }, [isLoading, user, fetchUserById, navigate]);
+  };
 
   if (isLoading) {
     // Show the loading screen
