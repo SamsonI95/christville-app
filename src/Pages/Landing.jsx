@@ -17,8 +17,7 @@ import { useUserContext } from "../Usercontext";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const { user, userId, fetchUserById } = useUserContext(); // Access user context
-  const [isCheckingUser, setIsCheckingUser] = useState(true);
+  const { user } = useUserContext(); // Access user context
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -50,36 +49,25 @@ const Landing = () => {
   // }, [userId, fetchUserById]);
 
   useEffect(() => {
-    // Fetch Telegram user data from Web Apps API
-    // Use the utility to get Telegram user data
-    // const telegramUser = getTelegramUser();
-    // if (telegramUser) {
-    //   setProfilePic(telegramUser.photo_url);
-    // }
-
-    // Fetch user data from your backend
-    const fetchUserData = async () => {
-      if (!user || !user.id) {
-        console.error("User not available in context.");
-        return;
-      }
-
-      try {
-        const response = await fetch(`${apiBaseUrl}/user/${user.id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch user data");
+    if (user) {
+      // Only fetch data if user is available
+      const fetchUserData = async () => {
+        try {
+          const response = await fetch(`${apiBaseUrl}/user/${user.id}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch user data");
+          }
+          setIsLoading(false);
+          // Process data here
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setIsLoading(false);
         }
-        // const userData = await response.json();
-        // setSuccessiveLoginDays(userData.successive_login_days || 0);
-        // setDailyBonusValue(userData.user.tokenCount || 0);
-        // console.log("Bonus Value:", userData.user.tokenCount);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [user]);
+      };
+  
+      fetchUserData();
+    }
+  }, [user]);// Only run this effect when 'user' context is available
 
   useEffect(() => {
     // Update the loading text with a dot sequence
