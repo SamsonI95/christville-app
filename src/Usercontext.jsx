@@ -71,7 +71,7 @@
 // export default UserProvider;
 
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -86,22 +86,17 @@ const UserProvider = ({ children }) => {
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Retrieve userId from Telegram WebApp initData
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initDataUnsafe?.user?.id) {
-      setUserId(tg.initDataUnsafe.user.id.toString());
-    }
-  }, []);
-
-  const fetchUserById = async () => {
-    if (!userId) return;
+  const fetchUserById = async (userId) => {
     console.log("Fetching user with ID:", userId);
     setLoading(true);
     try {
       const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
       console.log("Fetched user data:", response.data.user);
-      setUser(response.data.user); // Assuming backend returns user in `response.data.user`
+      
+      if (response.data.user) {
+        setUser(response.data.user);
+        setUserId(response.data.user.id); // Store the unique user ID
+      }
     } catch (error) {
       console.error(
         "Failed to fetch user:",
