@@ -71,7 +71,7 @@
 // export default UserProvider;
 
 import axios from "axios";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -82,10 +82,20 @@ const apiBaseUrl =
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchUserById = async (userId) => {
+  useEffect(() => {
+    // Retrieve userId from Telegram WebApp initData
+    const tg = window.Telegram?.WebApp;
+    if (tg?.initDataUnsafe?.user?.id) {
+      setUserId(tg.initDataUnsafe.user.id.toString());
+    }
+  }, []);
+
+  const fetchUserById = async () => {
+    if (!userId) return;
     console.log("Fetching user with ID:", userId);
     setLoading(true);
     try {
@@ -106,6 +116,7 @@ const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
+        userId,
         setUser,
         daysSinceJoin,
         setDaysSinceJoin,

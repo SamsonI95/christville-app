@@ -17,7 +17,7 @@ import { useUserContext } from "../Usercontext";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const { user, fetchUserById } = useUserContext(); // Access user context
+  const { user, userId, fetchUserById } = useUserContext(); // Access user context
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -46,31 +46,45 @@ const Landing = () => {
     };
   }, []);
 
-  const handleClick = async () => {
-    try {
-      // Extract userId from the query parameters
-      const userId = new URLSearchParams(window.location.search).get("userId");
+  useEffect(() => {
+    if (userId) {
+      fetchUserById();
+    }
+  }, [userId, fetchUserById]);
 
-      if (!userId) {
-        console.error("No userId found in query parameters.");
-        navigate("/page-2"); // Navigate to the fallback page if no userId is provided
-        return;
-      }
-
-      // Fetch the user from the context function
-      await fetchUserById(userId);
-
-      // Navigate based on whether the user exists
-      if (user) {
-        navigate("/app/page-1"); // Navigate to page 1 if the user exists
-      } else {
-        navigate("/page-2"); // Navigate to page 2 if the user does not exist
-      }
-    } catch (error) {
-      console.error("Error checking user:", error);
-      navigate("/error"); // Navigate to an error page if needed
+  const handleClick = () => {
+    if (user) {
+      navigate("/app/page-1"); // If user exists, go to Page 1
+    } else {
+      navigate("/page-2"); // If user does not exist, go to Page 2
     }
   };
+
+  // const handleClick = async () => {
+  //   try {
+  //     // Extract userId from the query parameters
+  //     const userId = new URLSearchParams(window.location.search).get("userId");
+
+  //     if (!userId) {
+  //       console.error("No userId found in query parameters.");
+  //       navigate("/page-2"); // Navigate to the fallback page if no userId is provided
+  //       return;
+  //     }
+
+  //     // Fetch the user from the context function
+  //     await fetchUserById(userId);
+
+  //     // Navigate based on whether the user exists
+  //     if (user) {
+  //       navigate("/app/page-1"); // Navigate to page 1 if the user exists
+  //     } else {
+  //       navigate("/page-2"); // Navigate to page 2 if the user does not exist
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking user:", error);
+  //     navigate("/error"); // Navigate to an error page if needed
+  //   }
+  // };
 
   if (isLoading) {
     // Show the loading screen
