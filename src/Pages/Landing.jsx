@@ -25,6 +25,9 @@ const Landing = () => {
   useEffect(() => {
     const initializeUser = async () => {
       const userIdFromUrl = searchParams.get("userId");
+
+      console.log("URL Params:", userIdFromUrl);
+      console.log("Current User State:", user);
       if (userIdFromUrl) {
         console.log("Found userId in URL:", userIdFromUrl);
         await fetchUserById(userIdFromUrl);
