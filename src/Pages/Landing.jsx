@@ -26,6 +26,15 @@ const Landing = () => {
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   useEffect(() => {
+    // Log the userId when the component mounts or userId updates
+    console.log("User ID in Landing page:", userId);
+
+    if (userId) {
+      fetchUserById(userId); // Fetch user details using stored userId
+    }
+  }, [userId, fetchUserById]);
+
+  useEffect(() => {
     // Update the loading text with a dot sequence
     const dotsInterval = setInterval(() => {
       setLoadingText((prev) => {
@@ -46,16 +55,8 @@ const Landing = () => {
     };
   }, []);
 
-  useEffect(() => {
-    // Log the userId when the component mounts or userId updates
-    console.log("User ID in Landing page:", userId);
-
-    if (userId) {
-      fetchUserById(userId); // Fetch user details using stored userId
-    }
-  }, [userId, fetchUserById]);
-
   const handleClick = () => {
+    console.log("Navigating, user:", user);
     if (user) {
       navigate("/app/page-1"); // If user exists, go to Page 1
     } else {
