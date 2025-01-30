@@ -41,9 +41,10 @@ const FriendsPage = () => {
         telegramId: "12345", // Replace with actual Telegram ID
         username: "testuser", // Replace with actual username
       });
-
+     
       const { user } = response.data;
       setReferralKey(user.referralKey); // Store the referral key
+      console.log("Referral key:", user.referralKey);
     } catch (error) {
       console.error("Failed to fetch referral key:", error);
     } finally {
@@ -104,17 +105,13 @@ const FriendsPage = () => {
             if (!referralKey) await fetchReferralKey();
           }}
         >
-          <div
-            className="flex items-center justify-center text-[20px] bg-customGold text-white h-[48px] rounded-[14px]"
-            
-          >
+          <div className="flex items-center justify-center text-[20px] bg-customGold text-white h-[48px] rounded-[14px]">
             <h3>{loading ? "Generating Link..." : "Invite Friends"}</h3>
           </div>
         </TelegramShareButton>
         <button
           onClick={handleCopyClick}
           className="flex items-center justify-center text-[20px] bg-customGold text-white w-[48px] h-[48px] rounded-[14px]"
-          
         >
           <MdContentCopy />
         </button>
