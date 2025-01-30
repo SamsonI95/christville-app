@@ -43,6 +43,7 @@ const FriendsPage = () => {
       });
      
       const { user } = response.data;
+      console.log("User data:", user);
       setReferralKey(user.referralKey); // Store the referral key
       console.log("Referral key:", user.referralKey);
     } catch (error) {
