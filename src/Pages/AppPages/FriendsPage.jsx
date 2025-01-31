@@ -77,7 +77,7 @@ const FriendsPage = () => {
       const response = await axios.get(
         `${apiBaseUrl}/referred-users/${userId}`
       );
-      setInvitedUsers(response.data.referredUsers);
+      setInvitedUsers(response.data.referredUsers || []);
       console.log("Invited users:", response.data.referredUsers);
     } catch (error) {
       console.error("Failed to fetch invited users:", error);
@@ -159,7 +159,7 @@ const FriendsPage = () => {
         <IoMdInformationCircleOutline className="text-customGold text-2xl" />
       </section>
       <section>
-        {invitedUsers.length > 0 ? (
+        {Array.isArray(invitedUsers) && invitedUsers.length > 0 ? (
           <div>
             <h4 className="font-bold mb-4">Invited Friends</h4>
             <ul>
