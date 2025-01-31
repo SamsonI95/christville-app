@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import axios from "axios";
 import { TelegramShareButton } from "react-share";
@@ -28,6 +28,8 @@ const FriendsPage = () => {
   const textColor = isDarkMode ? "text-customGold" : "#000000";
   const [referralKey, setReferralKey] = useState("");
   const [loading, setLoading] = useState(false);
+  const [invitedUsers, setInvitedUsers] = useState([]);
+  const [bonusToken, setBonusToken] = useState(0);
   const { user, loading: userLoading, fetchUserById } = useContext(UserContext);
 
   const apiBaseUrl =
@@ -42,16 +44,21 @@ const FriendsPage = () => {
     try {
       setLoading(true);
 
-      // Replace with your API endpoint and adjust request body as needed
       const response = await axios.post(`${apiBaseUrl}/user`, {
-        telegramId: user.telegramId, // Replace with actual Telegram ID
-        username: user.username, // Replace with actual username
+        telegramId: user.telegramId,
+        username: user.username,
       });
 
       const { user: newUser } = response.data;
       console.log("User data:", newUser);
       setReferralKey(newUser.referralKey); // Store the referral key
       console.log("Referral key:", newUser.referralKey);
+
+      // Fetch invited users
+      await fetchInvitedUsers(newUser._id);
+
+      // Check and claim bonuses
+      await checkAndClaimBonuses(newUser._id);
     } catch (error) {
       console.error("Failed to fetch referral key:", error);
     } finally {
@@ -59,10 +66,54 @@ const FriendsPage = () => {
     }
   };
 
-  // // Handle Invite Friend Button
-  // const handleInviteClick = async () => {
-  //   if (!referralKey) await fetchReferralKey();
-  // };
+  // Fetch Invited Users API Call
+  const fetchInvitedUsers = async (userId) => {
+    try {
+      const response = await axios.get(
+        `${apiBaseUrl}/referred-users/${userId}`
+      );
+      setInvitedUsers(response.data.referredUsers);
+      console.log("Invited users:", response.data.referredUsers);
+    } catch (error) {
+      console.error("Failed to fetch invited users:", error);
+    }
+  };
+
+  // Check and Claim Bonuses
+  const checkAndClaimBonuses = async (userId) => {
+    try {
+      // Check for 3 invite bonus
+      let bonusResponse = await axios.post(
+        `${apiBaseUrl}/task/invite-3/${userId}`
+      );
+      console.log("3 Invite Bonus:", bonusResponse.data.bonus);
+      if (bonusResponse.data.bonus > 0) {
+        setBonusToken(
+          (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
+        );
+      }
+
+      // Check for 7 invite bonus
+      bonusResponse = await axios.post(`${apiBaseUrl}/task/invite-7/${userId}`);
+      console.log("7 Invite Bonus:", bonusResponse.data.bonus);
+      if (bonusResponse.data.bonus > 0) {
+        setBonusToken(
+          (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
+        );
+      }
+
+      // Update user token in context
+      if (bonusResponse.data.bonus > 0) {
+        const updatedUser = {
+          ...user,
+          token: user.token + bonusResponse.data.bonus,
+        };
+        fetchUserById(updatedUser.id); // Assuming fetchUserById updates the user context
+      }
+    } catch (error) {
+      console.error("Failed to check and claim bonuses:", error);
+    }
+  };
 
   // Handle Copy Button
   const handleCopyClick = () => {
@@ -74,6 +125,13 @@ const FriendsPage = () => {
   const referralLink = `${apiBaseUrl}/user/${referralKey}`;
   const shareText =
     "Join Christville with my referral link and start playing games or taking part in exciting activities!";
+
+  // Fetch referral key on component mount if user context is available
+  useEffect(() => {
+    if (!userLoading && user && !referralKey) {
+      fetchReferralKey();
+    }
+  }, [user, userLoading, referralKey]);
 
   return (
     <div className={`flex flex-col font-Poppins pt-[50px] px-[28px]`}>
@@ -91,17 +149,36 @@ const FriendsPage = () => {
         <IoMdInformationCircleOutline className="text-customGold text-2xl" />
       </section>
       <section>
-        {FriendPageContent.map((item, index) => (
-          <div key={index}>
-            <div className="flex items-center gap-4 py-4">
-              <img src={item.image} alt="image" />
-              <p className="font-bold">{item.text}</p>
-            </div>
-            {index !== FriendPageContent.length - 1 && (
-              <div className="line-shape"></div>
-            )}
+        {invitedUsers.length > 0 ? (
+          <div>
+            <h4 className="font-bold mb-4">Invited Friends</h4>
+            <ul>
+              {invitedUsers.map((user, index) => (
+                <li key={index} className="mb-2">
+                  {user.username}{" "}
+                  {/* Adjust based on your user data structure */}
+                </li>
+              ))}
+            </ul>
+            <p className="opacity-50 mt-4">
+              You have earned {bonusToken} boss coins!
+            </p>
           </div>
-        ))}
+        ) : (
+          <div>
+            {FriendPageContent.map((item, index) => (
+              <div key={index}>
+                <div className="flex items-center gap-4 py-4">
+                  <img src={item.image} alt="image" />
+                  <p className="font-bold">{item.text}</p>
+                </div>
+                {index !== FriendPageContent.length - 1 && (
+                  <div className="line-shape"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
       <section className="flex items-center gap-[10px] my-8">
         <TelegramShareButton
