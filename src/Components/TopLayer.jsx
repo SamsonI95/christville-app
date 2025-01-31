@@ -85,10 +85,10 @@ const TopLayer = ({ userId }) => {
         <section>Today</section>
         <section className="flex items-center gap-2">
           {/* counter showing number of days a user logs in */}
-          <div className="flex">
+          {/* <div className="flex">
             <ThunderboltIcon />
             <p>{successiveLoginDays}</p>
-          </div>
+          </div> */}
           {/* replace div below with user image */}
           {user ? (
             <img

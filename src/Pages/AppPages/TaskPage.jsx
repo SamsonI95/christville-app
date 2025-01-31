@@ -142,10 +142,10 @@ const TaskPage = () => {
       <section className="flex items-center justify-between w-full">
         <section className="text-[22px] font-medium">Today</section>
         <section className="flex items-center gap-2">
-          <div className="flex">
+          {/* <div className="flex">
             <ThunderboltIcon />
             <p>1</p>
-          </div>
+          </div> */}
           <div className="border border-black bg-black w-5 h-5 rounded-full"></div>
         </section>
       </section>
