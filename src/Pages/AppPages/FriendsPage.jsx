@@ -56,7 +56,7 @@ const FriendsPage = () => {
       console.log("Referral key:", newUser.referralKey);
 
       // Fetch invited users
-      await fetchInvitedUsers(newUser.id);
+      // await fetchInvitedUsers(newUser.id);
 
       // Check and claim bonuses
       await checkAndClaimBonuses(newUser.id);
@@ -91,35 +91,48 @@ const FriendsPage = () => {
       console.error("User ID is undefined.");
       return;
     }
+
     try {
-      // Check for 3 invite bonus
-      let bonusResponse3 = await axios.post(
-        `${apiBaseUrl}/task/invite-3/${userId}`
+      // Fetch invited users count
+      const response = await axios.get(
+        `${apiBaseUrl}/referred-users/${userId}`
       );
-      console.log("3 Invite Bonus:", bonusResponse3.data.bonus);
-      if (bonusResponse3.data.bonus > 0) {
-        setBonusToken(
-          (prevBonusToken) => prevBonusToken + bonusResponse3.data.bonus
+      const invitedUsersCount = response.data.referredUsers.length;
+
+      console.log(`Total invited users: ${invitedUsersCount}`);
+
+      // Check if the user is eligible for 3 invites bonus
+      if (invitedUsersCount >= 3) {
+        let bonusResponse3 = await axios.post(
+          `${apiBaseUrl}/task/invite-3/${userId}`
         );
-        console.log("Bonus claimed for 3 invites:", bonusResponse3.data.bonus);
-        updateTokenInContext(userId, bonusResponse3.data.bonus);
+        if (bonusResponse3.data.bonus > 0) {
+          setBonusToken((prev) => prev + bonusResponse3.data.bonus);
+          updateTokenInContext(userId, bonusResponse3.data.bonus);
+          console.log(
+            "Bonus claimed for 3 invites:",
+            bonusResponse3.data.bonus
+          );
+        }
       } else {
-        console.log("No bonus for 3 invites.");
+        console.log("Not enough invites for 3-invite bonus.");
       }
 
-      // Check for 7 invite bonus
-      let bonusResponse7 = await axios.post(
-        `${apiBaseUrl}/task/invite-7/${userId}`
-      );
-      console.log("7 Invite Bonus Response:", bonusResponse7.data);
-      if (bonusResponse7.data.bonus > 0) {
-        setBonusToken(
-          (prevBonusToken) => prevBonusToken + bonusResponse7.data.bonus
+      // Check if the user is eligible for 7 invites bonus
+      if (invitedUsersCount >= 7) {
+        let bonusResponse7 = await axios.post(
+          `${apiBaseUrl}/task/invite-7/${userId}`
         );
-        console.log("Bonus claimed for 7 invites:", bonusResponse7.data.bonus);
-        updateTokenInContext(userId, bonusResponse7.data.bonus);
+        if (bonusResponse7.data.bonus > 0) {
+          setBonusToken((prev) => prev + bonusResponse7.data.bonus);
+          updateTokenInContext(userId, bonusResponse7.data.bonus);
+          console.log(
+            "Bonus claimed for 7 invites:",
+            bonusResponse7.data.bonus
+          );
+        }
       } else {
-        console.log("No bonus for 7 invites.");
+        console.log("Not enough invites for 7-invite bonus.");
       }
     } catch (error) {
       console.error("Failed to check and claim bonuses:", error);
