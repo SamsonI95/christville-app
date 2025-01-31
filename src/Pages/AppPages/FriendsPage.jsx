@@ -55,10 +55,10 @@ const FriendsPage = () => {
       console.log("Referral key:", newUser.referralKey);
 
       // Fetch invited users
-      await fetchInvitedUsers(newUser._id);
+      await fetchInvitedUsers(newUser.id);
 
       // Check and claim bonuses
-      await checkAndClaimBonuses(newUser._id);
+      await checkAndClaimBonuses(newUser.id);
     } catch (error) {
       console.error("Failed to fetch referral key:", error);
     } finally {
@@ -68,6 +68,10 @@ const FriendsPage = () => {
 
   // Fetch Invited Users API Call
   const fetchInvitedUsers = async (userId) => {
+    if (!userId) {
+      console.error("User ID is undefined.");
+      return;
+    }
     try {
       const response = await axios.get(
         `${apiBaseUrl}/referred-users/${userId}`
@@ -81,6 +85,10 @@ const FriendsPage = () => {
 
   // Check and Claim Bonuses
   const checkAndClaimBonuses = async (userId) => {
+    if (!userId) {
+      console.error("User ID is undefined.");
+      return;
+    }
     try {
       // Check for 3 invite bonus
       let bonusResponse = await axios.post(
