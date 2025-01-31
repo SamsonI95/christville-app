@@ -43,6 +43,7 @@ const FriendsPage = () => {
     }
     try {
       setLoading(true);
+      console.log("User ID from context:", user.id);
 
       const response = await axios.post(`${apiBaseUrl}/user`, {
         telegramId: user.telegramId,
@@ -80,6 +81,7 @@ const FriendsPage = () => {
       console.log("Invited users:", response.data.referredUsers);
     } catch (error) {
       console.error("Failed to fetch invited users:", error);
+      setInvitedUsers([]);
     }
   };
 
