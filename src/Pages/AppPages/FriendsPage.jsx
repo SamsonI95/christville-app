@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTheme } from "../../Components/ThemeContect";
 import axios from "axios";
 import { TelegramShareButton } from "react-share";
+import { UserContext } from "../../Usercontext";
 
 //Icon(s)
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -27,25 +28,30 @@ const FriendsPage = () => {
   const textColor = isDarkMode ? "text-customGold" : "#000000";
   const [referralKey, setReferralKey] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user, loading: userLoading, fetchUserById } = useContext(UserContext);
 
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
   // Fetch or Create User API Call
   const fetchReferralKey = async () => {
+    if (!user) {
+      console.error("User context is not available.");
+      return;
+    }
     try {
       setLoading(true);
 
       // Replace with your API endpoint and adjust request body as needed
       const response = await axios.post(`${apiBaseUrl}/user`, {
-        telegramId: "12345", // Replace with actual Telegram ID
-        username: "testuser", // Replace with actual username
+        telegramId: user.telegramId, // Replace with actual Telegram ID
+        username: user.username, // Replace with actual username
       });
-     
-      const { user } = response.data;
-      console.log("User data:", user);
-      setReferralKey(user.referralKey); // Store the referral key
-      console.log("Referral key:", user.referralKey);
+
+      const { user: newUser } = response.data;
+      console.log("User data:", newUser);
+      setReferralKey(newUser.referralKey); // Store the referral key
+      console.log("Referral key:", newUser.referralKey);
     } catch (error) {
       console.error("Failed to fetch referral key:", error);
     } finally {
