@@ -101,6 +101,9 @@ const FriendsPage = () => {
         setBonusToken(
           (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
         );
+        console.log("Bonus claimed for 3 invites:", bonusResponse.data.bonus);
+      } else {
+        console.log("No bonus for 3 invites.");
       }
 
       // Check for 7 invite bonus
@@ -110,15 +113,24 @@ const FriendsPage = () => {
         setBonusToken(
           (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
         );
+        console.log("Bonus claimed for 7 invites:", bonusResponse.data.bonus);
+      } else {
+        console.log("No bonus for 7 invites.");
       }
 
-      // Update user token in context
+      // Update user token in context only if bonus is earned
       if (bonusResponse.data.bonus > 0) {
+        console.log(
+          "Updating user token in context with bonus:",
+          bonusResponse.data.bonus
+        );
         const updatedUser = {
           ...user,
           token: user.token + bonusResponse.data.bonus,
         };
         fetchUserById(updatedUser.id); // Assuming fetchUserById updates the user context
+      } else {
+        console.log("No bonus to update user token.");
       }
     } catch (error) {
       console.error("Failed to check and claim bonuses:", error);
