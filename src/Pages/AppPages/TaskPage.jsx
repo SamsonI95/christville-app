@@ -5,6 +5,7 @@ import { FaCheck, FaChevronRight } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../Usercontext";
+import { getTelegramUser } from "../../Components/telegramUtils";
 import axios from "axios";
 
 // Modal Component
@@ -76,6 +77,7 @@ const TaskPageContent = [
 
 const TaskPage = () => {
   const { user } = useUserContext();
+  const [profilePic, setProfilePic] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [clickedTasks, setClickedTasks] = useState([]);
@@ -85,6 +87,15 @@ const TaskPage = () => {
 
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
+  useEffect(() => {
+    // Fetch Telegram user data from Web Apps API
+    // Use the utility to get Telegram user data
+    const telegramUser = getTelegramUser();
+    if (telegramUser) {
+      setProfilePic(telegramUser.photo_url);
+    }
+  }, [user]);
 
   // Load completed tasks from local storage
   useEffect(() => {
@@ -146,7 +157,15 @@ const TaskPage = () => {
             <ThunderboltIcon />
             <p>1</p>
           </div> */}
-          <div className="border border-black bg-black w-5 h-5 rounded-full"></div>
+          {user ? (
+            <img
+              src={profilePic || "/default-avatar.png"}
+              alt="User Profile"
+              className="w-8 h-8 rounded-full border border-black"
+            />
+          ) : (
+            <div className="border border-black bg-black w-8 h-8 rounded-full"></div>
+          )}
         </section>
       </section>
       <section className="mt-[43px]">
