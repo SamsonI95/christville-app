@@ -93,47 +93,48 @@ const FriendsPage = () => {
     }
     try {
       // Check for 3 invite bonus
-      let bonusResponse = await axios.post(
+      let bonusResponse3 = await axios.post(
         `${apiBaseUrl}/task/invite-3/${userId}`
       );
-      console.log("3 Invite Bonus:", bonusResponse.data.bonus);
-      if (bonusResponse.data.bonus > 0) {
+      console.log("3 Invite Bonus:", bonusResponse3.data.bonus);
+      if (bonusResponse3.data.bonus > 0) {
         setBonusToken(
-          (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
+          (prevBonusToken) => prevBonusToken + bonusResponse3.data.bonus
         );
-        console.log("Bonus claimed for 3 invites:", bonusResponse.data.bonus);
+        console.log("Bonus claimed for 3 invites:", bonusResponse3.data.bonus);
+        updateTokenInContext(userId, bonusResponse3.data.bonus);
       } else {
         console.log("No bonus for 3 invites.");
       }
 
       // Check for 7 invite bonus
-      bonusResponse = await axios.post(`${apiBaseUrl}/task/invite-7/${userId}`);
-      console.log("7 Invite Bonus:", bonusResponse.data.bonus);
-      if (bonusResponse.data.bonus > 0) {
+      let bonusResponse7 = await axios.post(
+        `${apiBaseUrl}/task/invite-7/${userId}`
+      );
+      console.log("7 Invite Bonus Response:", bonusResponse7.data);
+      if (bonusResponse7.data.bonus > 0) {
         setBonusToken(
-          (prevBonusToken) => prevBonusToken + bonusResponse.data.bonus
+          (prevBonusToken) => prevBonusToken + bonusResponse7.data.bonus
         );
-        console.log("Bonus claimed for 7 invites:", bonusResponse.data.bonus);
+        console.log("Bonus claimed for 7 invites:", bonusResponse7.data.bonus);
+        updateTokenInContext(userId, bonusResponse7.data.bonus);
       } else {
         console.log("No bonus for 7 invites.");
       }
-
-      // Update user token in context only if bonus is earned
-      if (bonusResponse.data.bonus > 0) {
-        console.log(
-          "Updating user token in context with bonus:",
-          bonusResponse.data.bonus
-        );
-        const updatedUser = {
-          ...user,
-          token: user.token + bonusResponse.data.bonus,
-        };
-        fetchUserById(updatedUser.id); // Assuming fetchUserById updates the user context
-      } else {
-        console.log("No bonus to update user token.");
-      }
     } catch (error) {
       console.error("Failed to check and claim bonuses:", error);
+    }
+  };
+
+  // Update User Token in Context
+  const updateTokenInContext = (userId, bonus) => {
+    if (bonus > 0) {
+      const updatedUser = {
+        ...user,
+        token: user.token + bonus,
+      };
+      console.log("Updating user token in context:", updatedUser.token);
+      fetchUserById(updatedUser.id); // Assuming fetchUserById updates the user context
     }
   };
 
