@@ -21,8 +21,9 @@ const allocateCoins = (accountAgeYears) => {
 };
 
 const TelegramUserAuth = () => {
-  const { user, setUser, daysSinceJoin, setDaysSinceJoin } =
+  const { user, setUser, daysSinceJoin, setDaysSinceJoin, fetchUserById } =
     useContext(UserContext); // State to store Telegram user info
+  const [userExists, setUserExists] = useState(null);
   const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
   const textColor = isDarkMode ? "#FFFFFF" : "#FFFFFF";
@@ -37,10 +38,10 @@ const TelegramUserAuth = () => {
       setUser(telegramUser);
 
       // Calculate "days since join" using account creation timestamp from user.id
-      const userId = telegramUser.id;
+      const tuserId = telegramUser.id;
 
       // Extract the timestamp from the user ID (lower 32 bits)
-      const accountCreationTimestamp = userId & 0xffffffff;
+      const accountCreationTimestamp = tuserId & 0xffffffff;
       const accountCreationDate = new Date(accountCreationTimestamp * 1000); // Convert to milliseconds
 
       // Calculate account age in seconds and then convert to years
@@ -73,6 +74,7 @@ const TelegramUserAuth = () => {
         .then((response) => {
           console.log("User data sent to the backend:", response.data);
           setUser(response.data.user);
+          fetchUserById(response.data.user.userId);
         })
         .catch((error) => {
           console.error("Axios error:", error.response?.data || error.message);
@@ -80,7 +82,18 @@ const TelegramUserAuth = () => {
     } else {
       console.error("Telegram user info is not available.");
     }
-  }, [setUser, setDaysSinceJoin]);
+  }, [setUser, setDaysSinceJoin, fetchUserById]);
+
+  useEffect(() => {
+    // Check if the user exists after fetching by ID
+    if (user && user.userId) {
+      setUserExists(true);
+      navigate("/app/page-1"); // Navigate if user exists
+    } else if (user !== null && userExists === null && !loading) {
+      // Check if user exists after the initial fetch
+      setUserExists(false); // Set to false if the user is null after initial fetch
+    }
+  }, [user, navigate, loading]);
 
   const handleClick = () => {
     navigate("/page-3");
@@ -100,7 +113,9 @@ const TelegramUserAuth = () => {
             {daysSinceJoin || "N/A"}
           </span>
           <p className="font-semibold">days ago</p>
-          <h4 className="mt-[8rem]">Your account number is #{user.telegramId}</h4>
+          <h4 className="mt-[8rem]">
+            Your account number is #{user.telegramId}
+          </h4>
         </div>
       ) : (
         <p>Loading user information...</p>

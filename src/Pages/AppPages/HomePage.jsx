@@ -4,15 +4,12 @@ import { useTheme } from "../../Components/ThemeContect";
 import { FaHeart } from "react-icons/fa6";
 import { MdBookmarks } from "react-icons/md";
 import { SendIcon } from "../../Icons/Icons";
-import { UserContext, useUserContext } from "../../Usercontext";
+import { useUserContext } from "../../Usercontext";
 import axios from "axios";
 
 const HomePage = () => {
-  // const { user } = useContext(UserContext);
   const { user } = useUserContext();
   const [bonusMessage, setBonusMessage] = useState(null); // Store success/error messages
-  const [loading, setLoading] = useState(false);
-
   const [bibleVerse, setBibleVerse] = useState(null); // State to store the verse
   const [imageSrc, setImageSrc] = useState("/Bible2.png");
   const [likes, setLikes] = useState(0);
@@ -62,22 +59,6 @@ const HomePage = () => {
       );
     }
   };
-
-  // const fetchBibleVerse = async () => {
-  //   try {
-  //     const response = await fetch(`${apiBaseUrl}/daily-verse`); // Backend URL changed in the env folder
-  //     console.log("Response:", response);
-  //     if (!response.ok) {
-  //       const errorText = await response.text(); // Capture any server error message
-  //       throw new Error(`Error: ${response.status} - ${errorText}`);
-  //     }
-  //     const data = await response.json();
-  //     setBibleVerse(data); // Store the fetched Bible verse
-  //     setImageSrc("/open bible.png"); // Change image after click
-  //   } catch (error) {
-  //     console.error("Error fetching Bible verse:", error);
-  //   }
-  // };
 
   const toggleLike = () => {
     setLikes((prevLikes) => prevLikes + 1); // Increment likes

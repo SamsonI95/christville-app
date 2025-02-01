@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
-import axios from "axios";
-import { useUserContext } from "../Usercontext";
 
 //icon(s)
 import { FaCircleChevronRight } from "react-icons/fa6";
@@ -15,52 +13,11 @@ import Jesus from "../../public/Jesus.svg";
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
 
-const apiBaseUrl =
-  import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
-
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingText, setLoadingText] = useState("Loading"); // Track if user exists
-  const { fetchUserByUsername } = useUserContext();
+  const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-
-  // Function to check if the user exists in the backend
-  // const checkUserExistence = async () => {
-  //   const username = window.Telegram?.WebApp?.initDataUnsafe?.user?.username;
-  //   if (!username) {
-  //     console.error("Telegram username not found.");
-  //     return false;
-  //   }
-
-  //   try {
-  //     const response = await axios.get(
-  //       `${apiBaseUrl}/user?username=${username}`
-  //     );
-  //     if (response.data.user) {
-  //       setUser(response.data.user);
-  //       setUserId(response.data.user.userId); // ✅ Store backend userId
-  //       return true;
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Failed to fetch user:",
-  //       error.response?.data || error.message
-  //     );
-  //   }
-  //   return false;
-  // };
-
-  // // Run user existence check on mount but don't navigate
-  // useEffect(() => {
-  //   const initializeUser = async () => {
-  //     const exists = await checkUserExistence();
-  //     setUserExists(exists);
-  //     setIsLoading(false);
-  //   };
-
-  //   initializeUser();
-  // }, []);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -83,27 +40,8 @@ const Landing = () => {
     };
   }, []);
 
-  // Button click handler
-  const handleClick = async () => {
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-
-    if (!telegramUser || !telegramUser.username) {
-      console.error("No Telegram username found.");
-      return;
-    }
-
-    const username = telegramUser.username; // Use Telegram username
-    console.log("Username detected:", username);
-
-    const userId = await fetchUserByUsername(username);
-
-    if (userId) {
-      console.log("User exists. Navigating to the app...");
-      navigate("/app/page-1");
-    } else {
-      console.log("User does not exist. Navigating to onboarding...");
-      navigate("/page-2");
-    }
+  const handleClick = () => {
+    navigate("/page-2");
   };
 
   if (isLoading) {
