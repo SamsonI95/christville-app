@@ -21,7 +21,7 @@ const allocateCoins = (accountAgeYears) => {
 };
 
 const TelegramUserAuth = () => {
-  const { user, setUser, daysSinceJoin, setDaysSinceJoin, fetchUserById } =
+  const { user, setUser, daysSinceJoin, setDaysSinceJoin, fetchUserById, loading } =
     useContext(UserContext); // State to store Telegram user info
   const [userExists, setUserExists] = useState(null);
   const [coins, setCoins] = useState(0);
