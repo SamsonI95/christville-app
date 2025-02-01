@@ -87,26 +87,16 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const fetchUserByUsername = async (username) => {
-    if (!username) {
-      console.error("fetchUserByUsername called with null username");
-      return;
-    }
-
     console.log("Fetching user with username:", username);
     setLoading(true);
-
     try {
-      const response = await axios.get(
-        `${apiBaseUrl}/user?username=${username}`
-      );
-      console.log("Fetched user data:", response.data);
+      const response = await axios.post(`${apiBaseUrl}/user`, { username });
 
-      if (response.data.user) {
+      if (response.data && response.data.user) {
         setUser(response.data.user);
-        setUserId(response.data.user.userId); // ✅ Set the unique userId from the backend
-        console.log("UserId set in context:", response.data.user.userId);
-      } else {
-        console.warn("No user found for username:", username);
+        setUserId(response.data.user.userId); // Store the unique user ID
+        console.log("User ID set in context:", response.data.user.userId);
+        return response.data.user.userId; // Return user ID for checking existence
       }
     } catch (error) {
       console.error(
@@ -116,7 +106,40 @@ const UserProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+    return null;
   };
+
+  // const fetchUserByUsername = async (username) => {
+  //   if (!username) {
+  //     console.error("fetchUserByUsername called with null username");
+  //     return;
+  //   }
+
+  //   console.log("Fetching user with username:", username);
+  //   setLoading(true);
+
+  //   try {
+  //     const response = await axios.get(
+  //       `${apiBaseUrl}/user?username=${username}`
+  //     );
+  //     console.log("Fetched user data:", response.data);
+
+  //     if (response.data.user) {
+  //       setUser(response.data.user);
+  //       setUserId(response.data.user.userId); // ✅ Set the unique userId from the backend
+  //       console.log("UserId set in context:", response.data.user.userId);
+  //     } else {
+  //       console.warn("No user found for username:", username);
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Failed to fetch user:",
+  //       error.response?.data || error.message
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const fetchUserById = async (userId) => {
     console.log("Fetching user with ID:", userId);
