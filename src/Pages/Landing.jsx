@@ -95,7 +95,7 @@ const Landing = () => {
       <div className="flex flex-col items-center justify-center">
         <button
           className="text-[55px] py-[50px] text-customGold"
-          onClick={handleClick}
+          onClick={handleNavigation}
         >
           <FaCircleChevronRight />
         </button>
