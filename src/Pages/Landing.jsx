@@ -20,44 +20,22 @@ const apiBaseUrl =
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const [userId, setUserId] = useState(null);
+  const { userId, fetchUserById } = useUserContext();
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
   // Function to fetch the user ID from the backend
-  const fetchUserId = async () => {
-    try {
-      const response = await axios.get(`${apiBaseUrl}/user/${userId}`); // Replace with the actual API endpoint
-      console.log("Fetched user data:", response.data);
-
-      if (response.data.userId) {
-        setUserId(response.data.userId); // Store userId in state
-        return response.data.userId;
-      }
-    } catch (error) {
-      console.error(
-        "Failed to fetch user ID:",
-        error.response?.data || error.message
-      );
-    }
-    return null; // Return null if user doesn't exist
-  };
-
   useEffect(() => {
-    const initializeUser = async () => {
-      const fetchedUserId = await fetchUserId();
-
-      if (fetchedUserId) {
-        console.log("User exists. Navigating to the app...");
-        navigate("/app/page-1");
-      } else {
-        console.log("User does not exist. Navigating to onboarding...");
-        navigate("/page-2");
+    // Fetch user ID on mount
+    const checkUser = async () => {
+      if (!userId) {
+        console.log("Fetching user...");
+        await fetchUserById(); // Fetch user ID from backend
       }
     };
 
-    initializeUser();
-  }, [navigate]);
+    checkUser();
+  }, [userId, fetchUserById]);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -80,10 +58,12 @@ const Landing = () => {
     };
   }, []);
 
-  const handleClick = () => {
-    if (user) {
+  const handleNavigation = () => {
+    if (userId) {
+      console.log("User exists. Navigating to the app...");
       navigate("/app/page-1");
     } else {
+      console.log("User does not exist. Navigating to onboarding...");
       navigate("/page-2");
     }
   };
