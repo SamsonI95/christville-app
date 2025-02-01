@@ -14,35 +14,35 @@ import Jesus from "../../public/Jesus.svg";
 import LoadingScreen from "../Components/LoadingScreen";
 import { useUserContext } from "../Usercontext";
 
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
+// Function to fetch user by ID
+const fetchUserById = async (userId) => {
+  console.log("Fetching user with ID:", userId);
+  try {
+    const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+    console.log("Fetched user data:", response.data.user);
+
+    if (response.data.user) {
+      return response.data.user; // Return full user data
+    }
+  } catch (error) {
+    console.error(
+      "Failed to fetch user:",
+      error.response?.data || error.message
+    );
+  }
+  return null; // Return null if user doesn't exist
+};
+
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const { user} = useUserContext();
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const [searchParams] = useSearchParams();
-
-  const apiBaseUrl =
-    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
-
-  // Function to fetch user by ID
-  const fetchUserById = async (userId) => {
-    console.log("Fetching user with ID:", userId);
-    try {
-      const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
-      console.log("Fetched user data:", response.data.user);
-
-      if (response.data.user) {
-        return response.data.user; // Return full user data
-      }
-    } catch (error) {
-      console.error(
-        "Failed to fetch user:",
-        error.response?.data || error.message
-      );
-    }
-    return null; // Return null if user doesn't exist
-  };
 
   useEffect(() => {
     const initializeUser = async () => {
