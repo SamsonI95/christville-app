@@ -14,6 +14,28 @@ import Jesus from "../../public/Jesus.svg";
 import LoadingScreen from "../Components/LoadingScreen";
 import { useUserContext } from "../Usercontext";
 
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
+// Function to fetch user by ID
+const fetchUserById = async (userId) => {
+  console.log("Fetching user with ID:", userId);
+  try {
+    const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+    console.log("Fetched user data:", response.data.user);
+
+    if (response.data.user) {
+      return response.data.user; // Return full user data
+    }
+  } catch (error) {
+    console.error(
+      "Failed to fetch user:",
+      error.response?.data || error.message
+    );
+  }
+  return null; // Return null if user doesn't exist
+};
+
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
@@ -24,21 +46,29 @@ const Landing = () => {
 
   useEffect(() => {
     const initializeUser = async () => {
-      const userIdFromUrl = searchParams.get("userId");
+      const userId = searchParams.get("userId");
 
-      console.log("URL Params:", userIdFromUrl);
-      console.log("Current User State:", user);
-      if (userIdFromUrl) {
-        console.log("Found userId in URL:", userIdFromUrl);
-        await fetchUserById(userIdFromUrl);
+      console.log("URL Params:", userId);
+      if (userId) {
+        console.log("Found userId in URL:", userId);
+        const fetchedUser = await fetchUserById(userId);
+
+        if (fetchedUser) {
+          setUser(fetchedUser); // Store the fetched user data
+          console.log("User exists. Navigating to the app...");
+          navigate("/app/page-1");
+        } else {
+          console.log("User does not exist. Navigating to onboarding...");
+          navigate("/page-2");
+        }
       } else {
         console.log("No userId found in URL parameters");
-        setIsLoading(false); // If no userId, stop loading immediately
+        setIsLoading(false); // If no userId, stop loading
       }
     };
 
     initializeUser();
-  }, [fetchUserById, searchParams]);
+  }, [searchParams, navigate]);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
