@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
+import axios from "axios";
+import { useUserContext } from "../Usercontext";
 
 //icon(s)
 import { FaCircleChevronRight } from "react-icons/fa6";
@@ -12,8 +14,6 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
-import axios from "axios";
-import { useUserContext } from "../Usercontext";
 
 const apiBaseUrl =
   import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
