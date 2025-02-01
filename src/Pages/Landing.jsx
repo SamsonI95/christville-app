@@ -12,63 +12,51 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
-import { useUserContext } from "../Usercontext";
 
 const apiBaseUrl =
   import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
-// Function to fetch user by ID
-const fetchUserById = async (userId) => {
-  console.log("Fetching user with ID:", userId);
-  try {
-    const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
-    console.log("Fetched user data:", response.data.user);
-
-    if (response.data.user) {
-      return response.data.user; // Return full user data
-    }
-  } catch (error) {
-    console.error(
-      "Failed to fetch user:",
-      error.response?.data || error.message
-    );
-  }
-  return null; // Return null if user doesn't exist
-};
-
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-  const [searchParams] = useSearchParams();
+
+  // Function to fetch the user ID from the backend
+  const fetchUserId = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/user/${userId}`); // Replace with the actual API endpoint
+      console.log("Fetched user data:", response.data);
+
+      if (response.data.userId) {
+        setUserId(response.data.userId); // Store userId in state
+        return response.data.userId;
+      }
+    } catch (error) {
+      console.error(
+        "Failed to fetch user ID:",
+        error.response?.data || error.message
+      );
+    }
+    return null; // Return null if user doesn't exist
+  };
 
   useEffect(() => {
     const initializeUser = async () => {
-      const userId = searchParams.get("userId");
+      const fetchedUserId = await fetchUserId();
 
-      console.log("URL Params:", userId);
-      if (userId) {
-        console.log("Found userId in URL:", userId);
-        const fetchedUser = await fetchUserById(userId);
-
-        if (fetchedUser) {
-          setUser(fetchedUser); // Store the fetched user data
-          console.log("User exists. Navigating to the app...");
-          navigate("/app/page-1");
-        } else {
-          console.log("User does not exist. Navigating to onboarding...");
-          navigate("/page-2");
-        }
+      if (fetchedUserId) {
+        console.log("User exists. Navigating to the app...");
+        navigate("/app/page-1");
       } else {
-        console.log("No userId found in URL parameters");
-        setIsLoading(false); // If no userId, stop loading
+        console.log("User does not exist. Navigating to onboarding...");
+        navigate("/page-2");
       }
     };
 
     initializeUser();
-  }, [searchParams, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
