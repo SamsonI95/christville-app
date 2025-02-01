@@ -86,17 +86,49 @@ const UserProvider = ({ children }) => {
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const fetchUserByUsername = async (username) => {
+    if (!username) {
+      console.error("fetchUserByUsername called with null username");
+      return;
+    }
+
+    console.log("Fetching user with username:", username);
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `${apiBaseUrl}/user?username=${username}`
+      );
+      console.log("Fetched user data:", response.data);
+
+      if (response.data.user) {
+        setUser(response.data.user);
+        setUserId(response.data.user.userId); // ✅ Set the unique userId from the backend
+        console.log("UserId set in context:", response.data.user.userId);
+      } else {
+        console.warn("No user found for username:", username);
+      }
+    } catch (error) {
+      console.error(
+        "Failed to fetch user:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchUserById = async (userId) => {
     console.log("Fetching user with ID:", userId);
     setLoading(true);
     try {
       const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
       console.log("Fetched user data:", response.data.user);
-      
+
       if (response.data.user) {
         setUser(response.data.user);
         setUserId(response.data.user.userId); // Store the unique user ID
-        console.log("UserId set in context:", response.data.user.id)
+        console.log("UserId set in context:", response.data.user.id);
       }
     } catch (error) {
       console.error(
@@ -116,6 +148,7 @@ const UserProvider = ({ children }) => {
         setUser,
         daysSinceJoin,
         setDaysSinceJoin,
+        fetchUserByUsername,
         fetchUserById,
         loading,
       }}

@@ -21,22 +21,47 @@ const apiBaseUrl =
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
-  const { userId, fetchUserById } = useUserContext();
+  const [userExists, setUserExists] = useState(false); // Track if user exists
   const navigate = useNavigate();
+  const { setUser, setUserId } = useUserContext();
   const { isDarkMode } = useTheme();
 
-  // Function to fetch the user ID from the backend
-  useEffect(() => {
-    // Fetch user ID on mount
-    const checkUser = async () => {
-      if (!userId) {
-        console.log("Fetching user...");
-        await fetchUserById(); // Fetch user ID from backend
+  // Function to check if the user exists in the backend
+  const checkUserExistence = async () => {
+    const username = window.Telegram?.WebApp?.initDataUnsafe?.user?.username;
+    if (!username) {
+      console.error("Telegram username not found.");
+      return false;
+    }
+
+    try {
+      const response = await axios.get(
+        `${apiBaseUrl}/user?username=${username}`
+      );
+      if (response.data.user) {
+        setUser(response.data.user);
+        setUserId(response.data.user.userId); // ✅ Store backend userId
+        return true;
       }
+    } catch (error) {
+      console.error(
+        "Failed to fetch user:",
+        error.response?.data || error.message
+      );
+    }
+    return false;
+  };
+
+  // Run user existence check on mount but don't navigate
+  useEffect(() => {
+    const initializeUser = async () => {
+      const exists = await checkUserExistence();
+      setUserExists(exists);
+      setIsLoading(false);
     };
 
-    checkUser();
-  }, [userId, fetchUserById]);
+    initializeUser();
+  }, []);
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -59,15 +84,15 @@ const Landing = () => {
     };
   }, []);
 
-  const handleNavigation = () => {
-    if (userId) {
-      console.log("User exists. Navigating to the app...");
-      navigate("/app/page-1");
+  // Button click handler
+  const handleClick = () => {
+    if (userExists) {
+      navigate("/app/page-1"); // Existing user
     } else {
-      console.log("User does not exist. Navigating to onboarding...");
-      navigate("/page-2");
+      navigate("/page-2"); // New user
     }
   };
+
 
   if (isLoading) {
     // Show the loading screen
@@ -95,7 +120,7 @@ const Landing = () => {
       <div className="flex flex-col items-center justify-center">
         <button
           className="text-[55px] py-[50px] text-customGold"
-          onClick={handleNavigation}
+          onClick={handleClick}
         >
           <FaCircleChevronRight />
         </button>
