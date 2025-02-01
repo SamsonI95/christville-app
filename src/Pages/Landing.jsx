@@ -12,6 +12,7 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
+import axios from "axios";
 
 const apiBaseUrl =
   import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
