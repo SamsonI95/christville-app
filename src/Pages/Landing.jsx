@@ -12,7 +12,6 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
-import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +19,68 @@ const Landing = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
-  const { user, userId } = useUserContext();
+  const [user, setUser] = useState(null);
+  const [userExists, setUserExists] = useState(null);
+  const [uniqueUserId, setUniqueUserId] = useState(null);
+
+  useEffect(() => {
+    const telegram = window.Telegram.WebApp;
+    const telegramUser = telegram.initDataUnsafe?.user;
+
+    if (telegramUser) {
+      const createUser = async () => {
+        // Function to create the user
+        try {
+          const response = await axios.post(`${apiBaseUrl}/user`, {
+            telegramId: String(telegramUser.id),
+            username: telegramUser.username || telegramUser.first_name,
+            // ... any other initial user data
+          });
+
+          if (
+            response.data &&
+            response.data.user &&
+            response.data.user.userId
+          ) {
+            // Check if the response contains the userId
+            setUser(response.data.user);
+            setUniqueUserId(response.data.user.userId); // Store the userId
+            checkUserExistence(response.data.user.userId); // Check if the user exists in the database after creation
+          } else {
+            console.error(
+              "User creation response did not contain userId:",
+              response.data
+            );
+            setUserExists(false); // Handle the error; user probably doesn't exist
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error("Error creating user:", error);
+          setUserExists(false);
+          setIsLoading(false);
+        }
+      };
+
+      createUser();
+    } else {
+      console.error("Telegram user info is not available.");
+      setUserExists(false);
+      setIsLoading(false);
+    }
+  }, []);
+
+  const checkUserExistence = async (userId) => {
+    // Function to check user existence by unique ID
+    try {
+      const response = await axios.get(`${apiBaseUrl}/user/${userId}`); // Use unique ID
+      setUserExists(response.data.user ? true : false); // Check if the response contains a user object
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+      setUserExists(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -44,7 +104,7 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    if (userId) {
+    if (userExists) {
       navigate("/app/page-1");
     } else {
       navigate("/page-2");

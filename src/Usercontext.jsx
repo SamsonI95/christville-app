@@ -71,7 +71,7 @@
 // export default UserProvider;
 
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -86,87 +86,27 @@ const UserProvider = ({ children }) => {
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Initialize Telegram WebApp and handle user authentication
-  useEffect(() => {
-    const initUser = async () => {
-      try {
-        // Ensure Telegram WebApp is available
-        if (!window.Telegram?.WebApp) {
-          throw new Error("Telegram WebApp is not available");
-        }
-
-        const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-        if (!tgUser) {
-          throw new Error("No Telegram user data available");
-        }
-
-        // Get or create user using the POST endpoint
-        const response = await axios.post(`${apiBaseUrl}/user`, {
-          telegramId: tgUser.id,
-          username: tgUser.username,
-          firstName: tgUser.first_name,
-          lastName: tgUser.last_name,
-        });
-
-        if (response.data) {
-          const userData = response.data;
-          setUser(userData);
-          setUserId(userData.id); // Store the backend-generated unique ID
-        }
-      } catch (err) {
-        console.error("Error initializing user:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initUser();
-  }, []);
-
-  const fetchUserById = async (updateData) => {
+  const fetchUserById = async (userId) => {
+    console.log("Fetching user with ID:", userId);
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.put(
-        `${apiBaseUrl}/user/${userId}`,
-        updateData
-      );
+      const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+      console.log("Fetched user data:", response.data.user);
 
-      if (response.data) {
-        setUser(response.data);
-        setIsNewUser(false);
+      if (response.data.user) {
+        setUser(response.data.user);
+        setUserId(response.data.user.userId); // Store the unique user ID
+        console.log("UserId set in context:", response.data.user.id);
       }
-
-      return response.data;
     } catch (error) {
-      console.error("Error updating user:", error);
-      throw error;
+      console.error(
+        "Failed to fetch user:",
+        error.response?.data || error.message
+      );
     } finally {
       setLoading(false);
     }
   };
-
-  // const fetchUserById = async (userId) => {
-  //   console.log("Fetching user with ID:", userId);
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
-  //     console.log("Fetched user data:", response.data.user);
-
-  //     if (response.data.user) {
-  //       setUser(response.data.user);
-  //       setUserId(response.data.user.userId); // Store the unique user ID
-  //       console.log("UserId set in context:", response.data.user.id);
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Failed to fetch user:",
-  //       error.response?.data || error.message
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <UserContext.Provider
