@@ -24,6 +24,9 @@ const Landing = () => {
   const [userExists, setUserExists] = useState(null);
   const [uniqueUserId, setUniqueUserId] = useState(null);
 
+  const apiBaseUrl =
+    import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
+
   useEffect(() => {
     const telegram = window.Telegram.WebApp;
     const telegramUser = telegram.initDataUnsafe?.user;
