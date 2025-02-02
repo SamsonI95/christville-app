@@ -44,12 +44,12 @@ const Landing = () => {
           if (
             response.data &&
             response.data.user &&
-            response.data.user.userId
+            response.data.user.id
           ) {
             // Check if the response contains the userId
             setUser(response.data.user);
-            setUniqueUserId(response.data.user.userId); // Store the userId
-            checkUserExistence(response.data.user.userId); // Check if the user exists in the database after creation
+            setUniqueUserId(response.data.user.id); // Store the userId
+            checkUserExistence(response.data.user.id); // Check if the user exists in the database after creation
           } else {
             console.error(
               "User creation response did not contain userId:",
