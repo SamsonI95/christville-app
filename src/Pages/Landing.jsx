@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Components/ThemeContect";
+import { UserContext } from "../Usercontext";
 
 //icon(s)
 import { FaCircleChevronRight } from "react-icons/fa6";
@@ -20,7 +21,8 @@ const Landing = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
-  const [user, setUser] = useState(null);
+  const [user, setLocalUser] = useState(null);
+  const { setUser } = useContext(UserContext);
   const [userExists, setUserExists] = useState(null);
   const [uniqueUserId, setUniqueUserId] = useState(null);
 
@@ -41,15 +43,11 @@ const Landing = () => {
             // ... any other initial user data
           });
 
-          if (
-            response.data &&
-            response.data.user &&
-            response.data.user.id
-          ) {
+          if (response.data && response.data.user && response.data.user.id) {
             // Check if the response contains the userId
             setUser(response.data.user);
             setUniqueUserId(response.data.user.id); // Store the userId
-            checkUserExistence(response.data.user.id); // Check if the user exists in the database after creation
+            await checkUserExistence(response.data.user.id); // Check if the user exists in the database after creation
           } else {
             console.error(
               "User creation response did not contain userId:",
@@ -74,10 +72,17 @@ const Landing = () => {
   }, []);
 
   const checkUserExistence = async (userId) => {
-    // Function to check user existence by unique ID
     try {
-      const response = await axios.get(`${apiBaseUrl}/user/${userId}`); // Use unique ID
-      setUserExists(response.data.user ? true : false); // Check if the response contains a user object
+      const response = await axios.get(`${apiBaseUrl}/user/${userId}`);
+
+      if (response.data && response.data.user) {
+        setUser(response.data.user);
+        setUserExists(true);
+        // Automatically navigate to page-1 if user exists
+        navigate("/app/page-1");
+      } else {
+        setUserExists(false);
+      }
     } catch (error) {
       console.error("Error checking user existence:", error);
       setUserExists(false);
@@ -108,11 +113,7 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    if (userExists) {
-      navigate("/app/page-1");
-    } else {
-      navigate("/page-2");
-    }
+    navigate("/page-2");
   };
 
   if (isLoading) {
