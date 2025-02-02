@@ -12,12 +12,15 @@ import Jesus from "../../public/Jesus.svg";
 
 //Component(s)
 import LoadingScreen from "../Components/LoadingScreen";
+import { useUserContext } from "../Usercontext";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+
+  const { user, userId } = useUserContext();
 
   useEffect(() => {
     // Update the loading text with a dot sequence
@@ -41,7 +44,11 @@ const Landing = () => {
   }, []);
 
   const handleClick = () => {
-    navigate("/page-2");
+    if (userId) {
+      navigate("/app/page-1");
+    } else {
+      navigate("/page-2");
+    }
   };
 
   if (isLoading) {
