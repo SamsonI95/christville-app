@@ -101,7 +101,7 @@ const HomePage = () => {
         </button>
         {/* Display the Bible verse */}
         {bibleVerse && (
-          <div className="mt-4">
+          <div className="my-4">
             <h3>Verse of the day</h3>
             <h4 className="font-semibold pt-3">{bibleVerse.reference}</h4>
             <p className="pt-[21px] pb-[24px]">- "{bibleVerse.text}"</p>
@@ -131,14 +131,14 @@ const HomePage = () => {
               </section>
 
               {/* Bookmark Button */}
-              <button onClick={toggleBookmark} aria-label="Bookmark">
+              {/* <button onClick={toggleBookmark} aria-label="Bookmark">
                 <MdBookmarks
                   style={{
                     color: bookmarked ? "#FFD700" : "black", // Custom color for bookmarked
                     fontSize: "24px",
                   }}
                 />
-              </button>
+              </button> */}
             </div>
           </div>
         )}
