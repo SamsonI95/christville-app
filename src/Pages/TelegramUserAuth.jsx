@@ -21,7 +21,7 @@ const allocateCoins = (accountAgeYears) => {
 };
 
 const TelegramUserAuth = () => {
-  const { user, setUser, daysSinceJoin, setDaysSinceJoin } =
+  const { user, setUser, daysSinceJoin, setDaysSinceJoin, setProfilePicture } =
     useContext(UserContext); // State to store Telegram user info
   const [coins, setCoins] = useState(0);
   const { isDarkMode } = useTheme();
@@ -68,11 +68,13 @@ const TelegramUserAuth = () => {
           telegramId: String(telegramUser.id),
           username: telegramUser.username || telegramUser.first_name,
           coins: allocatedCoins,
+          profilePicture: photoUrl,
         })
 
         .then((response) => {
           console.log("User data sent to the backend:", response.data);
           setUser(response.data.user);
+          setProfilePicture(photoUrl);
         })
         .catch((error) => {
           console.error("Axios error:", error.response?.data || error.message);
@@ -80,7 +82,7 @@ const TelegramUserAuth = () => {
     } else {
       console.error("Telegram user info is not available.");
     }
-  }, [setUser, setDaysSinceJoin]);
+  }, [setUser, setDaysSinceJoin, setProfilePicture]);
 
   const handleClick = () => {
     navigate("/page-3");
@@ -100,7 +102,9 @@ const TelegramUserAuth = () => {
             {daysSinceJoin || "N/A"}
           </span>
           <p className="font-semibold">days ago</p>
-          <h4 className="mt-[8rem]">Your account number is #{user.telegramId}</h4>
+          <h4 className="mt-[8rem]">
+            Your account number is #{user.telegramId}
+          </h4>
         </div>
       ) : (
         <p>Loading user information...</p>

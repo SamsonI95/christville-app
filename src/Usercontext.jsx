@@ -85,6 +85,7 @@ const UserProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [daysSinceJoin, setDaysSinceJoin] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const fetchUserById = async (userId) => {
     console.log("Fetching user with ID:", userId);
@@ -96,6 +97,7 @@ const UserProvider = ({ children }) => {
       if (response.data.user) {
         setUser(response.data.user);
         setUserId(response.data.user.userId); // Store the unique user ID
+        setProfilePicture(response.data.user.profilePicture);
         console.log("UserId set in context:", response.data.user.id);
       }
     } catch (error) {
@@ -108,6 +110,13 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const updateUserTokens = (newTokenCount) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      tokenCount: newTokenCount,
+    }));
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -118,6 +127,9 @@ const UserProvider = ({ children }) => {
         setDaysSinceJoin,
         fetchUserById,
         loading,
+        profilePicture,
+        setProfilePicture,
+        updateUserTokens,
       }}
     >
       {children}

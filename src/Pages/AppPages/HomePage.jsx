@@ -8,12 +8,24 @@ import { useUserContext } from "../../Usercontext";
 import axios from "axios";
 
 const HomePage = () => {
-  const { user } = useUserContext();
+  const { user, updateUserTokens } = useUserContext();
   const [bonusMessage, setBonusMessage] = useState(null); // Store success/error messages
-  const [bibleVerse, setBibleVerse] = useState(null); // State to store the verse
-  const [imageSrc, setImageSrc] = useState("/Bible2.png");
+  const [bibleVerse, setBibleVerse] = useState(() => {
+    // Initialize from localStorage if exists
+    const saved = localStorage.getItem("dailyVerse");
+    return saved ? JSON.parse(saved) : null;
+  }); // State to store the verse
+  const [imageSrc, setImageSrc] = useState(() => {
+    // Initialize image based on whether we have a saved verse
+    return localStorage.getItem("dailyVerse")
+      ? "/open bible.png"
+      : "/Bible2.png";
+  });
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
+  const [lastFetchDate, setLastFetchDate] = useState(
+    () => localStorage.getItem("lastFetchDate") || null
+  );
 
   const { isDarkMode } = useTheme();
 
@@ -22,43 +34,102 @@ const HomePage = () => {
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "https://vivablockchainconsulting.xyz";
 
+  // Check if it's a new day
+  const isNewDay = () => {
+    if (!lastFetchDate) return true;
+    const lastDate = new Date(lastFetchDate);
+    const currentDate = new Date();
+    return (
+      lastDate.getDate() !== currentDate.getDate() ||
+      lastDate.getMonth() !== currentDate.getMonth() ||
+      lastDate.getYear() !== currentDate.getYear()
+    );
+  };
+
+  useEffect(() => {
+    // Reset state if it's a new day
+    if (isNewDay()) {
+      setImageSrc("/Bible2.png");
+      setBibleVerse(null);
+      localStorage.removeItem("dailyVerse");
+      localStorage.removeItem("lastFetchDate");
+    }
+  }, []);
+
   const fetchDailyVerseAndBonus = async () => {
+    // If we already have a verse and it's not a new day, don't fetch
+    if (bibleVerse && !isNewDay()) return;
+
     try {
       // Fetch the daily verse
       const response = await axios.get(`${apiBaseUrl}/daily-verse`);
-      console.log("Fetched daily verse response:", response);
 
       if (response.data) {
-        setBibleVerse(response.data); // Store the fetched Bible verse
-        setImageSrc("/open bible.png"); // Change image after a successful fetch
-      } else {
-        console.error("No verse data found in the response.");
+        setBibleVerse(response.data);
+        setImageSrc("/open bible.png");
+
+        // Save to localStorage
+        localStorage.setItem("dailyVerse", JSON.stringify(response.data));
+        const currentDate = new Date().toISOString();
+        localStorage.setItem("lastFetchDate", currentDate);
+        setLastFetchDate(currentDate);
+
+        // Claim daily bonus if user exists
+        if (user && user.id) {
+          const bonusResponse = await axios.post(
+            `${apiBaseUrl}/claim-daily-bonus/${user.id}`
+          );
+
+          if (bonusResponse.data && bonusResponse.data.user) {
+            // Update the token count in context immediately
+            updateUserTokens(bonusResponse.data.user.tokenCount);
+          }
+        }
       }
-
-      // Check User ID for daily bonus allocation
-
-      if (!user || !user.id) {
-        console.error(
-          "User ID is not available in the context for claiming the bonus."
-        );
-        return;
-      }
-
-      const userId = user.id; // Get the userId from the context
-      console.log("Using userId for daily bonus:", userId);
-
-      // Allocate the daily bonus
-      const bonusResponse = await axios.post(
-        `${apiBaseUrl}/claim-daily-bonus/${userId}`
-      );
-      console.log("Daily bonus allocated:", bonusResponse.data?.message);
     } catch (error) {
-      console.error(
-        "Error fetching daily verse or allocating bonus:",
-        error.response?.data || error.message
-      );
+      console.error("Error:", error.response?.data || error.message);
     }
   };
+
+  // const fetchDailyVerseAndBonus = async () => {
+  //   if (bibleVerse && !isNewDay()) return;
+
+  //   try {
+  //     // Fetch the daily verse
+  //     const response = await axios.get(`${apiBaseUrl}/daily-verse`);
+  //     console.log("Fetched daily verse response:", response);
+
+  //     if (response.data) {
+  //       setBibleVerse(response.data); // Store the fetched Bible verse
+  //       setImageSrc("/open bible.png"); // Change image after a successful fetch
+  //     } else {
+  //       console.error("No verse data found in the response.");
+  //     }
+
+  //     // Check User ID for daily bonus allocation
+
+  //     if (!user || !user.id) {
+  //       console.error(
+  //         "User ID is not available in the context for claiming the bonus."
+  //       );
+  //       return;
+  //     }
+
+  //     const userId = user.id; // Get the userId from the context
+  //     console.log("Using userId for daily bonus:", userId);
+
+  //     // Allocate the daily bonus
+  //     const bonusResponse = await axios.post(
+  //       `${apiBaseUrl}/claim-daily-bonus/${userId}`
+  //     );
+  //     console.log("Daily bonus allocated:", bonusResponse.data?.message);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error fetching daily verse or allocating bonus:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
 
   const toggleLike = () => {
     setLikes((prevLikes) => prevLikes + 1); // Increment likes
