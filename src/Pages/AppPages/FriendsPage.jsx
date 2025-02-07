@@ -151,9 +151,10 @@ const FriendsPage = () => {
     }
   };
 
+  const telegramBotUsername = "christville_bot";
+
   // Handle Copy Button
   const handleCopyClick = () => {
-    const telegramBotUsername = "christville_bot";
     const referralLink = `https://t.me/${telegramBotUsername}/start?startapp=${referralKey}`;
     navigator.clipboard.writeText(referralLink);
     alert("Referral link copied to clipboard!");
