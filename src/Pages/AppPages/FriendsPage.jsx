@@ -153,12 +153,13 @@ const FriendsPage = () => {
 
   // Handle Copy Button
   const handleCopyClick = () => {
-    const referralLink = `${apiBaseUrl}/user/${referralKey}`;
+    const telegramBotUsername = "christville_bot";
+    const referralLink = `https://t.me/${telegramBotUsername}/start?startapp=${referralKey}`;
     navigator.clipboard.writeText(referralLink);
     alert("Referral link copied to clipboard!");
   };
 
-  const referralLink = `${apiBaseUrl}/user/${referralKey}`;
+  const referralLink = `https://t.me/${telegramBotUsername}/start?startapp=${referralKey}`;
   const shareText =
     "Join Christville with my referral link and start playing games or taking part in exciting activities!";
 
