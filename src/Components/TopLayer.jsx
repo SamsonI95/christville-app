@@ -5,6 +5,7 @@ import { getTelegramUser } from "./telegramUtils";
 
 //Icon(s)
 import { ThunderboltIcon } from "../Icons/Icons";
+import { TokenIcon } from "../Icons/Icons";
 
 const TopLayer = ({ userId }) => {
   const location = useLocation();
@@ -126,7 +127,8 @@ const TopLayer = ({ userId }) => {
         )}
         {/* coin value which is gotten from how long the user has been on telegram */}
         <div className="flex items-center gap-2">
-          <img src="/coin.png" alt="currency" />
+          {/* <img src="/coin.png" alt="currency" /> */}
+          <TokenIcon />
           <p className="font-bold text-[27px] text-customGold">
             {dailyBonusValue !== null ? dailyBonusValue : "--"}
           </p>
