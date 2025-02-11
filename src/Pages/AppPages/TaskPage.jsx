@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "../../Components/ThemeContect";
-import { ThunderboltIcon } from "../../Icons/Icons";
-import { FaCheck, FaChevronRight } from "react-icons/fa6";
-import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../Usercontext";
 import { getTelegramUser } from "../../Components/telegramUtils";
+import { useTheme } from "../../Components/ThemeContect";
 import axios from "axios";
+
+// Icon(s)
+import { ThunderboltIcon } from "../../Icons/Icons";
+import { FaCheck, FaChevronRight } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
+import { TokenIcon } from "../../Icons/Icons";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
@@ -185,7 +188,8 @@ const TaskPage = () => {
             <div className="text-[13px] w-[214px] space-y-2">
               <p>{item.taskText}</p>
               <section className="flex items-center gap-1">
-                <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" />
+                <TokenIcon />
+                {/* <img src="/BOSS COIN ICON 2 (DARK).png" alt="coin" /> */}
                 <p>
                   {completedTasks.includes(item.id)
                     ? "Complete"
